@@ -138,14 +138,15 @@ export class MapGridComponent implements OnInit {
   }
 
   visitNeigbours(node: Node, visited: Set<number>, queue: Queue<Node>): void {
-     this.visitNeighbour(node.position.row-1, node.position.column-1, visited, queue);
-     this.visitNeighbour(node.position.row-1, node.position.column, visited, queue);
-     this.visitNeighbour(node.position.row-1, node.position.column+1, visited, queue);
-     this.visitNeighbour(node.position.row, node.position.column+1, visited, queue);
-     this.visitNeighbour(node.position.row+1, node.position.column+1, visited, queue);
-     this.visitNeighbour(node.position.row+1, node.position.column, visited, queue);
-     this.visitNeighbour(node.position.row+1, node.position.column-1, visited, queue);
-     this.visitNeighbour(node.position.row, node.position.column-1, visited, queue);
+    const direction_row = [-1,-1,-1,0,+1,+1,+1,0];
+    const direction_column = [-1,0,+1,+1,+1,0,-1,-1];
+    
+    for(let i = 0; i < 9; ++i) {
+      this.visitNeighbour(
+        node.position.row + direction_row[i],
+        node.position.column + direction_column[i],
+        visited, queue);
+    }
   }
 
   visitNeighbour(i: number, j: number, visited: Set<number>, queue: Queue<Node>): void {
