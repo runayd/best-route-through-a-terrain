@@ -58,14 +58,14 @@
             .column {
                 display: flex;
                 flex-direction: row;
-                width: 1rem;
-                height: 1rem;
+                width: 0.7rem;
+                height: 0.7rem;
                 background-color: white;
 
                 .node {
                     z-index: 1;
-                    width: 1rem;
-                    height: 1rem;
+                    width: 0.7rem;
+                    height: 0.7rem;
                     animation: none;
                 }
             }
