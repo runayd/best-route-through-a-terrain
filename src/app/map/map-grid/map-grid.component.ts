@@ -80,8 +80,8 @@ export class MapGridComponent implements OnInit {
       style = {'background-color': 'green'};
       this.endNode = this.map[row][column];
       this.map[row][column] = {...this.map[row][column], style};
-      const array:Node[] = this.findDestination(this.startNode);
-      this.animate(array);
+      const array:Node[][] = this.findDestination(this.startNode);
+      this.animateBreadthFirstSearch(array);
       console.log('found');
       return;    
     } else {
@@ -95,12 +95,14 @@ export class MapGridComponent implements OnInit {
     }
   }
 
-  delay(j: number, current: Node, map: Node[][], endNodeId: number | undefined) {
+  delayForBreadthFirstSearch(j: number, array: Node[], map: Node[][], endNodeId: number | undefined) {
     // TODO- we may want a for loop inside to render the animation in groups
     setTimeout(() =>{
-      let style = {'background-color': 'rgb(173, 216, 230)', 'animation': 'elevate 1s'};
-      if (current.nodeId == this.endNode?.nodeId) style = {'background-color': 'green', 'animation': 'elevate 3s'};
-      map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], style};
+      for(const current of array) {
+        let style = {'background-color': 'rgb(173, 216, 230)', 'animation': 'elevate 1s'};
+        if (current.nodeId == this.endNode?.nodeId) style = {'background-color': 'green', 'animation': 'elevate 3s'};
+        map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], style};
+      }
     }, 10*j);
   }
 
@@ -110,31 +112,33 @@ export class MapGridComponent implements OnInit {
     map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], style};
   }
 
-  animate(array:Node[]) {
+  animateBreadthFirstSearch(array:Node[][]) {
     for(let i = 1; i < array.length; ++i) {
-      this.delay(i, array[i], this.map, this.endNode?.nodeId);
+      this.delayForBreadthFirstSearch(i, array[i], this.map, this.endNode?.nodeId);
     }
   }
 
-  findDestination(startNode: Node): Node[]  {
-    const visitedArray: Node[] = []
+  findDestination(startNode: Node): Node[][]  {
+    let destinationFound: boolean= false;
+    const allVisitedArray: Node[][] = []
     const queue = new Queue<Node>();
     let visited: Set<number> = new Set<number>();
     visited.add(startNode.nodeId);
     queue.push(startNode);
     while(!queue.isEmpty()) {
+      const visitedArray: Node[] = [];
       const size = queue.size();
       for(var k = 0; k < size; ++k) {
         let current: Node = queue.poll();
-        const desitinationFound: boolean= current.nodeId == this.endNode?.nodeId;
-        // TODO- you have to push into the array in a such way that it creates desired wave form animation
+        if (!destinationFound) destinationFound = current.nodeId === this.endNode?.nodeId;
         visitedArray.push(current);
-        if (desitinationFound) return visitedArray;
         this.visitNeigbours(current, visited, queue);
       }
+      allVisitedArray.push(visitedArray);
+      if (destinationFound) return allVisitedArray;
     }
 
-    return visitedArray;
+    return allVisitedArray;
   }
 
   visitNeigbours(node: Node, visited: Set<number>, queue: Queue<Node>): void {
