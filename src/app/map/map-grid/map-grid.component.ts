@@ -1,16 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Queue } from 'src/app/data-structures/implementation/queue';
+import { Queue } from 'src/app/data-structures';
+import { Node } from '../types';
 
-interface Position {
-  row: number;
-  column: number;
-}
-
-interface Node {
-  nodeId: number;
-  position: Position;
-  style: any;
-}
 
 const NO_OF_ROWS: number = 70;
 const NO_OF_COLUMNS: number = 140; 
@@ -42,22 +33,22 @@ export class MapGridComponent implements OnInit {
       for(let j = 0; j < NO_OF_COLUMNS; ++j) {
         const style = {'background-color': 'rgb(173, 216, 230)', 'animation': 'none'};
         const position = {row: i, column: j};
-        this.map[i][j] = {nodeId: id++, position, style};
+        this.map[i][j] = {nodeId: id++, altitude: 0, position, style};
       }
     }
   } 
 
-  trackNode(index: any, node: any) {
+  trackNode(index: any, node: any): any {
     return index;
   }
 
-  highlightTheNode(i: number,j: number) {
+  highlightTheNode(i: number,j: number): void {
     if (this.nodeIsClicked(i,j)) return;
     const style = {'background-color': 'rgb(73,158,238)'};
     this.map[i][j] = {...this.map[i][j], style};
   }
 
-  unhighlightTheNode(i: number,j: number) {
+  unhighlightTheNode(i: number,j: number): void {
     if (this.nodeIsClicked(i,j)) return;
     if (this.visited?.has(this.map[i][j].nodeId)) return;
     const style = {'background-color': 'rgb(173, 216, 230)'};
