@@ -3,7 +3,7 @@ import { IQueue } from "../interface/iqueue";
 const CAPACITY_REACHED: string = 'Queue has reached max capacity, you cannot add more items';
 
 export class Queue<T> implements IQueue<T> {
-    private queue: T[] = [];
+    private _queue: T[] = [];
   
     constructor(private capacity: number = Infinity) {}
   
@@ -11,27 +11,27 @@ export class Queue<T> implements IQueue<T> {
       if (this.size() === this.capacity) {
         return {success: false, message: CAPACITY_REACHED}
       }
-      this.queue.push(item);
+      this._queue.push(item);
       return {success: true}
     }
 
     public poll(): any {
-      return this.queue.shift();
+      return this._queue.shift();
     }
 
     public peek(): T | undefined {
-        return this.queue[0];
+        return this._queue[0];
     }
 
     public size(): number {
-      return this.queue.length;
+      return this._queue.length;
     }
 
     public isEmpty(): boolean {
-        return this.queue.length === 0;
+        return this._queue.length === 0;
     }
 
     clear(): void {
-      this.queue = [];
+      this._queue = [];
     }
   }
