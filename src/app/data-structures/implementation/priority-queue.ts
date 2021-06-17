@@ -1,4 +1,6 @@
 
+import { IPriorityQueue } from '../interface/ipriority-queue';
+
 export class PriorityQueue<T> implements IPriorityQueue<T> {
 
     private _priorityQueue: T[] = [];
