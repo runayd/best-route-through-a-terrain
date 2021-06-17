@@ -25,6 +25,10 @@ export class MapGridComponent implements OnInit {
     this.initializeTheMap();
   }
 
+  ngAfterViewInit(): void {
+    alert('Instruction: click once to select start node and select second time to select end node. After the animation, click once again to clear the map');
+  }
+
   initializeTheMap() {
     this.visited = new Set<number>();
     let id = 0;
