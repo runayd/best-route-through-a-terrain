@@ -3,8 +3,8 @@ import { Queue } from '../../data-structures';
 import { Node, Position } from '../types';
 
 
-const NO_OF_ROWS: number = 70;
-const NO_OF_COLUMNS: number = 140; 
+const NO_OF_ROWS: number = 90;
+const NO_OF_COLUMNS: number = 160; 
 
 @Component({
   selector: 'map-grid',
@@ -150,8 +150,8 @@ export class MapGridComponent implements OnInit {
   }
 
   visitNeigbours(node: Node, visited: Set<number>, queue: Queue<Node>): void {
-    const direction_row = [-1,-1,-1,0,+1,+1,+1,0];
-    const direction_column = [-1,0,+1,+1,+1,0,-1,-1];
+    const direction_row = [-1,0,+1,0,-1,-1,+1,+1];
+    const direction_column = [0,+1,0,-1,-1,+1,+1,-1];
     
     for(let i = 0; i < 9; ++i) {
       this.visitNeighbour(
