@@ -4,7 +4,7 @@ import { Node, Position } from '../types';
 
 
 const NO_OF_ROWS: number = 90;
-const NO_OF_COLUMNS: number = 160; 
+const NO_OF_COLUMNS: number = 180; 
 
 @Component({
   selector: 'map-grid',
@@ -43,14 +43,17 @@ export class MapGridComponent implements OnInit {
   }
 
   highlightTheNode(i: number,j: number): void {
+    // TODO - improve the styling for hovered node
     if (this.nodeIsClicked(i,j)) return;
+    if (this.path && this.path[i][j]) return;
     const style = {'background-color': 'rgb(73,158,238)'};
     this.map[i][j] = {...this.map[i][j], style};
   }
 
   unhighlightTheNode(i: number,j: number): void {
+    // TODO - improve the styling for hovered node
     if (this.nodeIsClicked(i,j)) return;
-    if (this.visited?.has(this.map[i][j].nodeId)) return;
+    if (this.path && this.path[i][j]) return;
     const style = {'background-color': 'rgb(173, 216, 230)'};
     this.map[i][j] = {...this.map[i][j], style};
   }
@@ -150,6 +153,10 @@ export class MapGridComponent implements OnInit {
   }
 
   visitNeigbours(node: Node, visited: Set<number>, queue: Queue<Node>): void {
+    /*
+      direction vectors: first we will visit the top,right,bottom,left nodes and 
+      then the diagnols to achieve the more intiutive shortest path later
+    */
     const direction_row = [-1,0,+1,0,-1,-1,+1,+1];
     const direction_column = [0,+1,0,-1,-1,+1,+1,-1];
     
