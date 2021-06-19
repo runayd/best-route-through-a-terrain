@@ -7,7 +7,7 @@ const NO_OF_ROWS: number = 70;
 const NO_OF_COLUMNS: number = 140; 
 
 @Component({
-  selector: 'app-map-grid',
+  selector: 'map-grid',
   templateUrl: './map-grid.component.html',
   styleUrls: ['./map-grid.component.scss']
 })
@@ -23,10 +23,6 @@ export class MapGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeTheMap();
-  }
-
-  ngAfterViewInit(): void {
-    alert('Instruction: click once to select start node and select second time to select end node. After the animation, click once again to clear the map');
   }
 
   initializeTheMap() {
@@ -100,7 +96,7 @@ export class MapGridComponent implements OnInit {
     let j = 0;
     for(const current of shortestPath) {
       setTimeout(() =>{
-        let style = {'background-color': 'yellow', 'animation': 'elevate 2s'};
+        let style = {'background-color': 'yellow', 'animation': 'elevate 1s'};
         if (current.nodeId == this.endNode?.nodeId) style = {'background-color': 'green', 'animation': 'elevate 3s'};
         this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column], style};
       }, 10 * ++j);
