@@ -4,6 +4,7 @@ import { MapGridComponent } from './map-grid/map-grid.component';
 import { MenuSlateComponent } from './menu-slate/menu-slate.component';
 import { FreeDraggingDirective } from './directive/free-dragging.directive';
 import { FreeDraggingHandleDirective } from './directive/free-dragging-handle.directive';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -15,6 +16,7 @@ import { FreeDraggingHandleDirective } from './directive/free-dragging-handle.di
     FreeDraggingHandleDirective
   ],
   imports: [
+    FormsModule,
     CommonModule
   ]
 })

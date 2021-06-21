@@ -4,5 +4,6 @@ export interface Node {
     nodeId: number;
     altitude: number;
     position: Position;
-    style: any;
+    color: string;
+    animation: string;
 }

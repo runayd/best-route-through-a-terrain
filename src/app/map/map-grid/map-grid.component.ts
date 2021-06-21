@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Queue } from '../../data-structures';
 import { Node, Position } from '../types';
-
+import { ALTITUDE_COLOR, INITIAL_MAP } from './constants';
 
 const NO_OF_ROWS: number = 90;
 const NO_OF_COLUMNS: number = 180; 
@@ -16,8 +16,7 @@ export class MapGridComponent implements OnInit {
   map: Node[][] = [];
   path: Position[][] = [];
   startNode: Node | undefined;
-  endNode: Node | undefined;
-  visited: Set<number> = new Set<number>();
+  endNode: Node | undefined;  
 
   constructor() {}
 
@@ -26,36 +25,15 @@ export class MapGridComponent implements OnInit {
   }
 
   initializeTheMap() {
-    this.visited = new Set<number>();
-    let id = 0;
-    for(let i = 0; i < NO_OF_ROWS; ++i) {
-      this.map[i] = [];
-      for(let j = 0; j < NO_OF_COLUMNS; ++j) {
-        const style = {'background-color': 'rgb(173, 216, 230)', 'animation': 'none'};
-        const position = {row: i, column: j};
-        this.map[i][j] = {nodeId: id++, altitude: 0, position, style};
-      }
-    }
-  } 
+    this.map = INITIAL_MAP;
+  }
 
   trackNode(index: any, node: any): any {
     return index;
   }
 
-  highlightTheNode(i: number,j: number): void {
-    // TODO - improve the styling for hovered node
-    if (this.nodeIsClicked(i,j)) return;
-    if (this.path && this.path[i][j]) return;
-    const style = {'background-color': 'rgb(73,158,238)'};
-    this.map[i][j] = {...this.map[i][j], style};
-  }
-
-  unhighlightTheNode(i: number,j: number): void {
-    // TODO - improve the styling for hovered node
-    if (this.nodeIsClicked(i,j)) return;
-    if (this.path && this.path[i][j]) return;
-    const style = {'background-color': 'rgb(173, 216, 230)'};
-    this.map[i][j] = {...this.map[i][j], style};
+  getNodeColor(args: any): string {
+    return ALTITUDE_COLOR[args];
   }
 
   nodeIsClicked(i: number, j: number): boolean {
@@ -63,28 +41,22 @@ export class MapGridComponent implements OnInit {
            (this.endNode?.position?.row == i && this.endNode?.position?.column == j));
   }
 
-  pickTheNode(row: number, column: number) {
-    let style = {'background-color': 'rgb(173, 216, 230)'};
+  pickTheNode(row: number, column: number): void {
     if (!this.startNode) {
-      style = {'background-color': 'red'};
       this.startNode = this.map[row][column];
-      this.map[row][column] = {...this.map[row][column], style};
+      this.map[row][column] = {...this.map[row][column], color: 'grey'};
       return;
     } else if (!this.endNode) {
-      style = {'background-color': 'green'};
       this.endNode = this.map[row][column];
-      this.map[row][column] = {...this.map[row][column], style};
+      this.map[row][column] = {...this.map[row][column], color: 'black'};
       const array:Node[][] = this.findDestination(this.startNode);
       this.animateBreadthFirstSearch(array);
       this.buildAndAnimateShortestPathForBFS();
       return;    
     } else {
-      this.map[this.startNode.position.row][this.startNode.position.column].style = style;
       this.startNode = undefined;
-      this.map[this.endNode.position.row][this.endNode.position.column].style = style;
       this.endNode = undefined;
       this.initializeTheMap();
-      this.map[row][column] = {...this.map[row][column], style};
       return;
     }
   }
@@ -98,32 +70,40 @@ export class MapGridComponent implements OnInit {
 
     let j = 0;
     for(const current of shortestPath) {
+      let color: string = 'rgb(192,192,192)';
+      let animation: string = '0.5s linear 0s elevate';
       setTimeout(() =>{
-        let style = {'background-color': 'yellow', 'animation': 'elevate 1s'};
-        if (current.nodeId == this.endNode?.nodeId) style = {'background-color': 'green', 'animation': 'elevate 3s'};
-        this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column], style};
+        if (current.nodeId == this.endNode?.nodeId) {
+          color = 'black';
+          animation = '2s linear 0s elevate';
+        }
+        this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column], color, animation};
       }, 10 * ++j);
     }
   }
 
   delayForBreadthFirstSearch(j: number, array: Node[], map: Node[][], endNodeId: number | undefined) {
+    let animation = '0.5s linear 0s elevate';
     setTimeout(() =>{
       for(const current of array) {
-        let style = {'background-color': 'rgb(173, 216, 230)', 'animation': 'elevate 1s'};
-        if (current.nodeId == this.endNode?.nodeId) style = {'background-color': 'green', 'animation': 'elevate 3s'};
-        map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], style};
+        if (current.nodeId == this.endNode?.nodeId) {
+          animation = '2s linear 0s elevate';
+        }
+        map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], animation};
       }
     }, 10*j);
   }
 
   zeroDelay(j: number, current: Node, map: Node[][], endNodeId: number | undefined){
-    let style = {'background-color': 'rgb(173, 216, 230)', 'animation': 'elevate 1s'};
-    if (current.nodeId == this.endNode?.nodeId) style = {'background-color': 'green', 'animation': 'elevate 3s'};
-    map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], style};
+    let animation = '0.5s linear 0s elevate';
+    if (current.nodeId == this.endNode?.nodeId) {
+      animation = '2s linear 0s elevate';
+    }
+    map[current.position.row][current.position.column] = {...map[current.position.row][current.position.column], animation};
   }
 
   animateBreadthFirstSearch(array:Node[][]) {
-    for(let i = 1; i < array.length; ++i) {
+    for(let i = 1; i < array.length; i+=2) {
       this.delayForBreadthFirstSearch(i, array[i], this.map, this.endNode?.nodeId);
     }
   }
@@ -153,10 +133,10 @@ export class MapGridComponent implements OnInit {
   }
 
   visitNeigbours(node: Node, visited: Set<number>, queue: Queue<Node>): void {
-    /*
-      direction vectors: first we will visit the top,right,bottom,left nodes and 
-      then the diagnols to achieve the more intiutive shortest path later
-    */
+    /**
+     * direction vectors: first we will visit the top,right,bottom,left nodes and 
+     * then the diagnols to achieve the more intiutive shortest path later
+     */
     const direction_row = [-1,0,+1,0,-1,-1,+1,+1];
     const direction_column = [0,+1,0,-1,-1,+1,+1,-1];
     
