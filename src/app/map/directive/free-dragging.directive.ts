@@ -90,7 +90,6 @@ export class FreeDraggingDirective implements AfterViewInit, OnDestroy {
 
         currentX = Math.max(minBoundX, Math.min(x, maxBoundX));
         currentY = Math.max(minBoundY, Math.min(y, maxBoundY));
-        console.log(y, minBoundY , maxBoundY, currentY);
 
         this.element.style.transform =
           'translate3d(' + currentX + 'px, ' + currentY + 'px, 0)';

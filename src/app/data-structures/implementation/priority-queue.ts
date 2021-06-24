@@ -4,19 +4,19 @@ import { IPriorityQueue } from '../interface/ipriority-queue';
 export class PriorityQueue<T> implements IPriorityQueue<T> {
 
     private _priorityQueue: T[] = [];
-    private _comparator: (a: T, b: T) => boolean = (a: T, b:T) => {return false};
+    private _comparator: (parent: T, child: T) => boolean = (parent: T, child:T) => {return false};
 
-    /*
-    * @param comparator - function which return true if the element insert is
-    *                     still not reached its correct position in heap
-    */
+    /**
+     * @param comparator function argument which will return true
+     * if the priority-queue still needs heapify-ing
+     */
     constructor(comparator: (a: T, b: T) => boolean) {
         this._comparator = comparator;
     }
 
     public insert(item: T): void {
         this._priorityQueue.push(item);
-        this.heapify();
+        this.bottomUpHeapify();
     }
 
     public peek(): T {
@@ -29,7 +29,7 @@ export class PriorityQueue<T> implements IPriorityQueue<T> {
         const top = this._priorityQueue[0];
         const last = this._priorityQueue.pop();
         this._priorityQueue[0] = last;
-        this.heapify();
+        this.topDownHeapify();
         return top;
     }
 
@@ -41,7 +41,38 @@ export class PriorityQueue<T> implements IPriorityQueue<T> {
         return this._priorityQueue?.length === 0;
     }
 
-    private heapify(): void {
+    private leftChild(index: number): number {
+        return (2*index)+1;
+    }
+
+    private rightChild(index: number): number {
+        return (2*index)+2;
+    }
+
+    private topDownHeapify(): void {
+        if (this._priorityQueue?.length === 1) return;
+        let parent = 0;
+        let left = this.leftChild(parent);
+        let right = this.rightChild(parent);
+        while(left < this._priorityQueue?.length) {
+            let contender = left;
+            if (right < this._priorityQueue?.length &&
+                this._comparator(this._priorityQueue[left],
+                    this._priorityQueue[right])) {
+                        contender = right;
+                    }
+            if (this._comparator(this._priorityQueue[parent],
+                this._priorityQueue[contender])) {
+                    this.swap(contender, parent);
+                }
+            parent = contender;
+            left = this.leftChild(parent);
+            right = this.rightChild(parent);
+        }
+    }
+
+    private bottomUpHeapify(): void {
+        if (this._priorityQueue?.length === 1) return;
         let index = this._priorityQueue?.length-1;
         let parent = Math.floor((index-1)/2);
         while(this._comparator(
