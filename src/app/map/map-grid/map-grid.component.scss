@@ -21,11 +21,13 @@
         box-shadow: 0 0.5rem 0.8rem rgb(131, 131, 131);
     }
     100% {
-        z-index: 1;
+        z-index: 2;
         transform: scale(1);
         box-shadow: none;
     }
 }
+
+
 
 .container {
     display: flex;
@@ -35,6 +37,8 @@
     position: absolute; top: 0; left: 0;
 
     .wrapper {
+        --nodesize: 0.5rem;
+
         height: 100%;
         width: 100%;
         display: flex;
@@ -48,14 +52,17 @@
             .column {
                 display: flex;
                 flex-direction: row;
-                width: 0.5rem;
-                height: 0.5rem;
+                width: var(--nodesize);
+                height: var(--nodesize);
                 background-color: white;
+                position: relative;
 
                 .node {
-                    z-index: 1;
-                    width: 0.5rem;
-                    height: 0.5rem;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: var(--nodesize);
+                    height: var(--nodesize);
                     animation: none;
                 }
             }

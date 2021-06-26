@@ -2,12 +2,18 @@
 <menu-slate></menu-slate>
 
 <div class="container">
-     <div class="wrapper" *ngIf="map?.length">
+     <div class="wrapper"
+     *ngIf="map?.length"
+     [style.--nodesize]="nodeSize">
         <div class="row" *ngFor="let r of map; let i = index; trackBy: trackNode">
-            <div class="column" *ngFor="let node of map[i]; let j = index; trackBy: trackNode">
+            <div class="column"
+            *ngFor="let node of map[i]; let j = index; trackBy: trackNode">
                 <div class="node"
                 [style.background-color] = "node.color"
                 [style.animation]="node.animation"
+                [style.box-shadow]="node.boxShadow"
+                [style.border-radius]="node.borderRadius"
+                [style.z-index]="node.zIndex"
                 (click)="pickTheNode(i,j)"></div>
             </div>
         </div>

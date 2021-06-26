@@ -14,27 +14,42 @@ export class MapGridComponent implements OnInit {
   map: Node[][] = [];
   parent: Position[][] = [];
   startNode: Node | undefined;
-  endNode: Node | undefined;  
+  endNode: Node | undefined;
+  nodeSize: string = '0.55rem';
+  nodeModification: any;
 
   constructor() {}
 
   ngOnInit(): void {
     this.initializeTheMap();
+    this.intializeNodeModificationToHighlightPath();
   }
 
   initializeTheMap() {
     this.map = JSON.parse(JSON.stringify(INITIAL_MAP));
-  }  
+  } 
+
+  intializeNodeModificationToHighlightPath() {
+    this.nodeModification = {
+      boxShadow: 'none',
+      borderRadius: '0.1rem',
+      zIndex: '2'
+    };
+  }
 
   pickTheNode(row: number, column: number): void {
     if (!this.startNode) {
       /* mark start node */
       this.startNode = this.map[row][column];
-      this.map[row][column] = {...this.map[row][column], color: 'grey'};
+      this.map[row][column] = {...this.map[row][column],
+        color: 'grey', ...this.nodeModification
+      };
     } else if (!this.endNode) {
       /* mark end node */
       this.endNode = this.map[row][column];
-      this.map[row][column] = {...this.map[row][column], color: 'black'};
+      this.map[row][column] = {...this.map[row][column],
+        color: 'black', ...this.nodeModification
+    };
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
     } else {
@@ -104,6 +119,7 @@ export class MapGridComponent implements OnInit {
   }
 
   costToReachNextNodeFromCurrentNode(currentNode: Position, childNode: Position ): number {
+  /* TODO - maintain a README.md explaining this code instead of these comment*/
   /*
     There are 3 cost to consider for us to calculate the total cost to reach the next node
     1. Horizontal (planar) cost
@@ -131,10 +147,11 @@ export class MapGridComponent implements OnInit {
     const verticalCost = Math.abs(currentNodeAltitude - childNodeAltitude);
 
   /*
-  If there are multile shortest path to reach a destination, of all those paths we want a path with minimum turns. 
-  To take a turn means we change our direction from our current direction of movement. Physically speaking (postulating)
-  there will be a cost associated with changing the direction since we would be decelerating to make that happen. Also,
-  logically speaking a straight line is more intuitive shortest path then a zig-zag line of same distance
+  3. Turn cost
+    If there are multile shortest path to reach a destination, of all those paths we want a path with minimum turns. 
+    To take a turn means we change our direction from our current direction of movement. Physically speaking (postulating)
+    there will be a cost associated with changing the direction since we would be decelerating to make that happen. Also,
+    logically speaking a straight line is more intuitive shortest path then a zig-zag line of same distance
   */
     const turnCost = this.getTurnCostToReachNextNode(currentNode?.row, currentNode?.column, childNode?.row, childNode?.column);
 
@@ -196,7 +213,11 @@ export class MapGridComponent implements OnInit {
           color = 'black';
           animation = '2s linear 0s elevate';
         }
-        this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column], color, animation};
+        this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column],
+          color,
+          animation,
+          ...this.nodeModification
+      };
       }, 10 + j);
     }
   }

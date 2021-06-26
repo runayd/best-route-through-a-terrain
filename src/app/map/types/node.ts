@@ -5,5 +5,8 @@ export interface Node {
     altitude: number;
     position: Position;
     color: string;
+    boxShadow: string;
+    borderRadius: string;
+    zIndex: string;
     animation: string;
 }
