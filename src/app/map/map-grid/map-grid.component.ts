@@ -33,7 +33,7 @@ export class MapGridComponent implements OnInit {
     this.nodeModification = {
       boxShadow: 'none',
       borderRadius: '0.1rem',
-      zIndex: '2'
+      zIndex: '26'
     };
   }
 
