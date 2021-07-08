@@ -10,10 +10,11 @@
             *ngFor="let node of map[i]; let j = index; trackBy: trackNode">
                 <div class="node"
                 [style.background-color] = "node?.color"
-                [style.animation]="node?.animation ? node?.animation : 'none'"
+                [style.--animation]="node?.animation ? node?.animation : 'none'"
+                [style.--pseudoAnimaiton]="node?.pseudoAnimaiton ? node?.pseudoAnimaiton : 'none'"
                 [style.box-shadow]="node?.boxShadow ? node?.boxShadow : '0rem 0rem 0.2rem 0.15rem ' + node?.color"
-                [style.border-radius]="node?.borderRadius ? node?.borderRadius : '0.1rem'"
-                [style.z-index]="node?.zIndex ? node?.zIndex : node?.altitude"
+                [style.--borderRadius]="node?.borderRadius ? node?.borderRadius : '0.1rem'"
+                [style.--zIndex]="node?.zIndex ? node?.zIndex : node?.altitude"
                 (click)="pickTheNode(i,j)"></div>
             </div>
         </div>

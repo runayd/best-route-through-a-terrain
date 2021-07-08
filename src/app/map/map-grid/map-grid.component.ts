@@ -25,15 +25,14 @@ export class MapGridComponent implements OnInit {
     this.intializeNodeModificationToHighlightPath();
   }
 
-  initializeTheMap() {
+  initializeTheMap(): void {
     this.map = JSON.parse(JSON.stringify(INITIAL_MAP));
   } 
 
-  intializeNodeModificationToHighlightPath() {
+  intializeNodeModificationToHighlightPath(): void {
     this.nodeModification = {
       boxShadow: 'none',
-      borderRadius: '0.1rem',
-      zIndex: '26'
+      zIndex: 35
     };
   }
 
@@ -49,7 +48,7 @@ export class MapGridComponent implements OnInit {
       this.endNode = this.map[row][column];
       this.map[row][column] = {...this.map[row][column],
         color: 'black', ...this.nodeModification
-    };
+      };
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
     } else {
@@ -199,6 +198,7 @@ export class MapGridComponent implements OnInit {
 
     // exclude start node from animation
     shortestPath.shift();
+    if (shortestPath?.length) shortestPath.pop();
 
     return shortestPath;
   }
@@ -206,19 +206,17 @@ export class MapGridComponent implements OnInit {
   animateShortestPath(shortestPath: Node[]): void {
     let j = 0;
     for(const current of shortestPath) {
-      let color: string = 'rgb(192,192,192)';
-      let animation: string = '0.5s linear 0s elevate';
-      setTimeout(() =>{
-        if (current.nodeId == this.endNode?.nodeId) {
-          color = 'black';
-          animation = '2s linear 0s elevate';
-        }
-        this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column],
-          color,
-          animation,
-          ...this.nodeModification
-      };
-      }, 10 + j);
+      let delay: number = 0.1 * ++j;
+      let animation: string = `elevate 0.25s ease-in-out ${delay}s normal 1 forwards running`;
+      let pseudoAnimaiton: string = `appear 5s linear ${delay}s normal 1 forwards running`;
+      if (current.nodeId == this.endNode?.nodeId) {
+        animation = `0.5s ease-in-out forwards ${delay}s elevate`;
+        pseudoAnimaiton = `5s forwards ${delay}s appear`;
+      }
+      this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column],
+        animation,
+        pseudoAnimaiton,
+        ...this.nodeModification}
     }
   }
 

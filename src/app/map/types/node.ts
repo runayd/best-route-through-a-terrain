@@ -9,4 +9,5 @@ export interface Node {
     borderRadius: string;
     zIndex: string;
     animation: string;
+    pseudoAnimaiton: string;
 }
