@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'menu-slate',
@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuSlateComponent implements OnInit {
 
+  animateAction = true;
+  buttonText: 'Animate Path' | 'Clear Map' = 'Animate Path';
+  @Output() emitAction: EventEmitter<boolean>  = new EventEmitter<boolean>();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  emitActionForMap(): void {
+    this.emitAction.emit(this.animateAction);
+    this.animateAction = !this.animateAction;
+    this.buttonText = this.animateAction ? 'Animate Path' : 'Clear Map';
   }
 
 }

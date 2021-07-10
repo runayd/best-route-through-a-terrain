@@ -10,4 +10,6 @@ export interface Node {
     zIndex: string;
     animation: string;
     pseudoAnimaiton: string;
+    isStartNode: boolean;
+    isEndNode: boolean;
 }

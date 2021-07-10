@@ -18,7 +18,6 @@
 }
 
 
-
 .container {
     display: flex;
     flex-direction: row;
@@ -52,15 +51,19 @@
                     --borderRadius: '0.1rem';
                     --animation: 'none';
                     --pseudoAnimaiton: 'none';
+                    --backgroundColor: 'black';
+                    --boxShadow: 'none';
 
                     position: absolute;
                     top: 0;
                     left: 0;
-                    width: calc(var(--nodesize));
-                    height: calc(var(--nodesize));
+                    width: var(--nodesize);
+                    height: var(--nodesize);
                     animation: var(--animation);
                     z-index: var(--zIndex);
                     border-radius: var(--borderRadius);
+                    background-color: var(--backgroundColor);
+                    box-shadow: var(--boxShadow);
 
                     &::after {
                         content: '';
@@ -72,6 +75,16 @@
                         opacity: 0;
                         animation: var(--pseudoAnimaiton);
                     }
+                }
+
+                .start-destination-node {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: var(--nodesize);
+                    height: var(--nodesize);
+                    background-color: black;
+                    z-index: 30;
                 }
             }
         }

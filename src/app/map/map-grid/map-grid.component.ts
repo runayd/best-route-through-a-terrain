@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PriorityQueue, Queue } from '../../data-structures';
 import { Node, Position, NextBestNode } from '../types';
-import { ALTITUDE_COLOR, INITIAL_MAP, TURN_COST, NO_OF_ROWS, NO_OF_COLUMNS } from './constants';
+import { 
+  ALTITUDE_COLOR,
+  INITIAL_MAP,
+  TURN_COST,
+  NO_OF_ROWS,
+  NO_OF_COLUMNS,
+  START_POSITION,
+  END_POSITION } from './constants';
 
 
 @Component({
@@ -11,23 +18,53 @@ import { ALTITUDE_COLOR, INITIAL_MAP, TURN_COST, NO_OF_ROWS, NO_OF_COLUMNS } fro
 })
 export class MapGridComponent implements OnInit {
 
+  @HostListener('document:mouseup', ['$event'])
+  @HostListener('document:mousedown', ['$event'])
+  onMouseDownOrUp(event: any) {
+    if (event) {
+      switch(event?.type) {
+        case 'mousedown': {
+          this.mouseDown = true;
+          break;
+        }
+        case 'mouseup': {
+          this.mouseDown = false;
+          this.updateStartOrEndNode();
+          break;
+        }
+      }
+    }
+  }
+
   map: Node[][] = [];
   parent: Position[][] = [];
   startNode: Node | undefined;
   endNode: Node | undefined;
+  mouseDown: boolean = false;
+  currentNodeDragged: Node | undefined;
+  startNodeDragEvent: boolean;
   nodeSize: string = '0.55rem';
   nodeModification: any;
+  animationDelayCount: number = 0;
 
   constructor() {}
 
   ngOnInit(): void {
     this.initializeTheMap();
+    this.intializeStartAndEndNodes();
     this.intializeNodeModificationToHighlightPath();
   }
 
   initializeTheMap(): void {
     this.map = JSON.parse(JSON.stringify(INITIAL_MAP));
-  } 
+  }
+
+  intializeStartAndEndNodes(): void {
+    this.startNode = this.map[START_POSITION.row][START_POSITION.column];
+    this.startNode.isStartNode = true;
+    this.endNode = this.map[END_POSITION.row][END_POSITION.column];
+    this.endNode.isEndNode = true;
+  }
 
   intializeNodeModificationToHighlightPath(): void {
     this.nodeModification = {
@@ -36,26 +73,50 @@ export class MapGridComponent implements OnInit {
     };
   }
 
-  pickTheNode(row: number, column: number): void {
-    if (!this.startNode) {
-      /* mark start node */
-      this.startNode = this.map[row][column];
-      this.map[row][column] = {...this.map[row][column],
-        color: 'grey', ...this.nodeModification
-      };
-    } else if (!this.endNode) {
-      /* mark end node */
-      this.endNode = this.map[row][column];
-      this.map[row][column] = {...this.map[row][column],
-        color: 'black', ...this.nodeModification
-      };
+  updateStartOrEndNode() {
+    /* needs fix */
+    if (this.currentNodeDragged?.isStartNode) {
+      this.startNode = this.currentNodeDragged;
+    } else if (this.currentNodeDragged?.isEndNode) {
+      this.endNode = this.currentNodeDragged;
+    }
+  }
+
+  setStartNodeDragEvent(node: Node): void {
+    /* needs fix */
+    if (node?.isStartNode || node?.isEndNode) {
+      this.startNodeDragEvent = node?.isStartNode;
+    }
+  }
+
+  setCurrentNodeDragged(node: Node): void {
+    /* needs fix */
+   if (this.mouseDown && !node?.isStartNode && !node?.isEndNode) {
+      if (this.startNodeDragEvent) {
+        node.isStartNode = true;
+        node.isEndNode = false;
+      } else {
+        node.isStartNode = false;
+        node.isEndNode = true;
+      }
+      this.currentNodeDragged = node;
+    }
+  }
+
+  revertFromCurrentNodeDragged(node: Node): void {
+    /* needs fix */
+    if (this.mouseDown) {
+      node.isStartNode = node.isEndNode = false;
+    }
+  }
+
+  animateAction(animate: boolean): void {
+    if (animate) {
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
     } else {
-      /* clear map */
-      this.startNode = undefined;
-      this.endNode = undefined;
       this.initializeTheMap();
+      this.intializeStartAndEndNodes();
     }
   }
   
@@ -204,9 +265,9 @@ export class MapGridComponent implements OnInit {
   }
 
   animateShortestPath(shortestPath: Node[]): void {
-    let j = 0;
+    this.animationDelayCount = 0;
     for(const current of shortestPath) {
-      let delay: number = 0.1 * ++j;
+      let delay: number = 0.1 * ++this.animationDelayCount;
       let animation: string = `elevate 0.25s ease-in-out ${delay}s normal 1 forwards running`;
       let pseudoAnimaiton: string = `appear 5s linear ${delay}s normal 1 forwards running`;
       if (current.nodeId == this.endNode?.nodeId) {

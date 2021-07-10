@@ -7,7 +7,9 @@
           <path d="M0 0h24v24H0z" fill="none"></path>
         </svg>
     </div>
-    <div class="text">
-        {{ 'Instructions: click once to select start node and select second time to select end node. After the animation, click once again to clear the map' }}
+    <div class="animate-button">
+        <button type="button" (click)="emitActionForMap()">
+            {{ buttonText }}
+        </button>
     </div>
 </div>
