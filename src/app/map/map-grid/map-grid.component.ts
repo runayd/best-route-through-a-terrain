@@ -18,24 +18,6 @@ import {
 })
 export class MapGridComponent implements OnInit {
 
-  @HostListener('document:mouseup', ['$event'])
-  @HostListener('document:mousedown', ['$event'])
-  onMouseDownOrUp(event: any) {
-    if (event) {
-      switch(event?.type) {
-        case 'mousedown': {
-          this.mouseDown = true;
-          break;
-        }
-        case 'mouseup': {
-          this.mouseDown = false;
-          this.updateStartOrEndNode();
-          break;
-        }
-      }
-    }
-  }
-
   map: Node[][] = [];
   parent: Position[][] = [];
   startNode: Node | undefined;
@@ -46,6 +28,8 @@ export class MapGridComponent implements OnInit {
   nodeSize: string = '0.55rem';
   nodeModification: any;
   animationDelayCount: number = 0;
+  mapIntitialized = false;
+  shortestPath: Node[];
 
   constructor() {}
 
@@ -60,8 +44,17 @@ export class MapGridComponent implements OnInit {
   }
 
   intializeStartAndEndNodes(): void {
+    if (this.startNode) {
+      const { row, column }: Position = this.startNode?.position;
+      delete this.map[row][column]['isStartNode'];
+    }
     this.startNode = this.map[START_POSITION.row][START_POSITION.column];
     this.startNode.isStartNode = true;
+
+    if (this.endNode) {
+      const { row, column }: Position = this.endNode?.position;
+      delete this.map[row][column]['isEndNode'];
+    }
     this.endNode = this.map[END_POSITION.row][END_POSITION.column];
     this.endNode.isEndNode = true;
   }
@@ -73,25 +66,24 @@ export class MapGridComponent implements OnInit {
     };
   }
 
-  updateStartOrEndNode() {
-    /* needs fix */
-    if (this.currentNodeDragged?.isStartNode) {
-      this.startNode = this.currentNodeDragged;
-    } else if (this.currentNodeDragged?.isEndNode) {
-      this.endNode = this.currentNodeDragged;
+  updateStartOrEndNode(currentNodeDragged: Node) {
+    if (currentNodeDragged?.isStartNode) {
+      this.startNode = currentNodeDragged;
+    } else if (currentNodeDragged?.isEndNode) {
+      this.endNode = currentNodeDragged;
     }
   }
 
   setStartNodeDragEvent(node: Node): void {
-    /* needs fix */
+    this.mouseDown = true;
     if (node?.isStartNode || node?.isEndNode) {
       this.startNodeDragEvent = node?.isStartNode;
     }
   }
 
   setCurrentNodeDragged(node: Node): void {
-    /* needs fix */
-   if (this.mouseDown && !node?.isStartNode && !node?.isEndNode) {
+    this.mouseDown = false;
+    if (!node?.isStartNode && !node?.isEndNode) {
       if (this.startNodeDragEvent) {
         node.isStartNode = true;
         node.isEndNode = false;
@@ -99,12 +91,11 @@ export class MapGridComponent implements OnInit {
         node.isStartNode = false;
         node.isEndNode = true;
       }
-      this.currentNodeDragged = node;
+      this.updateStartOrEndNode(node);
     }
   }
 
   revertFromCurrentNodeDragged(node: Node): void {
-    /* needs fix */
     if (this.mouseDown) {
       node.isStartNode = node.isEndNode = false;
     }
@@ -115,7 +106,7 @@ export class MapGridComponent implements OnInit {
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
     } else {
-      this.initializeTheMap();
+      this.revertShortestPathMarked();
       this.intializeStartAndEndNodes();
     }
   }
@@ -124,7 +115,7 @@ export class MapGridComponent implements OnInit {
   
 
 
-  findDestinationUsingDijkstrasAlgorithm() {
+  findDestinationUsingDijkstrasAlgorithm(): void {
     const startPosition: Position = this.startNode?.position;
     const endPosition: Position = this.endNode?.position;
 
@@ -247,26 +238,33 @@ export class MapGridComponent implements OnInit {
   }
 
   reconstructAndAnimateShortestPath(): void {
-    const shortestPath: Node[] = this.reconstructShortestPath();
-    this.animateShortestPath(shortestPath);
+    this.reconstructShortestPath();
+    this.animateShortestPath();
   }
 
-  reconstructShortestPath(): Node[] {
-    const shortestPath: Node[] = [];
+  reconstructShortestPath(): void {
+    this.shortestPath = [];
     for(let x=this.endNode?.position; x != undefined; x = this.parent[x.row][x.column]) {
-      shortestPath.unshift(this.map[x.row][x.column]);
+      this.shortestPath.unshift(this.map[x.row][x.column]);
     }
 
     // exclude start node from animation
-    shortestPath.shift();
-    if (shortestPath?.length) shortestPath.pop();
-
-    return shortestPath;
+    this.shortestPath.shift();
+    if (this.shortestPath?.length) this.shortestPath.pop();
   }
 
-  animateShortestPath(shortestPath: Node[]): void {
+  revertShortestPathMarked(): void {
+    if (!this.shortestPath?.length) return;
+    for(let node of this.shortestPath) {
+      const { row, column }: Position = node?.position;
+      this.map[row][column] = JSON.parse(JSON.stringify(INITIAL_MAP[row][column]));
+    }
+    this.shortestPath = [];
+  }
+
+  animateShortestPath(): void {
     this.animationDelayCount = 0;
-    for(const current of shortestPath) {
+    for(const current of this.shortestPath) {
       let delay: number = 0.1 * ++this.animationDelayCount;
       let animation: string = `elevate 0.25s ease-in-out ${delay}s normal 1 forwards running`;
       let pseudoAnimaiton: string = `appear 5s linear ${delay}s normal 1 forwards running`;

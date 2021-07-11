@@ -12,15 +12,15 @@
                 [style.--backgroundColor] = "node?.color"
                 [style.--animation]="node?.animation ? node?.animation : 'none'"
                 [style.--pseudoAnimaiton]="node?.pseudoAnimaiton ? node?.pseudoAnimaiton : 'none'"
-                [style.--boxShadow]="node?.boxShadow ? node?.boxShadow : '0rem 0rem 0.2rem 0.15rem ' + node?.color"
+                [style.--boxShadow]="node?.boxShadow ? node?.boxShadow : '0rem 0rem 0.2rem 0.1rem ' + node?.color"
                 [style.--borderRadius]="node?.borderRadius ? node?.borderRadius : '0.1rem'"
-                [style.--zIndex]="node?.zIndex ? node?.zIndex : node?.altitude"></div>
+                [style.--zIndex]="node?.zIndex ? node?.zIndex : node?.altitude"
+                (mouseup)="setCurrentNodeDragged(node)"></div>
 
-                <!-- needs fix -->
                 <div class="start-destination-node"
                 *ngIf="node?.isStartNode || node?.isEndNode"
                 (mousedown)="setStartNodeDragEvent(node)"
-                (mouseover)="setCurrentNodeDragged(node)"
+                (mouseup)="mouseDown = false"
                 (mouseout)="revertFromCurrentNodeDragged(node)"></div>
             </div>
         </div>
