@@ -54,6 +54,7 @@
                     --pseudoAnimaiton: 'none';
                     --backgroundColor: 'black';
                     --boxShadow: 'none';
+                    --cursor: 'default';
 
                     position: absolute;
                     top: 0;
@@ -75,6 +76,7 @@
                         background-color: rgb(192,192,192);
                         opacity: 0;
                         animation: var(--pseudoAnimaiton);
+                        cursor: var(--cursor);
                     }
                 }
 
@@ -85,7 +87,7 @@
                     width: var(--nodesize);
                     height: var(--nodesize);
                     background-color: black;
-                    z-index: 30;
+                    z-index: 31;
                     cursor: grab;
 
                     &:active {

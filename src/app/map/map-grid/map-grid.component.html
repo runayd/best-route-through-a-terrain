@@ -10,11 +10,12 @@
             *ngFor="let node of map[i]; let j = index; trackBy: trackNode">
                 <div class="node"
                 [style.--backgroundColor] = "node?.color"
-                [style.--animation]="node?.animation ? node?.animation : 'none'"
-                [style.--pseudoAnimaiton]="node?.pseudoAnimaiton ? node?.pseudoAnimaiton : 'none'"
+                [style.--animation]="node?.animation"
+                [style.--pseudoAnimaiton]="node?.pseudoAnimaiton"
                 [style.--boxShadow]="node?.boxShadow ? node?.boxShadow : '0rem 0rem 0.2rem 0.1rem ' + node?.color"
-                [style.--borderRadius]="node?.borderRadius ? node?.borderRadius : '0.1rem'"
+                [style.--borderRadius]="node?.borderRadius"
                 [style.--zIndex]="node?.zIndex ? node?.zIndex : node?.altitude"
+                [style.--cursor]="node?.cursor"
                 (mouseup)="setCurrentNodeDragged(node)"></div>
 
                 <div class="start-destination-node"

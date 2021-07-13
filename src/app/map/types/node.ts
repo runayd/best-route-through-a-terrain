@@ -12,4 +12,5 @@ export interface Node {
     pseudoAnimaiton: string;
     isStartNode: boolean;
     isEndNode: boolean;
+    cursor: string;
 }
