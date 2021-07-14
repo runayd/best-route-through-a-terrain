@@ -62,7 +62,6 @@ export class MapGridComponent implements OnInit {
   intializeNodeModificationToHighlightPath(): void {
     this.nodeModification = {
       boxShadow: 'none',
-      zIndex: 30,
       cursor: 'no-drop'
     };
   }

@@ -48,7 +48,6 @@
                 position: relative;
 
                 .node {
-                    --zIndex: 0;
                     --borderRadius: '0.1rem';
                     --animation: 'none';
                     --pseudoAnimaiton: 'none';
@@ -62,7 +61,6 @@
                     width: var(--nodesize);
                     height: var(--nodesize);
                     animation: var(--animation);
-                    z-index: var(--zIndex);
                     border-radius: var(--borderRadius);
                     background-color: var(--backgroundColor);
                     box-shadow: var(--boxShadow);
@@ -87,7 +85,7 @@
                     width: var(--nodesize);
                     height: var(--nodesize);
                     background-color: black;
-                    z-index: 31;
+                    z-index: 1;
                     cursor: grab;
 
                     &:active {

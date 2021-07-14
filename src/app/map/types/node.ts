@@ -7,7 +7,6 @@ export interface Node {
     color: string;
     boxShadow: string;
     borderRadius: string;
-    zIndex: string;
     animation: string;
     pseudoAnimaiton: string;
     isStartNode: boolean;
