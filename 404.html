@@ -7,8 +7,26 @@
   <base href="/best-route-through-a-terrain/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" href="styles.234898377fdb74086a7a.css"></head>
+<link rel="stylesheet" href="styles.21ae6bb8327c7e9736d0.css"></head>
 <body>
-  <app-root></app-root>
-<script src="runtime.7b63b9fd40098a2e8207.js" defer></script><script src="polyfills.94daefd414b8355106ab.js" defer></script><script src="main.7cafe5c62a8cd6617353.js" defer></script></body>
+  <app-root loading="">
+    <style>
+      .container {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #666666;
+      }
+      .loading-message {
+        font: normal 600 2rem Abel;
+        color: #191919;
+      }
+    </style>
+    <div class="container">
+      <div class="loading-message">Please wait while we load the altitude map for you...</div>
+    </div>
+  </app-root>
+<script src="runtime.7b63b9fd40098a2e8207.js" defer></script><script src="polyfills.94daefd414b8355106ab.js" defer></script><script src="main.9043d5095fce10f1d2ce.js" defer></script></body>
 </html>
