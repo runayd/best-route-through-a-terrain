@@ -60,9 +60,9 @@ export class FreeDraggingDirective implements AfterViewInit, OnDestroy {
 
     let initialX: number,
       initialY: number,
-      currentX = window.innerWidth/2,
+      currentX = window.innerWidth/2 - (this.element.clientWidth/2),
       currentY = 2*(window.innerHeight/3);
-    
+
     this.element.style.transform =
         'translate3d(' + currentX + 'px, ' + currentY + 'px, 0)';
 
