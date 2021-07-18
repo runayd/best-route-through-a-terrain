@@ -9,6 +9,24 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root></app-root>
+  <app-root loading>
+    <style>
+      .container {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #666666;
+      }
+      .loading-message {
+        font: normal 600 2rem Abel;
+        color: #191919;
+      }
+    </style>
+    <div class="container">
+      <div class="loading-message">Please wait while we load the altitude map for you...</div>
+    </div>
+  </app-root>
 </body>
 </html>

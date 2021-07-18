@@ -1,6 +1,6 @@
 import { Position } from ".";
 
 export interface NextBestNode {
-    position: Position;
+    pos: Position;
     cost: number;
   }

@@ -1,3 +1,3 @@
 export * from './node';
 export * from './position';
-export * from './next-best-node.type'
+export * from './next-best-node.type';

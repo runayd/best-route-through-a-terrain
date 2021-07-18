@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { PriorityQueue, Queue } from '../../data-structures';
+import { Component, OnInit } from '@angular/core';
+import { HashMap, PriorityQueue } from '../../data-structures';
 import { Node, Position, NextBestNode } from '../types';
 import { 
   ALTITUDE_COLOR,
@@ -8,7 +8,9 @@ import {
   NO_OF_ROWS,
   NO_OF_COLUMNS,
   START_POSITION,
-  END_POSITION } from './constants';
+  END_POSITION,
+  RADIAL_GRADIENT_POSITION, 
+  ALTITUDE_COLOR_GRADIENT_MAPPING} from './constants';
 
 
 @Component({
@@ -25,45 +27,57 @@ export class MapGridComponent implements OnInit {
   mouseDown: boolean = false;
   currentNodeDragged: Node | undefined;
   startNodeDragEvent: boolean;
-  nodeSize: string = '0.55rem';
+  nodeSize: number = 0.55;
   nodeModification: any;
   animationDelayCount: number = 0;
   mapIntitialized = false;
   shortestPath: Node[];
+  radialGradientPosition: string[][] = [];
+  altitudeGradientMapping = new HashMap<string>();
+  
 
-  constructor() {}
+  constructor() {
+    this.intializeRadialGradientPositionForThisNodeSize();
+    this.initializeTheMap();
+  }
 
   ngOnInit(): void {
-    this.initializeTheMap();
     this.intializeStartAndEndNodes();
-    this.intializeNodeModificationToHighlightPath();
   }
 
   initializeTheMap(): void {
     this.map = JSON.parse(JSON.stringify(INITIAL_MAP));
+    this.altitudeGradientMapping = new HashMap<any>(
+      ALTITUDE_COLOR_GRADIENT_MAPPING?._hashmap, 
+      ALTITUDE_COLOR_GRADIENT_MAPPING?._size);
   }
 
   intializeStartAndEndNodes(): void {
     if (this.startNode) {
-      const { row, column }: Position = this.startNode?.position;
-      delete this.map[row][column]['isStartNode'];
+      const { x, y }: Position = this.startNode?.pos;
+      delete this.map[x][y]['isStartNode'];
     }
-    this.startNode = this.map[START_POSITION.row][START_POSITION.column];
+    this.startNode = this.map[START_POSITION.x][START_POSITION.y];
     this.startNode.isStartNode = true;
 
     if (this.endNode) {
-      const { row, column }: Position = this.endNode?.position;
-      delete this.map[row][column]['isEndNode'];
+      const { x, y }: Position = this.endNode?.pos;
+      delete this.map[x][y]['isEndNode'];
     }
-    this.endNode = this.map[END_POSITION.row][END_POSITION.column];
+    this.endNode = this.map[END_POSITION.x][END_POSITION.y];
     this.endNode.isEndNode = true;
   }
 
-  intializeNodeModificationToHighlightPath(): void {
-    this.nodeModification = {
-      boxShadow: 'none',
-      cursor: 'no-drop'
-    };
+  intializeRadialGradientPositionForThisNodeSize() {
+    for(let i = 0; i < 3; ++i) {
+      this.radialGradientPosition.push(new Array<string>());
+      for(let j = 0; j < 3; ++j) {
+        const x: number = this.nodeSize * RADIAL_GRADIENT_POSITION[i][j]?.x;
+        const y: number = this.nodeSize * RADIAL_GRADIENT_POSITION[i][j]?.y;
+        const gradientPosition: string = `${x}rem ${y}rem`;
+        this.radialGradientPosition[i].push(gradientPosition);
+      }
+    }
   }
 
   updateStartOrEndNode(currentNodeDragged: Node) {
@@ -116,8 +130,8 @@ export class MapGridComponent implements OnInit {
 
 
   findDestinationUsingDijkstrasAlgorithm(): void {
-    const startPosition: Position = this.startNode?.position;
-    const endPosition: Position = this.endNode?.position;
+    const startPosition: Position = this.startNode?.pos;
+    const endPosition: Position = this.endNode?.pos;
 
     this.parent = this.intializeArray<Position>(NO_OF_ROWS, NO_OF_COLUMNS);
     const MAX_VALUE = NO_OF_COLUMNS * NO_OF_ROWS * 25;
@@ -128,16 +142,16 @@ export class MapGridComponent implements OnInit {
     const nextBestNode = new PriorityQueue<NextBestNode>(comparator);
 
     // initialize the queue
-    nextBestNode.insert({position: startPosition, cost: 0});
-    minCostArray[startPosition?.row][startPosition?.column] = 0;
+    nextBestNode.insert({pos: startPosition, cost: 0});
+    minCostArray[startPosition?.x][startPosition?.y] = 0;
 
     while(!nextBestNode.isEmpty()) {
-      const {position, cost }: NextBestNode = nextBestNode.pop();
-      const { nodeId }: Node = this.map[position?.row][position?.column];
-      visited.add(nodeId);
-      if (endPosition?.row === position?.row && endPosition?.column === position?.column) return;
-      if (cost > minCostArray[position?.row][position?.column]) continue;
-      this.visitNeigboursForDijkstrasAlgorithm(position, visited, nextBestNode, minCostArray);
+      const {pos, cost }: NextBestNode = nextBestNode.pop();
+      const { id }: Node = this.map[pos?.x][pos?.y];
+      visited.add(id);
+      if (endPosition?.x === pos?.x && endPosition?.y === pos?.y) return;
+      if (cost > minCostArray[pos?.x][pos?.y]) continue;
+      this.visitNeigboursForDijkstrasAlgorithm(pos, visited, nextBestNode, minCostArray);
     }
   }
 
@@ -149,21 +163,21 @@ export class MapGridComponent implements OnInit {
     const direction_column=[0,0,-1,+1,-1,+1,-1,+1];
     
     for(let m = 0; m < 9; ++m) {
-      const childRow = current?.row + direction_row[m];
-      const childColumn = current?.column + direction_column[m];
+      const childRow = current?.x + direction_row[m];
+      const childColumn = current?.y + direction_column[m];
 
       if (!this.isValidNode(childRow,childColumn)) continue;
-      const {nodeId, position}: Node = this.map[childRow][childColumn];
-      if (visited.has(nodeId)) continue;
+      const {id, pos}: Node = this.map[childRow][childColumn];
+      if (visited.has(id)) continue;
 
-      const costToReachCurrentNode = minCostArray[current?.row][current?.column];
-      const costToReachNextPossibleNode = this.costToReachNextNodeFromCurrentNode(current, position);
+      const costToReachCurrentNode = minCostArray[current?.x][current?.y];
+      const costToReachNextPossibleNode = this.costToReachNextNodeFromCurrentNode(current, pos);
       const newCost  = costToReachCurrentNode + costToReachNextPossibleNode;
 
       if (newCost < minCostArray[childRow][childColumn]) {
         minCostArray[childRow][childColumn] = newCost;
         this.parent[childRow][childColumn] = current;
-        nextBestNode.insert({position, cost: newCost});
+        nextBestNode.insert({pos, cost: newCost});
       }
      
     }
@@ -189,12 +203,12 @@ export class MapGridComponent implements OnInit {
 
   /*
   2. Vertical cost
-    vertical cost will be the cost to climb up or climb down a unit altitude differnce between two nodes.
-    On that note, vertical cost will be proportional to the difference of altitude of two nodes.
+    vertical cost will be the cost to climb up or climb down a unit alt differnce between two nodes.
+    On that note, vertical cost will be proportional to the difference of alt of two nodes.
     For simplicity we will assume the cost to climb up and climb down to be same, hence we will take absolute difference
   */
-    const currentNodeAltitude = this.map[currentNode?.row][currentNode?.column]?.altitude;
-    const childNodeAltitude = this.map[childNode?.row][childNode?.column]?.altitude;
+    const currentNodeAltitude = this.map[currentNode?.x][currentNode?.y]?.alt;
+    const childNodeAltitude = this.map[childNode?.x][childNode?.y]?.alt;
     const verticalCost = Math.abs(currentNodeAltitude - childNodeAltitude);
 
   /*
@@ -204,7 +218,7 @@ export class MapGridComponent implements OnInit {
     there will be a cost associated with changing the direction since we would be decelerating to make that happen. Also,
     logically speaking a straight line is more intuitive shortest path then a zig-zag line of same distance
   */
-    const turnCost = this.getTurnCostToReachNextNode(currentNode?.row, currentNode?.column, childNode?.row, childNode?.column);
+    const turnCost = this.getTurnCostToReachNextNode(currentNode?.x, currentNode?.y, childNode?.x, childNode?.y);
 
     
     return horizontalCost + verticalCost + turnCost;
@@ -222,8 +236,8 @@ export class MapGridComponent implements OnInit {
   */
     if (!this.parent[currentRow][currentColumn]) return 0;
 
-    const parentRow = this.parent[currentRow][currentColumn].row;
-    const parentColumn = this.parent[currentRow][currentColumn].column;
+    const parentRow = this.parent[currentRow][currentColumn].x;
+    const parentColumn = this.parent[currentRow][currentColumn].y;
 
     const isAlignedWestToEast = (parentColumn === currentColumn) && (currentColumn === childColumn);
     const isAlignedNorthToSouth = (parentRow === currentRow) && (currentRow === childRow);
@@ -244,8 +258,8 @@ export class MapGridComponent implements OnInit {
 
   reconstructShortestPath(): void {
     this.shortestPath = [];
-    for(let x=this.endNode?.position; x != undefined; x = this.parent[x.row][x.column]) {
-      this.shortestPath.unshift(this.map[x.row][x.column]);
+    for(let x=this.endNode?.pos; x != undefined; x = this.parent[x.x][x.y]) {
+      this.shortestPath.unshift(this.map[x.x][x.y]);
     }
 
     // exclude start node from animation
@@ -256,8 +270,9 @@ export class MapGridComponent implements OnInit {
   revertShortestPathMarked(): void {
     if (!this.shortestPath?.length) return;
     for(let node of this.shortestPath) {
-      const { row, column }: Position = node?.position;
-      this.map[row][column] = JSON.parse(JSON.stringify(INITIAL_MAP[row][column]));
+      const { x, y }: Position = node?.pos;
+      this.map[x][y].animation = 'none';
+      this.map[x][y].pseudoAnimaiton = 'none'; // JSON.parse(JSON.stringify(INITIAL_MAP[x][y]));
     }
     this.shortestPath = [];
   }
@@ -268,14 +283,9 @@ export class MapGridComponent implements OnInit {
       let delay: number = 0.1 * ++this.animationDelayCount;
       let animation: string = `elevate 0.25s ease-in-out ${delay}s normal 1 forwards running`;
       let pseudoAnimaiton: string = `appear 5s linear ${delay}s normal 1 forwards running`;
-      if (current.nodeId == this.endNode?.nodeId) {
-        animation = `0.5s ease-in-out forwards ${delay}s elevate`;
-        pseudoAnimaiton = `5s forwards ${delay}s appear`;
-      }
-      this.map[current.position.row][current.position.column] = {...this.map[current.position.row][current.position.column],
+      this.map[current.pos.x][current.pos.y] = {...this.map[current.pos.x][current.pos.y],
         animation,
-        pseudoAnimaiton,
-        ...this.nodeModification}
+        pseudoAnimaiton}
     }
   }
 

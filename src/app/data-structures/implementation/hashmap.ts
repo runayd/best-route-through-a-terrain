@@ -4,7 +4,10 @@ export class HashMap<Z> {
     private _hashmap: IHashMap<Z> = {};
     private _size: number = 0;
 
-    constructor() {}
+    constructor(_hashmap: IHashMap<Z> = {}, _size: number = 0) {
+        this._hashmap = _hashmap;
+        this._size = _size;
+    }
 
     public put(key: string, value: Z): void {
         this._hashmap[key] = value;

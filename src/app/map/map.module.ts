@@ -5,6 +5,7 @@ import { MenuSlateComponent } from './menu-slate/menu-slate.component';
 import { FreeDraggingDirective } from './directive/free-dragging.directive';
 import { FreeDraggingHandleDirective } from './directive/free-dragging-handle.directive';
 import { FormsModule } from '@angular/forms';
+import { BackgroundGradientPipe } from './map-grid/pipes/background-gradient.pipe';
 
 
 
@@ -13,7 +14,8 @@ import { FormsModule } from '@angular/forms';
     MapGridComponent,
     MenuSlateComponent,
     FreeDraggingDirective,
-    FreeDraggingHandleDirective
+    FreeDraggingHandleDirective,
+    BackgroundGradientPipe
   ],
   imports: [
     FormsModule,

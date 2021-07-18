@@ -12,9 +12,15 @@
 @keyframes appear {
     0% {
         opacity: 1;
+        transform: scale(1.5) rotate(90deg);
+    }
+    5% {
+        opacity: 1;
+        transform: scale(1) rotate(180deg);
     }
     100% {
         opacity: 1;
+        transform: scale(1) rotate(180deg);
     }
 }
 
@@ -51,7 +57,7 @@
                     --borderRadius: '0.1rem';
                     --animation: 'none';
                     --pseudoAnimaiton: 'none';
-                    --backgroundColor: 'black';
+                    --color: 'black';
                     --boxShadow: 'none';
                     --cursor: 'default';
 
@@ -60,13 +66,11 @@
                     left: 0;
                     width: var(--nodesize);
                     height: var(--nodesize);
-                    animation: var(--animation);
-                    border-radius: var(--borderRadius);
-                    background-color: var(--backgroundColor);
-                    box-shadow: var(--boxShadow);
+                    background-color: var(--color);
 
                     &::after {
                         content: '';
+                        z-index: 1;
                         position: absolute;
                         width: calc(var(--nodesize));
                         height: calc(var(--nodesize));
