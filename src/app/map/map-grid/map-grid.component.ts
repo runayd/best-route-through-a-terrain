@@ -46,7 +46,7 @@ export class MapGridComponent implements OnInit {
   }
 
   initializeTheMap(): void {
-    this.map = JSON.parse(JSON.stringify(INITIAL_MAP));
+    this.map = INITIAL_MAP;
     this.altitudeGradientMapping = new HashMap<any>(
       ALTITUDE_COLOR_GRADIENT_MAPPING?._hashmap, 
       ALTITUDE_COLOR_GRADIENT_MAPPING?._size);
@@ -115,20 +115,28 @@ export class MapGridComponent implements OnInit {
     }
   }
 
+
+
+
+  /*Menu slate */
   animateAction(animate: boolean): void {
     if (animate) {
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
     } else {
       this.revertShortestPathMarked();
-      this.intializeStartAndEndNodes();
     }
   }
   
+  resetEndpointsToDefaultPositions() {
+    if (this.shortestPath?.length) { this.revertShortestPathMarked(); }
+    this.intializeStartAndEndNodes();
+  }
 
   
 
 
+  /* path finding and related algorithm */
   findDestinationUsingDijkstrasAlgorithm(): void {
     const startPosition: Position = this.startNode?.pos;
     const endPosition: Position = this.endNode?.pos;

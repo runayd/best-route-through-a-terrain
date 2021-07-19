@@ -10,6 +10,7 @@ export class MenuSlateComponent implements OnInit {
   animateAction = true;
   buttonText: 'Animate Path' | 'Clear Map' = 'Animate Path';
   @Output() emitAction: EventEmitter<boolean>  = new EventEmitter<boolean>();
+  @Output() emitResetEndpointsToDefaultPositions: EventEmitter<boolean>  = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -20,6 +21,10 @@ export class MenuSlateComponent implements OnInit {
     this.emitAction.emit(this.animateAction);
     this.animateAction = !this.animateAction;
     this.buttonText = this.animateAction ? 'Animate Path' : 'Clear Map';
+  }
+
+  emitResetEndpoints(): void {
+    this.emitResetEndpointsToDefaultPositions.emit();
   }
 
 }
