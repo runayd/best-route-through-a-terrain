@@ -7,14 +7,23 @@
           <path d="M0 0h24v24H0z" fill="none"></path>
         </svg>
     </div>
-    <div class="animate-button">
+    <div class="animate buttons">
         <button type="button" (click)="emitActionForMap()">
             {{ buttonText }}
         </button>
     </div>
-    <div class="reset-position">
+    <div class="reset-position buttons">
         <button type="button" (click)="emitResetEndpoints()">
             {{ 'Reset endpoints' }}
         </button>
     </div>
+    <div class="instruction buttons">
+        <button type="button" (click)="showCard = true">
+            {{ 'Instructions' }}
+        </button>
+    </div>
+</div>
+
+
+<div class="card" *ngIf = "showCard">
 </div>

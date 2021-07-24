@@ -6,7 +6,8 @@ import { FreeDraggingDirective } from './directive/free-dragging.directive';
 import { FreeDraggingHandleDirective } from './directive/free-dragging-handle.directive';
 import { FormsModule } from '@angular/forms';
 import { BackgroundGradientPipe } from './map-grid/pipes/background-gradient.pipe';
-
+import { InstructionsComponent } from './components/instructions/instructions.component';
+import { AboutMeComponent } from './components/about-me/about-me.component';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { BackgroundGradientPipe } from './map-grid/pipes/background-gradient.pip
     MenuSlateComponent,
     FreeDraggingDirective,
     FreeDraggingHandleDirective,
-    BackgroundGradientPipe
+    BackgroundGradientPipe,
+    InstructionsComponent,
+    AboutMeComponent
   ],
   imports: [
     FormsModule,

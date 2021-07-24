@@ -7,6 +7,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class MenuSlateComponent implements OnInit {
 
+  showCard = true;
   animateAction = true;
   buttonText: 'Animate Path' | 'Clear Map' = 'Animate Path';
   @Output() emitAction: EventEmitter<boolean>  = new EventEmitter<boolean>();
