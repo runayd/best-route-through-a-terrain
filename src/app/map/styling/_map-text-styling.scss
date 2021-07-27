@@ -1,0 +1,92 @@
+
+$text-primary: #333333;
+$text-secondary: #5C5C5C;
+
+$action-primary: #CCCCCC;
+$action-secondary: #BBBBBB;
+$action-tertiary: #DDDDDD;
+
+$background-primary: #EEEEEE;
+
+$large: 3rem;
+$regular: 1.375rem;
+$small: 1rem;
+
+$font-name: Abel;
+
+
+
+
+.background-color {
+    background-color: $background-primary;
+}
+
+
+.text-primary-large {
+    color: $text-primary;
+    font: normal normal $large $font-name;
+}
+
+.text-primary-regular {
+    color: $text-primary;
+    font: normal normal $regular $font-name;
+}
+
+.text-primary-small {
+    color: $text-primary;
+    font: normal normal $small $font-name;
+}
+
+
+
+
+.text-secondary-large {
+    color: $text-secondary;
+    font: normal normal $large $font-name;
+}
+
+.text-secondary-regular {
+    color: $text-secondary;
+    font: normal normal $regular $font-name;
+}
+
+.text-secondary-small {
+    color: $text-secondary;
+    font: normal normal $small $font-name;
+}
+
+
+
+
+.text-primary-large-bold {
+    color: $text-primary;
+    font: normal bold $large $font-name;
+}
+
+.text-primary-regular-bold {
+    color: $text-primary;
+    font: normal bold $regular $font-name;
+}
+
+.text-primary-small-bold {
+    color: $text-primary;
+    font: normal bold $small $font-name;
+}
+
+
+
+
+.text-secondary-large-bold {
+    color: $text-secondary;
+    font: normal bold $large $font-name;
+}
+
+.text-secondary-regular-bold {
+    color: $text-secondary;
+    font: normal bold $regular $font-name;
+}
+
+.text-secondary-small-bold {
+    color: $text-secondary;
+    font: normal bold $small $font-name;
+}

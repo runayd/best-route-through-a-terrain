@@ -8,17 +8,17 @@
         </svg>
     </div>
     <div class="animate buttons">
-        <button type="button" (click)="emitActionForMap()">
+        <button type="button" [disabled]="showCard" (click)="emitActionForMap()">
             {{ buttonText }}
         </button>
     </div>
     <div class="reset-position buttons">
-        <button type="button" (click)="emitResetEndpoints()">
+        <button type="button" [disabled]="showCard" (click)="emitResetEndpoints()">
             {{ 'Reset endpoints' }}
         </button>
     </div>
     <div class="instruction buttons">
-        <button type="button" (click)="showCard = true">
+        <button type="button" [disabled]="showCard" (click)="showCard = true">
             {{ 'Instructions' }}
         </button>
     </div>
@@ -26,4 +26,16 @@
 
 
 <div class="card" *ngIf = "showCard">
+    <div class="card-content-container-wrapper">
+        <div class="card-header">
+            <div class="card-skip-or-close text-secondary-small"
+            (click)="showCard = false">
+                {{ 'skip' }}
+            </div>
+        </div>
+        
+        <div class="card-content-wrapper">
+            <instructions></instructions>
+        </div>
+    </div>
 </div>

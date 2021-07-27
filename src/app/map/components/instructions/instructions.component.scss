@@ -1,0 +1,27 @@
+@use '../../styling/_map-text-styling.scss';
+
+.instruction-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 2rem;
+    padding: 1rem;
+    width: 50rem;
+
+    .instruction-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .instruction-content {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+
+        .instruction {
+            padding: 0.25rem;
+        }
+    }
+}
