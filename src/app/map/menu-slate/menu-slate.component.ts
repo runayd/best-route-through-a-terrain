@@ -20,12 +20,17 @@ export class MenuSlateComponent implements OnInit {
 
   emitActionForMap(): void {
     this.emitAction.emit(this.animateAction);
-    this.animateAction = !this.animateAction;
-    this.buttonText = this.animateAction ? 'Animate Path' : 'Clear Map';
+    this.updateButtonText(!this.animateAction);
   }
 
   emitResetEndpoints(): void {
+    this.updateButtonText(true);
     this.emitResetEndpointsToDefaultPositions.emit();
+  }
+
+  updateButtonText(animateAction: boolean) {
+    this.animateAction = animateAction;
+    this.buttonText = this.animateAction ? 'Animate Path' : 'Clear Map';
   }
 
 }

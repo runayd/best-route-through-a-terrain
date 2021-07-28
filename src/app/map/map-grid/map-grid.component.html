@@ -20,7 +20,7 @@
                 <div class="start-destination-node"
                 *ngIf="node?.isStartNode || node?.isEndNode"
                 (mousedown)="setStartNodeDragEvent(node)"
-                (mouseup)="mouseDown = false"
+                (mouseup)="setCurrentNodeDragged(node)"
                 (mouseout)="revertFromCurrentNodeDragged(node)"></div>
             </div>
         </div>

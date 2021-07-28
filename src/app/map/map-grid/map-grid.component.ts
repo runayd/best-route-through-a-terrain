@@ -96,6 +96,7 @@ export class MapGridComponent implements OnInit {
   }
 
   setCurrentNodeDragged(node: Node): void {
+    if (!this.mouseDown) return;
     this.mouseDown = false;
     if (!node?.isStartNode && !node?.isEndNode) {
       if (this.startNodeDragEvent) {
