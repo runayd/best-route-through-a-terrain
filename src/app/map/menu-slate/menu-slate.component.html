@@ -18,7 +18,7 @@
         </button>
     </div>
     <div class="instruction buttons">
-        <button type="button" [disabled]="showCard" (click)="showCard = true">
+        <button type="button" [disabled]="showCard" (click)="openCard()">
             {{ 'Instructions' }}
         </button>
     </div>
@@ -29,7 +29,7 @@
     <div class="card-content-container-wrapper">
         <div class="card-header">
             <div class="card-skip-or-close text-secondary-small"
-            (click)="showCard = false">
+            (click)="closeCard()">
                 {{ 'skip' }}
             </div>
         </div>

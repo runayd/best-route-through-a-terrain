@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'instructions',
-  templateUrl: './instructions.component.html',
-  styleUrls: ['./instructions.component.scss'],
+  selector: 'map-container',
+  templateUrl: './map-container.component.html',
+  styleUrls: ['./map-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InstructionsComponent implements OnInit {
+export class MapContainerComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit(): void {}
-
+  
 }

@@ -33,68 +33,63 @@
     position: absolute; top: 0; left: 0;
 
     .wrapper {
-        --nodesize: 0.5rem;
-
-        height: 100%;
-        width: 100%;
         display: flex;
-        flex-direction: column;
-        overflow: hidden;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        position: absolute; top: 0; left: 0;
+        z-index: 0;
+
+        .node {
+            --nodeSize: 0.5rem;
+            --topScale: 0;
+            --leftScale: 0;
+            --top: calc(var(--nodeSize) * var(--topScale) * 1rem);
+            --left: calc(var(--nodeSize) * var(--leftScale) * 1rem);
+            
+
+            .node-color {
+                --color: white;
+                --dimensions: calc(var(--nodeSize) * 1.82 * 1rem);
+          
+                position: absolute;
+                top: var(--top);
+                left: var(--left);
+                --borderRadius: 'none';
+                width: var(--dimensions);
+                height: var(--dimensions);
+                border-radius: 50%;
+                z-index: 0;
         
-        .row {
-            display: flex;
-            flex-direction: row;
+                background: radial-gradient(circle at center, var(--color) 40%, transparent);
+            }
     
-            .column {
-                display: flex;
-                flex-direction: row;
-                width: var(--nodesize);
-                height: var(--nodesize);
-                background-color: white;
-                position: relative;
+            .path {
+                --animation: 'none';
 
-                .node {
-                    --borderRadius: '0.1rem';
-                    --animation: 'none';
-                    --pseudoAnimaiton: 'none';
-                    --color: 'black';
-                    --boxShadow: 'none';
-                    --cursor: 'default';
-
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: var(--nodesize);
-                    height: var(--nodesize);
-                    background-color: var(--color);
-
-                    &::after {
-                        content: '';
-                        z-index: 1;
-                        position: absolute;
-                        width: calc(var(--nodesize));
-                        height: calc(var(--nodesize));
-                        border-radius: var(--borderRadius);
-                        background-color: rgb(192,192,192);
-                        opacity: 0;
-                        animation: var(--pseudoAnimaiton);
-                        cursor: var(--cursor);
-                    }
-                }
-
-                .start-destination-node {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: var(--nodesize);
-                    height: var(--nodesize);
-                    background-color: black;
-                    z-index: 1;
-                    cursor: grab;
-
-                    &:active {
-                        cursor: grabbing;
-                    }
+                position: absolute;
+                width: calc(var(--nodeSize) * 1rem);
+                height: calc(var(--nodeSize) * 1rem);
+                top: var(--top);
+                left: var(--left);
+                opacity: 0;
+                background-color: rgb(131, 129, 129);
+                z-index: 1;
+                animation: var(--animation);
+            }
+    
+            .start-destination-node {
+                position: absolute;
+                width: calc(var(--nodeSize) * 1rem);
+                height: calc(var(--nodeSize) * 1rem);
+                top: var(--top);
+                left: var(--left);
+                background-color: black;
+                z-index: 2;
+                cursor: grab;
+    
+                &:active {
+                    cursor: grabbing;
                 }
             }
         }

@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MapGridComponent } from './map/map-grid/map-grid.component';
-import { MapModule } from './map/map.module';
+import { MapContainerComponent } from './map/map-container/map-container.component';
 
 const routes: Routes = [
-  {path: '', component: MapGridComponent}
+  {path: '', component: MapContainerComponent}
 ];
 
 @NgModule({

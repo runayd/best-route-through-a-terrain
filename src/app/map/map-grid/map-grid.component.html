@@ -1,28 +1,34 @@
-
-<menu-slate
-(emitAction)="animateAction($event)"
-(emitResetEndpointsToDefaultPositions) = "resetEndpointsToDefaultPositions()"
-></menu-slate>
-
 <div class="container">
-     <div class="wrapper"
-     *ngIf="map?.length"
-     [style.--nodesize]="nodeSize + 'rem'">
-        <div class="row" *ngFor="let r of map; let i = index; trackBy: trackNode">
-            <div class="column"
-            *ngFor="let node of map[i]; let j = index; trackBy: trackNode">
-                <div class="node"
-                [style.background] = "altitudeGradientMapping.get(node?.key) | backgroundGradient : nodeSize : radialGradientPosition"
-                [style.--color] = "node?.color"
-                [style.--pseudoAnimaiton]="node?.pseudoAnimaiton"
-                (mouseup)="setCurrentNodeDragged(node)"></div>
+     
+  <div class="wrapper"
+  [style.width]="width"
+  [style.height]="height">
+    <div *ngFor="let row of mapForView; let altitude = index; trackBy: trackNode">
+      <div *ngFor="let node of row; let j = index; trackBy: trackNode">
+        
+        <div class="node"
+        [style.--nodeSize]="nodeSize"
+        [style.--topScale]="node?.pos?.x"
+        [style.--leftScale]="node?.pos?.y">
 
-                <div class="start-destination-node"
-                *ngIf="node?.isStartNode || node?.isEndNode"
-                (mousedown)="setStartNodeDragEvent(node)"
-                (mouseup)="setCurrentNodeDragged(node)"
-                (mouseout)="revertFromCurrentNodeDragged(node)"></div>
-            </div>
+          <div class="node-color"
+          [style.--color]="getColor[altitude]">
+          </div>
+  
+          <div class="path"
+          [style.--animation]="node?.animation"
+          (mouseup)="setCurrentNodeDragged(node)">
+          </div>
+  
+          <div class="start-destination-node"
+          *ngIf="node?.isStartNode || node?.isEndNode"
+          (mousedown)="setStartNodeDragEvent(node)"
+          (mouseup)="setCurrentNodeDragged(node)"
+          (mouseout)="revertFromCurrentNodeDragged(node)">
+          </div>
         </div>
-     </div>
+
+      </div>
+    </div>
+  </div>
 </div>

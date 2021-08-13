@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HashMap, PriorityQueue } from '../../data-structures';
+import { Subscription } from 'rxjs';
+import { PriorityQueue } from '../../data-structures';
+import { CommunicateService } from '../services/communicate.service';
 import { Node, Position, NextBestNode } from '../types';
 import { 
   ALTITUDE_COLOR,
@@ -8,9 +10,8 @@ import {
   NO_OF_ROWS,
   NO_OF_COLUMNS,
   START_POSITION,
-  END_POSITION,
-  RADIAL_GRADIENT_POSITION, 
-  ALTITUDE_COLOR_GRADIENT_MAPPING} from './constants';
+  END_POSITION
+} from './constants';
 
 
 @Component({
@@ -20,36 +21,64 @@ import {
 })
 export class MapGridComponent implements OnInit {
 
+
+
+  /*------------------------ Variables --------------------------*/
+
   map: Node[][] = [];
+  mapForView: Node[][] = [];
   parent: Position[][] = [];
+  getColor: string[];
+
+  width: number;
+  height: number;
+  nodeSize: number = 0.55;
+
   startNode: Node | undefined;
   endNode: Node | undefined;
   mouseDown: boolean = false;
   currentNodeDragged: Node | undefined;
   startNodeDragEvent: boolean;
-  nodeSize: number = 0.55;
-  nodeModification: any;
-  animationDelayCount: number = 0;
-  mapIntitialized = false;
-  shortestPath: Node[];
-  radialGradientPosition: string[][] = [];
-  altitudeGradientMapping = new HashMap<string>();
   
+  animationDelayCount: number = 0;
+  shortestPath: Node[];
 
-  constructor() {
-    this.intializeRadialGradientPositionForThisNodeSize();
+  $operationSubscription: Subscription;
+
+
+
+
+  /*------------------------ Life Cycle Hooks --------------------------*/
+
+  constructor(private communication: CommunicateService) {
     this.initializeTheMap();
   }
 
   ngOnInit(): void {
+    this.subscribeToOperationOnMap();
     this.intializeStartAndEndNodes();
+    this.setDimentionsOfMap();
+    this.intializeGetColor();
+    this.buildMapForView();
   }
+
+
+  
+
+  /*------------------------ Methods for Life Cycle Hooks --------------------------*/
 
   initializeTheMap(): void {
     this.map = INITIAL_MAP;
-    this.altitudeGradientMapping = new HashMap<any>(
-      ALTITUDE_COLOR_GRADIENT_MAPPING?._hashmap, 
-      ALTITUDE_COLOR_GRADIENT_MAPPING?._size);
+  }
+
+  subscribeToOperationOnMap(): void {
+    this.$operationSubscription = this.communication.operationOnMap.subscribe((action: any) => {
+      this.operateOnActions(action);
+    })
+  }
+
+  unsubscribeToOperationOnMap(): void {
+    this.$operationSubscription.unsubscribe();
   }
 
   intializeStartAndEndNodes(): void {
@@ -68,17 +97,34 @@ export class MapGridComponent implements OnInit {
     this.endNode.isEndNode = true;
   }
 
-  intializeRadialGradientPositionForThisNodeSize() {
-    for(let i = 0; i < 3; ++i) {
-      this.radialGradientPosition.push(new Array<string>());
-      for(let j = 0; j < 3; ++j) {
-        const x: number = this.nodeSize * RADIAL_GRADIENT_POSITION[i][j]?.x;
-        const y: number = this.nodeSize * RADIAL_GRADIENT_POSITION[i][j]?.y;
-        const gradientPosition: string = `${x}rem ${y}rem`;
-        this.radialGradientPosition[i].push(gradientPosition);
+  setDimentionsOfMap(): void {
+    this.width = NO_OF_COLUMNS * this.nodeSize;
+    this.height = NO_OF_ROWS * this.nodeSize;
+  }
+
+  intializeGetColor(): void {
+    this.getColor = ALTITUDE_COLOR;
+  }
+
+  buildMapForView(): void {
+    const mapForView = new Array<any>(25);
+    for(let x = 0; x < mapForView.length; ++x) {
+      mapForView[x] = [];
+    }
+    for(let i = 0; i < NO_OF_ROWS; ++i) {
+      for(let j = 0; j < NO_OF_COLUMNS; ++j) {
+        const { alt }: Node = this.map[i][j];
+        mapForView[alt].push(this.map[i][j]);
       }
     }
+    this.mapForView = mapForView;
   }
+
+
+
+  
+
+  /*------------------------ Endpoints Control Methods --------------------------*/
 
   updateStartOrEndNode(currentNodeDragged: Node) {
     if (currentNodeDragged?.isStartNode) {
@@ -115,12 +161,28 @@ export class MapGridComponent implements OnInit {
       node.isStartNode = node.isEndNode = false;
     }
   }
+    
 
+  
 
+  /*------------------------ Actions From Menu-Slate --------------------------*/
 
+  operateOnActions(action: any) {
+    switch(action?.id) {
+      case 'path': {
+        this.animateAction(action?.value);
+        break;
+      }
+      case 'reset': {
+        this.resetEndpointsToDefaultPositions();
+        break;
+      }
+    }
+  }
 
-  /*Menu slate */
   animateAction(animate: boolean): void {
+    this.mouseDown = false;
+
     if (animate) {
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
@@ -130,14 +192,17 @@ export class MapGridComponent implements OnInit {
   }
   
   resetEndpointsToDefaultPositions() {
+    this.mouseDown = false;
+
     if (this.shortestPath?.length) { this.revertShortestPathMarked(); }
     this.intializeStartAndEndNodes();
   }
 
-  
 
 
-  /* path finding and related algorithm */
+
+  /*------------------------ Path Finding --------------------------*/
+
   findDestinationUsingDijkstrasAlgorithm(): void {
     const startPosition: Position = this.startNode?.pos;
     const endPosition: Position = this.endNode?.pos;
@@ -281,7 +346,6 @@ export class MapGridComponent implements OnInit {
     for(let node of this.shortestPath) {
       const { x, y }: Position = node?.pos;
       this.map[x][y].animation = 'none';
-      this.map[x][y].pseudoAnimaiton = 'none'; // JSON.parse(JSON.stringify(INITIAL_MAP[x][y]));
     }
     this.shortestPath = [];
   }
@@ -290,25 +354,18 @@ export class MapGridComponent implements OnInit {
     this.animationDelayCount = 0;
     for(const current of this.shortestPath) {
       let delay: number = 0.1 * ++this.animationDelayCount;
-      let animation: string = `elevate 0.25s ease-in-out ${delay}s normal 1 forwards running`;
-      let pseudoAnimaiton: string = `appear 5s linear ${delay}s normal 1 forwards running`;
-      this.map[current.pos.x][current.pos.y] = {...this.map[current.pos.x][current.pos.y],
-        animation,
-        pseudoAnimaiton}
+      const animation: string = `appear 5s linear ${delay}s normal 1 forwards running`;
+      this.map[current.pos.x][current.pos.y].animation = animation;
     }
   }
 
 
+  
 
-
-  /* Utils */
+  /*------------------------ Utils --------------------------*/
 
   trackNode(index: any, node: any): any {
     return index;
-  }
-
-  getNodeColor(args: any): string {
-    return ALTITUDE_COLOR[args];
   }
 
   isValidNode(i: number, j: number): boolean {
