@@ -8,34 +8,27 @@
         </svg>
     </div>
     <div class="animate buttons">
-        <button type="button" [disabled]="showCard" (click)="emitActionForMap()">
-            {{ buttonText }}
-        </button>
+        <slate-button
+        [value]="buttonText"
+        [disabled]="showCard"
+        (clicked)="emitActionForMap()">
+        </slate-button>
     </div>
     <div class="reset-position buttons">
-        <button type="button" [disabled]="showCard" (click)="emitResetEndpoints()">
-            {{ 'Reset endpoints' }}
-        </button>
+        <slate-button
+        [value]="'Reset endpoints'"
+        [disabled]="showCard"
+        (clicked)="emitResetEndpoints()">
+        </slate-button>
     </div>
     <div class="instruction buttons">
-        <button type="button" [disabled]="showCard" (click)="openCard()">
-            {{ 'Instructions' }}
-        </button>
+        <slate-button
+        [value]="'Instructions'"
+        (clicked)="showCard = !showCard">
+        </slate-button>
     </div>
 </div>
 
 
-<div class="card" *ngIf = "showCard">
-    <div class="card-content-container-wrapper">
-        <div class="card-header">
-            <div class="card-skip-or-close text-secondary-small"
-            (click)="closeCard()">
-                {{ 'skip' }}
-            </div>
-        </div>
-        
-        <div class="card-content-wrapper">
-            <instructions></instructions>
-        </div>
-    </div>
+<div class="card-container" *ngIf = "showCard">
 </div>

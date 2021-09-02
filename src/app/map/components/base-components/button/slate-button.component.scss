@@ -1,0 +1,39 @@
+
+@import '../../../styling/_map-text-styling.scss';
+
+.button-container {
+    display: flex;
+   
+
+    .common {
+        border-radius: 0.25rem;
+        font: normal normal 1rem Roboto;
+        padding: 0.5rem;
+        color: $text-primary;
+        background-color: $action-primary;
+
+        &::after {
+            content: '';
+            top: 0; left: 0;
+            background-color: $action-primary;
+            border-radius: 0.25rem;
+            transform: scale(1);
+            transition: 0.25s transform ease-in-out;
+        }
+
+        &r:hover::after {
+            transform: scale(1.05);
+        }
+    }
+
+    .active {
+        opacity: 1;
+        cursor: pointer;
+    }
+    
+    .disabled {
+        opacity: 0.8;
+        background-color: $action-primary;
+        cursor: default;
+    }
+}

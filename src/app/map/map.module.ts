@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { InstructionsComponent } from './components/instructions/instructions.component';
 import { AboutMeComponent } from './components/about-me/about-me.component';
 import { MapContainerComponent } from './map-container/map-container.component';
+import { SlateButtonComponent } from './components/base-components/button/slate-button.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MapContainerComponent } from './map-container/map-container.component';
     FreeDraggingHandleDirective,
     InstructionsComponent,
     AboutMeComponent,
-    MapContainerComponent
+    MapContainerComponent,
+    SlateButtonComponent
   ],
   imports: [
     FormsModule,

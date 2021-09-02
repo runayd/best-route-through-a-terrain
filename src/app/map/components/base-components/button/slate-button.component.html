@@ -1,0 +1,9 @@
+
+<div class="button-container"
+(click) = "buttonClicked()">
+    <div [ngClass]="disabled ? 'common disabled' : 'common active'">
+        <div class="button-value">
+            {{ value }}
+        </div>
+    </div>
+</div>

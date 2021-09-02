@@ -1,34 +1,21 @@
-<div class="container">
-     
-  <div class="wrapper"
-  [style.width]="width"
-  [style.height]="height">
-    <div *ngFor="let row of mapForView; let altitude = index; trackBy: trackNode">
-      <div *ngFor="let node of row; let j = index; trackBy: trackNode">
-        
-        <div class="node"
-        [style.--nodeSize]="nodeSize"
-        [style.--topScale]="node?.pos?.x"
-        [style.--leftScale]="node?.pos?.y">
 
-          <div class="node-color"
-          [style.--color]="getColor[altitude]">
-          </div>
-  
-          <div class="path"
-          [style.--animation]="node?.animation"
-          (mouseup)="setCurrentNodeDragged(node)">
-          </div>
-  
-          <div class="start-destination-node"
-          *ngIf="node?.isStartNode || node?.isEndNode"
-          (mousedown)="setStartNodeDragEvent(node)"
-          (mouseup)="setCurrentNodeDragged(node)"
-          (mouseout)="revertFromCurrentNodeDragged(node)">
-          </div>
-        </div>
+<div class="container"
+[style.--nodeSize] = "nodeSize">
+  <canvas class="map" #myMap width="1440" height="720"></canvas>
 
-      </div>
-    </div>
-  </div>
+  <div class="path-nodes"
+  *ngFor="let node of shortestPath"
+  [style.--top]="node.pos.x"
+  [style.--left]="node.pos.y"
+  [style.--animation] = "node?.animation"></div>
+
+  <div class="start-end-point"
+  [style.--top]="startNode.pos.x"
+  [style.--left]="startNode.pos.y"
+  (mousedown)="onEndPointMouseDown(0)"></div>
+
+  <div class="start-end-point"
+  [style.--top]="endNode.pos.x"
+  [style.--left]="endNode.pos.y"
+  (mousedown)="onEndPointMouseDown(1)"></div>
 </div>

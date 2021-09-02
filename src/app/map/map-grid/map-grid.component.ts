@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PriorityQueue } from '../../data-structures';
 import { CommunicateService } from '../services/communicate.service';
@@ -10,8 +10,9 @@ import {
   NO_OF_ROWS,
   NO_OF_COLUMNS,
   START_POSITION,
-  END_POSITION
-} from './constants';
+  END_POSITION,
+  MAP_SRC
+} from '../constants';
 
 
 @Component({
@@ -21,24 +22,41 @@ import {
 })
 export class MapGridComponent implements OnInit {
 
+  /*------------------------ Host Listener --------------------------*/
+
+  @HostListener('document: mouseover', ['$event'])
+  onMouseOver(mouseoverEvent: PointerEvent) {
+    const y = Math.floor(mouseoverEvent?.x/8);
+    const x = Math.floor(mouseoverEvent?.y/8);
+
+    this.updateEndpointPosition({x, y});
+  }
+
+  @HostListener('document: mouseup', ['$event'])
+  onMouseUp(ignoreValue: PointerEvent) {
+    const y = Math.floor(ignoreValue?.x/8);
+    const x = Math.floor(ignoreValue?.y/8);
+
+    this.updateEndpointPosition({x, y});
+
+    this.resetMouseDown();
+  }
+
+
 
 
   /*------------------------ Variables --------------------------*/
 
-  map: Node[][] = [];
-  mapForView: Node[][] = [];
-  parent: Position[][] = [];
-  getColor: string[];
+  @ViewChild('myMap')
+  myMap: ElementRef;
 
-  width: number;
-  height: number;
-  nodeSize: number = 0.55;
+  map: Node[][] = [];
+  parent: Position[][] = [];
+  nodeSize: number = 0.5;
 
   startNode: Node | undefined;
   endNode: Node | undefined;
-  mouseDown: boolean = false;
-  currentNodeDragged: Node | undefined;
-  startNodeDragEvent: boolean;
+  mouseDown: number = -1;
   
   animationDelayCount: number = 0;
   shortestPath: Node[];
@@ -57,12 +75,14 @@ export class MapGridComponent implements OnInit {
   ngOnInit(): void {
     this.subscribeToOperationOnMap();
     this.intializeStartAndEndNodes();
-    this.setDimentionsOfMap();
-    this.intializeGetColor();
-    this.buildMapForView();
   }
 
 
+  ngAfterViewInit(): void {
+    this.buildCanvasMap();
+  }
+
+  
   
 
   /*------------------------ Methods for Life Cycle Hooks --------------------------*/
@@ -82,88 +102,63 @@ export class MapGridComponent implements OnInit {
   }
 
   intializeStartAndEndNodes(): void {
-    if (this.startNode) {
-      const { x, y }: Position = this.startNode?.pos;
-      delete this.map[x][y]['isStartNode'];
+    if (!this.startNode) {
+      this.startNode = JSON.parse(JSON.stringify(this.map[START_POSITION.x][START_POSITION.y]));
     }
-    this.startNode = this.map[START_POSITION.x][START_POSITION.y];
-    this.startNode.isStartNode = true;
-
-    if (this.endNode) {
-      const { x, y }: Position = this.endNode?.pos;
-      delete this.map[x][y]['isEndNode'];
+    this.startNode.pos = START_POSITION;
+    
+    if (!this.endNode) {
+      this.endNode = JSON.parse(JSON.stringify(this.map[END_POSITION.x][END_POSITION.y]));
     }
-    this.endNode = this.map[END_POSITION.x][END_POSITION.y];
-    this.endNode.isEndNode = true;
+    this.endNode.pos = END_POSITION;
   }
 
-  setDimentionsOfMap(): void {
-    this.width = NO_OF_COLUMNS * this.nodeSize;
-    this.height = NO_OF_ROWS * this.nodeSize;
+  buildCanvasMap(): void {
+    const ctx = this.myMap.nativeElement.getContext('2d');
+    var img = new Image;
+    img.onload = function(){
+      ctx.drawImage(img,0,0);
+    };
+    img.src = MAP_SRC;
   }
-
-  intializeGetColor(): void {
-    this.getColor = ALTITUDE_COLOR;
-  }
-
-  buildMapForView(): void {
-    const mapForView = new Array<any>(25);
-    for(let x = 0; x < mapForView.length; ++x) {
-      mapForView[x] = [];
-    }
-    for(let i = 0; i < NO_OF_ROWS; ++i) {
-      for(let j = 0; j < NO_OF_COLUMNS; ++j) {
-        const { alt }: Node = this.map[i][j];
-        mapForView[alt].push(this.map[i][j]);
-      }
-    }
-    this.mapForView = mapForView;
-  }
-
 
 
   
 
   /*------------------------ Endpoints Control Methods --------------------------*/
 
-  updateStartOrEndNode(currentNodeDragged: Node) {
-    if (currentNodeDragged?.isStartNode) {
-      this.startNode = currentNodeDragged;
-    } else if (currentNodeDragged?.isEndNode) {
-      this.endNode = currentNodeDragged;
-    }
+  onEndPointMouseDown(endpoint: 0 | 1): void {
+    this.mouseDown = endpoint;
   }
 
-  setStartNodeDragEvent(node: Node): void {
-    this.mouseDown = true;
-    if (node?.isStartNode || node?.isEndNode) {
-      this.startNodeDragEvent = node?.isStartNode;
-    }
+  resetMouseDown(): void {
+    this.mouseDown = -1;
   }
 
-  setCurrentNodeDragged(node: Node): void {
-    if (!this.mouseDown) return;
-    this.mouseDown = false;
-    if (!node?.isStartNode && !node?.isEndNode) {
-      if (this.startNodeDragEvent) {
-        node.isStartNode = true;
-        node.isEndNode = false;
-      } else {
-        node.isStartNode = false;
-        node.isEndNode = true;
+  updateEndpointPosition(position: Position): void {
+    if (!position || position.x < 0 || position.y < 0) { return; }
+
+    switch (this.mouseDown) {
+      case -1 : {
+        return;
       }
-      this.updateStartOrEndNode(node);
+      case 0 : {
+        this.startNode.pos = position;
+        break;
+      }
+      case 1 : {
+        this.endNode.pos = position;
+        console.log(position);
+        break;
+      }
     }
-  }
-
-  revertFromCurrentNodeDragged(node: Node): void {
-    if (this.mouseDown) {
-      node.isStartNode = node.isEndNode = false;
-    }
-  }
     
+    if (this.shortestPath &&
+      this.shortestPath.length) { this.shortestPath = []; }
+  }
 
-  
+
+
 
   /*------------------------ Actions From Menu-Slate --------------------------*/
 
@@ -181,8 +176,6 @@ export class MapGridComponent implements OnInit {
   }
 
   animateAction(animate: boolean): void {
-    this.mouseDown = false;
-
     if (animate) {
       this.findDestinationUsingDijkstrasAlgorithm();
       this.reconstructAndAnimateShortestPath();
@@ -192,8 +185,6 @@ export class MapGridComponent implements OnInit {
   }
   
   resetEndpointsToDefaultPositions() {
-    this.mouseDown = false;
-
     if (this.shortestPath?.length) { this.revertShortestPathMarked(); }
     this.intializeStartAndEndNodes();
   }
@@ -326,6 +317,7 @@ export class MapGridComponent implements OnInit {
   }
 
   reconstructAndAnimateShortestPath(): void {
+    this.resetMouseDown();
     this.reconstructShortestPath();
     this.animateShortestPath();
   }
@@ -353,7 +345,7 @@ export class MapGridComponent implements OnInit {
   animateShortestPath(): void {
     this.animationDelayCount = 0;
     for(const current of this.shortestPath) {
-      let delay: number = 0.1 * ++this.animationDelayCount;
+      let delay: number = 0.05 * ++this.animationDelayCount;
       const animation: string = `appear 5s linear ${delay}s normal 1 forwards running`;
       this.map[current.pos.x][current.pos.y].animation = animation;
     }
