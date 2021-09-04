@@ -12,15 +12,15 @@
 @keyframes appear {
     0% {
         opacity: 1;
-        transform: scale(1.5) rotate(90deg);
+        transform: scale(1.5);
     }
     5% {
         opacity: 1;
-        transform: scale(0.7) rotate(180deg);
+        transform: scale(0.7);
     }
     100% {
         opacity: 1;
-        transform: scale(0.7) rotate(180deg);
+        transform: scale(0.7);
     }
 }
 
@@ -56,7 +56,7 @@
         left: calc(((var(--left) * var(--nodeSize)) + var(--nodeSize)/2) * 1rem);
         background-color: rgb(0, 0, 0);
         opacity: 0;
-        border-radius: 25%;
+        border-radius: 50%;
         animation: var(--animation);
     }
 
@@ -69,10 +69,32 @@
         height: calc(var(--nodeSize) * 1rem);
         top: calc(((var(--top) * var(--nodeSize)) + var(--nodeSize)/2) * 1rem);
         left: calc(((var(--left) * var(--nodeSize)) + var(--nodeSize)/2) * 1rem);
-        background-color: rgb(255, 0, 0);
         border-radius: 50%;
-        box-shadow: 0rem 0rem 0.3rem 0.2rem rgb(0 0 0 / 40%);
         cursor: grab;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: calc(var(--nodeSize) * -0.275rem);
+            left: calc(var(--nodeSize) * -0.275rem);
+            width: calc(var(--nodeSize) * 1.5rem);
+            height: calc(var(--nodeSize) * 1.5rem);
+            border-radius: 50%;
+            background: radial-gradient(rgba(0,0,0,0.25), transparent);
+        }
+
+        ::ng-deep {
+            svg {
+                transform: translate(
+                    calc(var(--nodeSize) * -0.4rem),
+                    calc(var(--nodeSize) * -2rem));
+                
+                path {
+                    stroke: black;
+                    fill: red;
+                }
+            }
+        }
 
         &:active {
             cursor: grabbing;

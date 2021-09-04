@@ -9,6 +9,7 @@ import { InstructionsComponent } from './components/instructions/instructions.co
 import { AboutMeComponent } from './components/about-me/about-me.component';
 import { MapContainerComponent } from './map-container/map-container.component';
 import { SlateButtonComponent } from './components/base-components/button/slate-button.component';
+import { EndpointComponent } from './components/endpoint/endpoint.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { SlateButtonComponent } from './components/base-components/button/slate-
     InstructionsComponent,
     AboutMeComponent,
     MapContainerComponent,
-    SlateButtonComponent
+    SlateButtonComponent,
+    EndpointComponent
   ],
   imports: [
     FormsModule,

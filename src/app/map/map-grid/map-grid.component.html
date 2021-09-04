@@ -12,10 +12,14 @@
   <div class="start-end-point"
   [style.--top]="startNode.pos.x"
   [style.--left]="startNode.pos.y"
-  (mousedown)="onEndPointMouseDown(0)"></div>
+  (mousedown)="onEndPointMouseDown(0)">
+    <endpoint></endpoint>
+  </div>
 
   <div class="start-end-point"
   [style.--top]="endNode.pos.x"
   [style.--left]="endNode.pos.y"
-  (mousedown)="onEndPointMouseDown(1)"></div>
+  (mousedown)="onEndPointMouseDown(1)">
+    <endpoint></endpoint> 
+  </div>
 </div>
