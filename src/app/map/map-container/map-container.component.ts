@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { MAP_INITIAL_HEIGHT, MAP_INITIAL_WIDTH } from '../constants';
 
 @Component({
   selector: 'map-container',
@@ -8,8 +9,27 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class MapContainerComponent implements OnInit {
 
-  constructor() { }
+  alignCenter = false;
+  nodeSize: number = 0.5;
+
+  constructor() {
+    this.setMapDimensions();
+  }
 
   ngOnInit(): void {}
   
+  setMapDimensions(): void {
+    const screenHeight = window.innerHeight;
+    let factor = 1;
+    for (; screenHeight > MAP_INITIAL_HEIGHT * factor; factor += 0.05) {
+      if (factor == 2) { break; }
+    }
+
+    const screenWidth = window.innerWidth;
+    if (screenWidth > MAP_INITIAL_WIDTH * factor) {
+      this.alignCenter = true;
+    }
+
+    this.nodeSize = this.nodeSize * factor;
+  }
 }

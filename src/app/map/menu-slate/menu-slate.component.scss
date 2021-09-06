@@ -65,19 +65,21 @@
     // background-color: white;
 
     &::after {
-        position: absolute;
-        // display: flex;
         content: '';
-        background: linear-gradient(45deg, white, rgb(247, 247, 255));
+
         width: 90rem;
         height: 90rem;
-        border-radius: 50%;
+
+        position: absolute;
         top: 0rem;
         left: 50%;
-        // align-self: center;
+        
+        background: linear-gradient(45deg, white, rgb(247, 247, 255));
+        border-radius: 50%;
+        
         margin-left: -45rem;
         transform: scale(0);
-        animation: cardLoadAnimation 0.5s ease-in forwards;
+        animation: cardLoadAnimation 1s ease-out forwards;
     }
 
     .card-content-container-wrapper {
@@ -85,7 +87,6 @@
         flex-direction: column;
         z-index: 1;
         opacity: 0;
-        // animation: makeAppear 0.5s ease-in-out 0.5s forwards;
 
         .card-header {
             display: flex;

@@ -1,7 +1,7 @@
 
 <div class="container"
 [style.--nodeSize] = "nodeSize">
-  <canvas class="map" #myMap width="1440" height="720"></canvas>
+  <canvas class="map" #mapView></canvas>
 
   <div class="path-nodes"
   *ngFor="let node of shortestPath"

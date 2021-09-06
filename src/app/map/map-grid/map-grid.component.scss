@@ -40,9 +40,9 @@
     display: flex;
 
     canvas {
+        width: calc(var(--nodeSize) * 180rem);
+        height: calc(var(--nodeSize) * 90rem);
         background-color: #666666;
-        opacity: 0;
-        animation: makeAppear 0.5s forwards;
     }
 
     .path-nodes {
@@ -64,31 +64,46 @@
         --top: 0;
         --left: 0;
         --animation: 'none';
-        position: absolute;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         width: calc(var(--nodeSize) * 1rem);
         height: calc(var(--nodeSize) * 1rem);
+
+        position: absolute;
         top: calc(((var(--top) * var(--nodeSize)) + var(--nodeSize)/2) * 1rem);
         left: calc(((var(--left) * var(--nodeSize)) + var(--nodeSize)/2) * 1rem);
+
         border-radius: 50%;
         cursor: grab;
+        transition: opacity 0.25s ease-in-out;
 
         &::after {
             content: '';
+
+            width: calc(var(--nodeSize) * 1.5rem);
+            height: calc(var(--nodeSize) * 1.5rem);
+
             position: absolute;
             top: calc(var(--nodeSize) * -0.275rem);
             left: calc(var(--nodeSize) * -0.275rem);
-            width: calc(var(--nodeSize) * 1.5rem);
-            height: calc(var(--nodeSize) * 1.5rem);
+
             border-radius: 50%;
             background: radial-gradient(rgba(0,0,0,0.25), transparent);
         }
 
+        &:hover {
+            opacity: 0.5;
+        }
+
+        endpoint {
+            margin-top: calc(var(--nodeSize) * -1.5rem);
+        }
+
         ::ng-deep {
-            svg {
-                transform: translate(
-                    calc(var(--nodeSize) * -0.4rem),
-                    calc(var(--nodeSize) * -2rem));
-                
+            svg {                
                 path {
                     stroke: black;
                     fill: red;

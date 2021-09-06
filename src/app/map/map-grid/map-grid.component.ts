@@ -1,18 +1,19 @@
-import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PriorityQueue } from '../../data-structures';
 import { CommunicateService } from '../services/communicate.service';
 import { Node, Position, NextBestNode } from '../types';
 import { 
-  ALTITUDE_COLOR,
   INITIAL_MAP,
   TURN_COST,
   NO_OF_ROWS,
   NO_OF_COLUMNS,
   START_POSITION,
   END_POSITION,
-  MAP_SRC
+  MAP_SRC,
+  ONE_REM_IN_PX
 } from '../constants';
+import { MAP_INITIAL_HEIGHT, MAP_INITIAL_WIDTH } from '../constants';
 
 
 @Component({
@@ -26,19 +27,18 @@ export class MapGridComponent implements OnInit {
 
   @HostListener('document: mouseover', ['$event'])
   onMouseOver(mouseoverEvent: PointerEvent) {
-    const y = Math.floor(mouseoverEvent?.x/8);
-    const x = Math.floor(mouseoverEvent?.y/8);
-
+    const y = Math.floor(mouseoverEvent?.x/(ONE_REM_IN_PX * this.nodeSize));
+    const x = Math.floor(mouseoverEvent?.y/(ONE_REM_IN_PX * this.nodeSize));
+    
     this.updateEndpointPosition({x, y});
   }
 
   @HostListener('document: mouseup', ['$event'])
   onMouseUp(ignoreValue: PointerEvent) {
-    const y = Math.floor(ignoreValue?.x/8);
-    const x = Math.floor(ignoreValue?.y/8);
+    const y = Math.floor(ignoreValue?.x/(ONE_REM_IN_PX * this.nodeSize));
+    const x = Math.floor(ignoreValue?.y/(ONE_REM_IN_PX * this.nodeSize));
 
-    this.updateEndpointPosition({x, y});
-
+    this.updateEndpointPosition({x, y}, ignoreValue);
     this.resetMouseDown();
   }
 
@@ -46,13 +46,13 @@ export class MapGridComponent implements OnInit {
 
 
   /*------------------------ Variables --------------------------*/
+  @Input() nodeSize: number;
 
-  @ViewChild('myMap')
-  myMap: ElementRef;
+  @ViewChild('mapView')
+  mapView: ElementRef;
 
   map: Node[][] = [];
   parent: Position[][] = [];
-  nodeSize: number = 0.5;
 
   startNode: Node | undefined;
   endNode: Node | undefined;
@@ -114,12 +114,15 @@ export class MapGridComponent implements OnInit {
   }
 
   buildCanvasMap(): void {
-    const ctx = this.myMap.nativeElement.getContext('2d');
-    var img = new Image;
-    img.onload = function(){
-      ctx.drawImage(img,0,0);
+    this.mapView.nativeElement.width = MAP_INITIAL_WIDTH;
+    this.mapView.nativeElement.height = MAP_INITIAL_HEIGHT;
+    
+    const context = this.mapView.nativeElement.getContext('2d');
+    let mapImage = new Image;
+    mapImage.onload = () => {
+      context.drawImage(mapImage,0,0);
     };
-    img.src = MAP_SRC;
+    mapImage.src = MAP_SRC;
   }
 
 
@@ -135,7 +138,7 @@ export class MapGridComponent implements OnInit {
     this.mouseDown = -1;
   }
 
-  updateEndpointPosition(position: Position): void {
+  updateEndpointPosition(position: Position, runay?: any): void {
     if (!position || position.x < 0 || position.y < 0) { return; }
 
     switch (this.mouseDown) {
@@ -148,7 +151,6 @@ export class MapGridComponent implements OnInit {
       }
       case 1 : {
         this.endNode.pos = position;
-        console.log(position);
         break;
       }
     }
