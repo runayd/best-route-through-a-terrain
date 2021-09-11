@@ -18,38 +18,78 @@
     align-items: center;
     position: absolute;
     z-index: 50;
-    padding: 0.5rem 2rem 0.5rem 0.5rem;
+    padding: 0.5rem;
     height: 3rem;
     width: fit-content;
     border-radius: 2rem;
-    background-color: white;
+    background-color: #FFFFFF;
     box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
     opacity: 0;
     animation: makeAppear 0.5s ease-in-out 0.5s forwards;
 
-    .drag-handle {
-        z-index: 11;
-        padding: 0.5rem 0.5rem 0.3rem 0.5rem;
-        margin-right: 1rem;
+    .drag-handle-wrapper {
+        display: flex;
         align-items: center;
+        justify-content: center;
+
+        z-index: 11;
         cursor: move;
         opacity: 0.8;
+        width: 3rem;
+        margin-right: 0.5rem;
+
+        drag {
+            transform: scale(0.55);
+        }
     }
 
     button {
         cursor: pointer;
     }
 
-    .buttons {
-        margin-left: 0.5rem;
-        padding-left: 0.2rem;
-        
-        &:first-of-type {
-            padding: none;
-        }
+    .buttons-wrapper {
+        display: flex;
+        flex-direction: row;
+        width: 30rem;
+        overflow: hidden;    
+        scroll-behavior: smooth;
     }
 
+    .scroll-button-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
+        width: 3rem;
+        margin-left: 0.5rem;
+
+        .scroll-to-right-or-left {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+
+            background-color: #FFFFFF;
+            box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
+            cursor: pointer;
+
+            transition: transform 0.5s ease;
+
+            ::ng-deep {
+                svg {
+                    transform: translateX(0.1rem) scale(0.45);
+                }
+            }
+        }
+
+        .scroll-right {
+            transform: rotate(0deg);
+        }
+
+        .scroll-left {
+            transform: rotate(180deg);
+        }
+    
+    }
 }
 
 
@@ -62,7 +102,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    // background-color: white;
 
     &::after {
         content: '';
@@ -74,7 +113,7 @@
         top: 0rem;
         left: 50%;
         
-        background: linear-gradient(45deg, white, rgb(247, 247, 255));
+        background-color: $background-primary;
         border-radius: 50%;
         
         margin-left: -45rem;
@@ -114,7 +153,6 @@
         z-index: 1;
         border-radius: 2rem;
         border: 0.036rem solid $background-primary;
-        // box-shadow: 0rem 0rem 1rem 0.2rem rgb(0 0 0 / 25%);
         padding-top: 1rem;
 
         opacity: 0;

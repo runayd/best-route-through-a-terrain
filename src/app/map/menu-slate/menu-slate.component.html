@@ -1,31 +1,39 @@
 
 <div freeDragging class="menu-container">
-    <div freeDraggingHandle class="drag-handle">
-        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
-          ></path>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-        </svg>
+    <div class="drag-handle-wrapper">
+        <drag freeDraggingHandle></drag>
     </div>
-    <div class="animate buttons">
+    
+    <div #scroll class="buttons-wrapper">
         <slate-button
         [value]="buttonText"
-        [disabled]="showCard"
         (clicked)="emitActionForMap()">
         </slate-button>
-    </div>
-    <div class="reset-position buttons">
         <slate-button
-        [value]="'Reset endpoints'"
-        [disabled]="showCard"
+        [value]="'Reset'"
         (clicked)="emitResetEndpoints()">
         </slate-button>
-    </div>
-    <div class="instruction buttons">
         <slate-button
-        [value]="'Instructions'"
+        [value]="'Color Scale'"
         (clicked)="showCard = !showCard">
         </slate-button>
+        <slate-button
+        [value]="'How To Use This'">
+        </slate-button>
+        <slate-button
+        [value]="'How I Made This'">
+        </slate-button>
+        <slate-button
+        [value]="'About Me'">
+        </slate-button>
+    </div>
+
+    <div class="scroll-button-wrapper">
+        <div class="scroll-to-right-or-left"
+        [ngClass] = " scrollRight ? 'scroll-right' : 'scroll-left'"
+        (click)="scrollRightOrLeft()">
+            <arrow></arrow>
+        </div>
     </div>
 </div>
 

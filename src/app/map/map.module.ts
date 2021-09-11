@@ -10,6 +10,8 @@ import { AboutMeComponent } from './components/about-me/about-me.component';
 import { MapContainerComponent } from './map-container/map-container.component';
 import { SlateButtonComponent } from './components/base-components/button/slate-button.component';
 import { EndpointComponent } from './components/endpoint/endpoint.component';
+import { ArrowComponent } from './components/arrow/arrow.component';
+import { DragComponent } from './components/drag/drag.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { EndpointComponent } from './components/endpoint/endpoint.component';
     AboutMeComponent,
     MapContainerComponent,
     SlateButtonComponent,
-    EndpointComponent
+    EndpointComponent,
+    ArrowComponent,
+    DragComponent
   ],
   imports: [
     FormsModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
 import { CommunicateService } from '../services/communicate.service';
 
 @Component({
@@ -9,9 +9,13 @@ import { CommunicateService } from '../services/communicate.service';
 })
 export class MenuSlateComponent implements OnInit {
 
+  @ViewChild('scroll', { static: true })
+  scroll: ElementRef;
+
+  scrollRight = true;
   showCard = true;
   animateAction = true;
-  buttonText: 'Animate Path' | 'Clear Map' = 'Animate Path';
+  buttonText: 'Find Route' | 'Clear Route' = 'Find Route';
   @Output() emitAction: EventEmitter<boolean>  = new EventEmitter<boolean>();
   @Output() emitResetEndpointsToDefaultPositions: EventEmitter<boolean>  = new EventEmitter<boolean>();
 
@@ -29,9 +33,15 @@ export class MenuSlateComponent implements OnInit {
     this.communication.operateOnMap({id: 'reset'});
   }
 
+  scrollRightOrLeft(): void {
+    const value = this.scrollRight ? 480 : -480;
+    this.scroll.nativeElement.scrollLeft += value;
+    this.scrollRight = !this.scrollRight;
+  }
+
   updateButtonText(animateAction: boolean) {
     this.animateAction = animateAction;
-    this.buttonText = this.animateAction ? 'Animate Path' : 'Clear Map';
+    this.buttonText = this.animateAction ? 'Find Route' : 'Clear Route';
   }
 
   closeCard(): void {
