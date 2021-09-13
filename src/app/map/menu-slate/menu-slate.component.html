@@ -1,42 +1,76 @@
 
-<div freeDragging class="menu-container">
-    <div class="drag-handle-wrapper">
-        <drag freeDraggingHandle></drag>
-    </div>
+<div freeDragging *ngIf="showMenu"
+class="menu-container-animation">
+    <div class="menu-container">
+        <div class="drag-handle-wrapper">
+            <drag freeDraggingHandle></drag>
+        </div>
+        
+        <div #scroll class="buttons-wrapper">
+            <slate-button
+            [value]="buttonText"
+            (clicked)="emitActionForMap()">
+            </slate-button>
+            <slate-button
+            [value]="'Reset'"
+            (clicked)="emitResetEndpoints()">
+            </slate-button>
+            <slate-button
+            [value]="'Color Scale'"
+            (clicked)="showCard = !showCard">
+            </slate-button>
+            <slate-button
+            [value]="'How To Use This ?'">
+            </slate-button>
+            <slate-button
+            [value]="'How I Made This ?'">
+            </slate-button>
+            <slate-button
+            [value]="'About Me'">
+            </slate-button>
+        </div>
     
-    <div #scroll class="buttons-wrapper">
-        <slate-button
-        [value]="buttonText"
-        (clicked)="emitActionForMap()">
-        </slate-button>
-        <slate-button
-        [value]="'Reset'"
-        (clicked)="emitResetEndpoints()">
-        </slate-button>
-        <slate-button
-        [value]="'Color Scale'"
-        (clicked)="showCard = !showCard">
-        </slate-button>
-        <slate-button
-        [value]="'How To Use This'">
-        </slate-button>
-        <slate-button
-        [value]="'How I Made This'">
-        </slate-button>
-        <slate-button
-        [value]="'About Me'">
-        </slate-button>
-    </div>
-
-    <div class="scroll-button-wrapper">
-        <div class="scroll-to-right-or-left"
-        [ngClass] = " scrollRight ? 'scroll-right' : 'scroll-left'"
-        (click)="scrollRightOrLeft()">
-            <arrow></arrow>
+        <div class="scroll-button-wrapper">
+            <div class="scroll-to-right-or-left"
+            [ngClass] = " scrollRight ? 'scroll-right' : 'scroll-left'"
+            (click)="scrollRightOrLeft()">
+                <arrow></arrow>
+            </div>
         </div>
     </div>
 </div>
 
 
 <div class="card-container" *ngIf = "showCard">
+
+    <div class="content">
+        <div class="welcome-action been-here-before"
+        (click) = "closeCard()">
+            <div class="arrow-wrapper">
+                <arrow></arrow>
+            </div>
+            <div class="text">
+                {{ 'Been Here Before' }}
+            </div>
+        </div>
+
+        <div class="welcome-text-wrapper">
+            <div class="welcome-to">
+                {{ 'Welcome To' }}
+            </div>
+            <div class="project-name">
+                {{ 'Best Route Through A Terrain' }}
+            </div>
+        </div>
+
+        <div class="welcome-action how-to-use-this"
+        (click) = "closeCard()">
+            <div class="text">
+                {{ 'How To Use This ?' }}
+            </div>
+            <div class="arrow-wrapper">
+                <arrow></arrow>
+            </div>
+        </div>
+    </div>
 </div>

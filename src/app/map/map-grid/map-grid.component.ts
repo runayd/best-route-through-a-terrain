@@ -55,6 +55,8 @@ export class MapGridComponent implements OnInit {
   parent: Position[][] = [];
 
   startNode: Node | undefined;
+  startNodeStroke: 'black' | 'white' = 'black';
+  endNodeStroke: 'black' | 'white' = 'black';
   endNode: Node | undefined;
   mouseDown: number = -1;
   
@@ -329,10 +331,6 @@ export class MapGridComponent implements OnInit {
     for(let x=this.endNode?.pos; x != undefined; x = this.parent[x.x][x.y]) {
       this.shortestPath.unshift(this.map[x.x][x.y]);
     }
-
-    // exclude start node from animation
-    this.shortestPath.shift();
-    if (this.shortestPath?.length) this.shortestPath.pop();
   }
 
   revertShortestPathMarked(): void {

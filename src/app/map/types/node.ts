@@ -7,6 +7,4 @@ export interface Node {
     color ?: string;
     borderRadius ?: string;
     animation ?: string;
-    isStartNode ?: boolean;
-    isEndNode ?: boolean;
 }

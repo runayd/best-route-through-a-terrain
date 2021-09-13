@@ -4,91 +4,155 @@
 @keyframes cardLoadAnimation {
     from {
         transform: scale(0);
-        // opacity: 0;
     }
     to {
         transform: scale(2);
-        // opacity: 1;
     }
 }
 
-.menu-container {
+
+@keyframes cardLoadAnimationHelper {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slateOpen {
+    0% {
+        opacity: 0;
+        transform: translateX(-34.25rem);
+    }
+    23% {
+        opacity: 1;
+        transform: translateX(-34.25rem);
+    }
+    25% {
+        opacity: 1;
+        transform: translateX(-34.25rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0rem);
+    }
+}
+
+@keyframes welcomeTextColor {
+    to {
+        background-position-x: 100%;
+    }
+}
+
+
+.menu-container-animation  {
+    position: absolute;
+
     display: flex;
     flex-direction: row;
     align-items: center;
-    position: absolute;
+    justify-content: center;
+
+
+    height: 3.5rem;
+    width: 38rem;
     z-index: 50;
-    padding: 0.5rem;
-    height: 3rem;
-    width: fit-content;
-    border-radius: 2rem;
-    background-color: #FFFFFF;
-    box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
-    opacity: 0;
-    animation: makeAppear 0.5s ease-in-out 0.5s forwards;
+    background: none;
 
-    .drag-handle-wrapper {
+    border-radius: 1.75rem;
+    background: none;
+    overflow: hidden;
+
+    .menu-container {
         display: flex;
-        align-items: center;
-        justify-content: center;
 
-        z-index: 11;
-        cursor: move;
-        opacity: 0.8;
-        width: 3rem;
-        margin-right: 0.5rem;
-
-        drag {
-            transform: scale(0.55);
-        }
-    }
-
-    button {
-        cursor: pointer;
-    }
-
-    .buttons-wrapper {
-        display: flex;
         flex-direction: row;
-        width: 30rem;
-        overflow: hidden;    
-        scroll-behavior: smooth;
-    }
-
-    .scroll-button-wrapper {
-        display: flex;
         align-items: center;
-        justify-content: center;
+        position: absolute;
+        padding: 0.5rem;
 
-        width: 3rem;
-        margin-left: 0.5rem;
-
-        .scroll-to-right-or-left {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-
-            background-color: #FFFFFF;
-            box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
-            cursor: pointer;
-
-            transition: transform 0.5s ease;
-
-            ::ng-deep {
-                svg {
-                    transform: translateX(0.1rem) scale(0.45);
-                }
+        height: 2.5rem;
+        border-radius: 1.75rem;
+        background-color: $background-primary;
+        
+        opacity: 0;
+        transform: translateX(-34.25rem);
+        animation: slateOpen 1s ease-in-out forwards;
+    
+        .drag-handle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            z-index: 11;
+            opacity: 0.8;
+            width: 2.5rem;
+            margin-right: 0.5rem;
+    
+            drag {
+                transform: scale(0.45);
+                cursor: move;
             }
         }
-
-        .scroll-right {
-            transform: rotate(0deg);
-        }
-
-        .scroll-left {
-            transform: rotate(180deg);
+    
+        button {
+            cursor: pointer;
         }
     
+        .buttons-wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 30rem;
+            overflow: hidden;    
+            scroll-behavior: smooth;
+        }
+    
+        .scroll-button-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            width: 2.5rem;
+            margin-left: 0.5rem;
+    
+            .scroll-to-right-or-left {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+    
+                background-color: $background-primary;
+                box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
+                cursor: pointer;
+    
+                transition: transform 0.5s ease;
+
+                arrow {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    ::ng-deep {
+                        svg {
+                            transform: scale(0.85);
+                        }
+                    }
+                }
+            }
+    
+            .scroll-right {
+                transform: rotate(0deg);
+            }
+    
+            .scroll-left {
+                transform: rotate(180deg);
+            }
+        
+        }
     }
 }
 
@@ -121,45 +185,122 @@
         animation: cardLoadAnimation 1s ease-out forwards;
     }
 
-    .card-content-container-wrapper {
-        display: flex;
-        flex-direction: column;
+
+    .content {
+        position: absolute;
         z-index: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+
+        width: 50rem;
+        height: 30rem;
+        border-radius: 2rem;
+
+        background-color: $background-secondary;
         opacity: 0;
 
-        .card-header {
-            display: flex;
-            justify-content: flex-end;
-            width: 60rem;
-            padding: 0.5rem;
+        animation: cardLoadAnimationHelper 0.5s ease 0.5s forwards;
 
-            .card-skip-or-close {
+        .welcome-action  {
+            display: flex;
+            flex-direction: row;
+
+            position: absolute;
+            top: 50%;
+
+            cursor: pointer;
+
+            .arrow-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 2rem;
+
+                &::after {
+                    content: '';
+                    
+                    position: absolute;
+                    z-index: -1;
+
+                    width: 1.25rem;
+                    height: 1.25rem;
+                    border-radius: 50%;
+
+                    transform: translateY(-0.1rem);
+                    background: radial-gradient(rgba(0, 0, 0, 0.1), white 90%);
+                }
+            }
+
+            .text {
+                width: 5rem;
+
+                font: normal 600 0.9rem Poppins;
+                line-height: 1.1rem;
+                color: $text-primary;
+
                 cursor: pointer;
+
+                text-shadow: 0rem 0.1rem 0.5rem rgba(0, 0, 0, 0.25);
             }
         }
 
-        .card-content-wrapper {
-            display: flex;
-            justify-content: center;
-        }
-    }
-    
-    .card {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        position: absolute;
-        top: 2rem; right: 5rem; bottom: 2rem; left: 5rem;
-        z-index: 1;
-        border-radius: 2rem;
-        border: 0.036rem solid $background-primary;
-        padding-top: 1rem;
+        .been-here-before {
+            left: -5.75rem;
+            
+            text-align: right;
 
-        opacity: 0;
-        animation: makeAppear 0.5s ease-in-out 0.5s forwards;
-    
-        
-    
-       
+            ::ng-deep {
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        .how-to-use-this {
+            right: -5.75rem;
+            
+            text-align: left;
+        }
+
+        .welcome-text-wrapper {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            transform: translateX(1rem) scale(1.6);
+
+            .welcome-to {
+                font: normal 600 1.25rem Poppins;
+                line-height: 1.25rem;
+                color: $text-tertiary;
+            }
+            
+            .project-name {
+                position: relative;
+                width: 20rem;
+
+                overflow: hidden;
+
+                font: normal 900 3rem Poppins;
+                text-align: left;
+                line-height: 2.8rem;
+                
+                background: linear-gradient(
+                    90deg, blue, #0090ff, #00c0ff, #60ff00, #ffb000, #ff3f3f, white);
+                background-size: 300%;
+                background-position-x: 0%;
+
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+                animation: welcomeTextColor 8s ease infinite alternate-reverse;
+            }
+        }
+
     }
 }

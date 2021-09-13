@@ -102,15 +102,6 @@
             margin-top: calc(var(--nodeSize) * -1.5rem);
         }
 
-        ::ng-deep {
-            svg {                
-                path {
-                    stroke: black;
-                    fill: red;
-                }
-            }
-        }
-
         &:active {
             cursor: grabbing;
         }

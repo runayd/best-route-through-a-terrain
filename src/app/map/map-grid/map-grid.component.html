@@ -13,13 +13,19 @@
   [style.--top]="startNode.pos.x"
   [style.--left]="startNode.pos.y"
   (mousedown)="onEndPointMouseDown(0)">
-    <endpoint></endpoint>
+    <endpoint
+    [name]="'start point'"
+    [stroke]="startNodeStroke"
+    [fill]="'blue'"></endpoint>
   </div>
 
   <div class="start-end-point"
   [style.--top]="endNode.pos.x"
   [style.--left]="endNode.pos.y"
   (mousedown)="onEndPointMouseDown(1)">
-    <endpoint></endpoint> 
+    <endpoint
+    [name]="'destination'"
+    [stroke]="endNodeStroke"
+    [fill]="'red'"></endpoint> 
   </div>
 </div>

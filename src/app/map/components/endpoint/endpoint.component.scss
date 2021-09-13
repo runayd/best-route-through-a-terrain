@@ -1,0 +1,10 @@
+
+.endpoint-icon {
+    --stroke: black;
+    --fill: red;
+
+    path {
+        stroke: var(--stroke);
+        fill: var(--fill);
+    }
+}

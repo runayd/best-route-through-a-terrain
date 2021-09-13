@@ -1,6 +1,9 @@
-<svg width="14px" height="20px" viewBox="0 0 14 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="endpoint-icon"
+[style.--stroke]="stroke"
+[style.--fill]="fill"
+width="14px" height="20px" viewBox="0 0 14 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>place</title>
+    <title> {{ name }}</title>
     <desc>Created with Sketch.</desc>
     <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Rounded" transform="translate(-785.000000, -3168.000000)">

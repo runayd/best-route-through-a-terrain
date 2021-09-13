@@ -9,9 +9,13 @@ import { CommunicateService } from '../services/communicate.service';
 })
 export class MenuSlateComponent implements OnInit {
 
-  @ViewChild('scroll', { static: true })
+  @ViewChild('scroll', { static: false })
+  set scrollElement(content: ElementRef) {
+    this.scroll = content;
+  }
   scroll: ElementRef;
 
+  showMenu = false;
   scrollRight = true;
   showCard = true;
   animateAction = true;
@@ -46,6 +50,7 @@ export class MenuSlateComponent implements OnInit {
 
   closeCard(): void {
     this.showCard = false;
+    this.showMenu = true;
   }
 
   openCard(): void {

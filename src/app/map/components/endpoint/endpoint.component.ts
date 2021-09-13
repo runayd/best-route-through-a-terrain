@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'endpoint',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./endpoint.component.scss']
 })
 export class EndpointComponent implements OnInit {
+
+  @Input() stroke: string = 'black';
+  @Input() fill: string = 'red';
+  @Input() name: string = 'endpoint';
 
   constructor() { }
 
