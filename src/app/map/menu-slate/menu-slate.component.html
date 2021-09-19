@@ -16,11 +16,11 @@ class="menu-container-animation">
             (clicked)="emitResetEndpoints()">
             </slate-button>
             <slate-button
-            [value]="'Color Scale'"
-            (clicked)="showCard = !showCard">
+            [value]="'Color Scale'">
             </slate-button>
             <slate-button
-            [value]="'How To Use This ?'">
+            [value]="'How To Use This ?'"
+            (clicked)="openCard()">
             </slate-button>
             <slate-button
             [value]="'How I Made This ?'">
@@ -41,36 +41,10 @@ class="menu-container-animation">
 </div>
 
 
-<div class="card-container" *ngIf = "showCard">
+<div @parent class="card-container" *ngIf = "showCard">
 
-    <div class="content">
-        <div class="welcome-action been-here-before"
-        (click) = "closeCard()">
-            <div class="arrow-wrapper">
-                <arrow></arrow>
-            </div>
-            <div class="text">
-                {{ 'Been Here Before' }}
-            </div>
-        </div>
+    <welcome-card @welcomeCard></welcome-card>
 
-        <div class="welcome-text-wrapper">
-            <div class="welcome-to">
-                {{ 'Welcome To' }}
-            </div>
-            <div class="project-name">
-                {{ 'Best Route Through A Terrain' }}
-            </div>
-        </div>
-
-        <div class="welcome-action how-to-use-this"
-        (click) = "closeCard()">
-            <div class="text">
-                {{ 'How To Use This ?' }}
-            </div>
-            <div class="arrow-wrapper">
-                <arrow></arrow>
-            </div>
-        </div>
-    </div>
+    <div class="card-container-helper"
+    @cardOpen></div>
 </div>

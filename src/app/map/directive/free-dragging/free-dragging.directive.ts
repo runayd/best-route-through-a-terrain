@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FreeDraggingHandleDirective } from './free-dragging-handle.directive';
+import { FreeDraggingHandleDirective } from '../free-dragging-handle/free-dragging-handle.directive';
 
 @Directive({
   selector: '[freeDragging]',
@@ -116,6 +116,8 @@ export class FreeDraggingDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach((s) => s.unsubscribe());
+    this.subscriptions.forEach((s) => {
+      if (s) { s.unsubscribe(); }
+    });
   }
 }

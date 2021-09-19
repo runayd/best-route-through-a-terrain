@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapGridComponent } from './map-grid/map-grid.component';
-import { MenuSlateComponent } from './menu-slate/menu-slate.component';
-import { FreeDraggingDirective } from './directive/free-dragging.directive';
-import { FreeDraggingHandleDirective } from './directive/free-dragging-handle.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { InstructionsComponent } from './components/instructions/instructions.component';
-import { AboutMeComponent } from './components/about-me/about-me.component';
-import { MapContainerComponent } from './map-container/map-container.component';
-import { SlateButtonComponent } from './components/base-components/button/slate-button.component';
-import { EndpointComponent } from './components/endpoint/endpoint.component';
-import { ArrowComponent } from './components/arrow/arrow.component';
-import { DragComponent } from './components/drag/drag.component';
+
+import {
+  MapContainerComponent,
+  MapGridComponent,
+  MenuSlateComponent,
+  InstructionsComponent,
+  AboutMeComponent,
+  WelcomeCardComponent,
+  SlateButtonComponent,
+  EndpointComponent,
+  ArrowComponent,
+  DragComponent,
+  FreeDraggingDirective,
+  FreeDraggingHandleDirective } from '.';
+  
 
 
 @NgModule({
@@ -26,11 +31,13 @@ import { DragComponent } from './components/drag/drag.component';
     SlateButtonComponent,
     EndpointComponent,
     ArrowComponent,
-    DragComponent
+    DragComponent,
+    WelcomeCardComponent
   ],
   imports: [
     FormsModule,
-    CommonModule
+    CommonModule,
+    BrowserAnimationsModule
   ]
 })
 export class MapModule { }
