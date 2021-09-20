@@ -1,8 +1,7 @@
-import { animate, animateChild, query, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, EventEmitter, Output, ChangeDetectionStrategy, ElementRef, ViewChild } from '@angular/core';
-import { cardOpen, parent, welcomeCard } from '../animations';
-import { CommunicateService } from '../services/communicate.service';
-import { Store } from '../store';
+import { cardOpen, parent, welcomeCard } from '../../animations';
+import { CommunicateService } from '../../services/communicate.service';
+import { Store } from '../../store';
 
 @Component({
   selector: 'menu-slate',

@@ -1,8 +1,8 @@
 import { Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PriorityQueue } from '../../data-structures';
-import { CommunicateService } from '../services/communicate.service';
-import { Node, Position, NextBestNode } from '../types';
+import { PriorityQueue } from '../../../data-structures';
+import { CommunicateService } from '../../services/communicate.service';
+import { Node, Position, NextBestNode } from '../../types';
 import { 
   INITIAL_MAP,
   TURN_COST,
@@ -12,8 +12,8 @@ import {
   END_POSITION,
   MAP_SRC,
   ONE_REM_IN_PX
-} from '../constants';
-import { MAP_INITIAL_HEIGHT, MAP_INITIAL_WIDTH } from '../constants';
+} from '../../constants';
+import { MAP_INITIAL_HEIGHT, MAP_INITIAL_WIDTH } from '../../constants';
 
 
 @Component({
