@@ -6,7 +6,8 @@ import { FormsModule } from '@angular/forms';
 import {
   MapContainerComponent,
   MapGridComponent,
-  MenuSlateComponent,
+  MenuComponent,
+  CardComponent,
   InstructionsComponent,
   AboutMeComponent,
   WelcomeCardComponent,
@@ -22,7 +23,7 @@ import {
 @NgModule({
   declarations: [
     MapGridComponent,
-    MenuSlateComponent,
+    CardComponent,
     FreeDraggingDirective,
     FreeDraggingHandleDirective,
     InstructionsComponent,
@@ -32,7 +33,8 @@ import {
     EndpointComponent,
     ArrowComponent,
     DragComponent,
-    WelcomeCardComponent
+    WelcomeCardComponent,
+    MenuComponent
   ],
   imports: [
     FormsModule,

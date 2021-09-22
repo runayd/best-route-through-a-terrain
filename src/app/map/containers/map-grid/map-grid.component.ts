@@ -1,7 +1,6 @@
 import { Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PriorityQueue } from '../../../data-structures';
-import { CommunicateService } from '../../services/communicate.service';
 import { Node, Position, NextBestNode } from '../../types';
 import { 
   INITIAL_MAP,
@@ -14,6 +13,7 @@ import {
   ONE_REM_IN_PX
 } from '../../constants';
 import { MAP_INITIAL_HEIGHT, MAP_INITIAL_WIDTH } from '../../constants';
+import { Action, Store } from '../../store';
 
 
 @Component({
@@ -27,19 +27,12 @@ export class MapGridComponent implements OnInit {
 
   @HostListener('document: mouseover', ['$event'])
   onMouseOver(mouseoverEvent: PointerEvent) {
-    const y = Math.floor(mouseoverEvent?.x/(ONE_REM_IN_PX * this.nodeSize));
-    const x = Math.floor(mouseoverEvent?.y/(ONE_REM_IN_PX * this.nodeSize));
-    
-    this.updateEndpointPosition({x, y});
+    this.onMouseOverEvent(mouseoverEvent);
   }
 
   @HostListener('document: mouseup', ['$event'])
-  onMouseUp(ignoreValue: PointerEvent) {
-    const y = Math.floor(ignoreValue?.x/(ONE_REM_IN_PX * this.nodeSize));
-    const x = Math.floor(ignoreValue?.y/(ONE_REM_IN_PX * this.nodeSize));
-
-    this.updateEndpointPosition({x, y}, ignoreValue);
-    this.resetMouseDown();
+  onMouseUp(mouseupEvent: PointerEvent) {
+    this.onMouseUpEvent(mouseupEvent);
   }
 
 
@@ -63,25 +56,29 @@ export class MapGridComponent implements OnInit {
   animationDelayCount: number = 0;
   shortestPath: Node[];
 
-  $operationSubscription: Subscription;
+  subscription$: Subscription;
+  // findPath: boolean;
 
 
 
 
   /*------------------------ Life Cycle Hooks --------------------------*/
 
-  constructor(private communication: CommunicateService) {
+  constructor(private store: Store) {
     this.initializeTheMap();
   }
 
   ngOnInit(): void {
-    this.subscribeToOperationOnMap();
     this.intializeStartAndEndNodes();
+    this.subscribeToStoreActions();
   }
-
 
   ngAfterViewInit(): void {
     this.buildCanvasMap();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeAllSubscription();
   }
 
   
@@ -93,15 +90,16 @@ export class MapGridComponent implements OnInit {
     this.map = INITIAL_MAP;
   }
 
-  subscribeToOperationOnMap(): void {
-    this.$operationSubscription = this.communication.operationOnMap.subscribe((action: any) => {
+  subscribeToStoreActions(): void {
+    this.subscription$ = this.store.action$.subscribe( action => {
       this.operateOnActions(action);
-    })
+    });
   }
 
-  unsubscribeToOperationOnMap(): void {
-    this.$operationSubscription.unsubscribe();
+  unsubscribeAllSubscription(): void {
+    this.subscription$.unsubscribe();
   }
+
 
   intializeStartAndEndNodes(): void {
     if (!this.startNode) {
@@ -132,6 +130,21 @@ export class MapGridComponent implements OnInit {
 
   /*------------------------ Endpoints Control Methods --------------------------*/
 
+  onMouseOverEvent(mouseoverEvent: PointerEvent): void {
+    const y = Math.floor(mouseoverEvent?.x/(ONE_REM_IN_PX * this.nodeSize));
+    const x = Math.floor(mouseoverEvent?.y/(ONE_REM_IN_PX * this.nodeSize));
+    
+    this.updateEndpointPosition({x, y});
+  }
+
+  onMouseUpEvent(mouseupEvent: PointerEvent): void {
+    const y = Math.floor(mouseupEvent?.x/(ONE_REM_IN_PX * this.nodeSize));
+    const x = Math.floor(mouseupEvent?.y/(ONE_REM_IN_PX * this.nodeSize));
+
+    this.updateEndpointPosition({x, y});
+    this.resetMouseDown();
+  }
+
   onEndPointMouseDown(endpoint: 0 | 1): void {
     this.mouseDown = endpoint;
   }
@@ -140,7 +153,7 @@ export class MapGridComponent implements OnInit {
     this.mouseDown = -1;
   }
 
-  updateEndpointPosition(position: Position, runay?: any): void {
+  updateEndpointPosition(position: Position): void {
     if (!position || position.x < 0 || position.y < 0) { return; }
 
     switch (this.mouseDown) {
@@ -158,38 +171,45 @@ export class MapGridComponent implements OnInit {
     }
     
     if (this.shortestPath &&
-      this.shortestPath.length) { this.shortestPath = []; }
+      this.shortestPath.length) { 
+        this.shortestPath = [];
+        this.updateFindPathState();
+      }
+  }
+
+  updateFindPathState(): void {
+    this.store.setState({ findPath: true});
   }
 
 
 
+  /*------------------------ Actions From Menu --------------------------*/
 
-  /*------------------------ Actions From Menu-Slate --------------------------*/
-
-  operateOnActions(action: any) {
-    switch(action?.id) {
-      case 'path': {
-        this.animateAction(action?.value);
+  operateOnActions(action: Action) {
+    switch(action) {
+      case Action.findPath : {
+        this.findPath();
         break;
       }
-      case 'reset': {
+      case Action.clearPath : {
+        this.revertShortestPathMarkedToClearPath();
+        break;
+      }
+      case Action.resetEndpoints : {
         this.resetEndpointsToDefaultPositions();
         break;
       }
     }
   }
 
-  animateAction(animate: boolean): void {
-    if (animate) {
-      this.findDestinationUsingDijkstrasAlgorithm();
-      this.reconstructAndAnimateShortestPath();
-    } else {
-      this.revertShortestPathMarked();
-    }
+  findPath(): void {
+    this.findDestinationUsingDijkstrasAlgorithm();
+    this.reconstructAndAnimateShortestPath();
+    
   }
   
   resetEndpointsToDefaultPositions() {
-    if (this.shortestPath?.length) { this.revertShortestPathMarked(); }
+    if (this.shortestPath?.length) { this.revertShortestPathMarkedToClearPath(); }
     this.intializeStartAndEndNodes();
   }
 
@@ -333,7 +353,7 @@ export class MapGridComponent implements OnInit {
     }
   }
 
-  revertShortestPathMarked(): void {
+  revertShortestPathMarkedToClearPath(): void {
     if (!this.shortestPath?.length) return;
     for(let node of this.shortestPath) {
       const { x, y }: Position = node?.pos;

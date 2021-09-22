@@ -1,16 +1,6 @@
 @import '../../styling/_map-text-styling.scss';
 
 
-// @keyframes cardLoadAnimation {
-//     from {
-//         transform: scale(0);
-//     }
-//     to {
-//         transform: scale(2);
-//     }
-// }
-
-
 @keyframes slateOpen {
     0% {
         opacity: 0;
@@ -138,38 +128,4 @@
         
         }
     }
-}
-
-
-.card-container {
-    position: absolute;
-    top: 2rem; right: 5rem; bottom: 2rem; left: 5rem;
-    border-radius: 2rem;
-    z-index: 49;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .card-container-helper {
-
-        width: 90rem;
-        height: 90rem;
-
-        position: absolute;
-        top: 0rem;
-        left: 50%;
-        z-index: -1;
-        
-        background-color: $background-primary;
-        border-radius: 50%;
-        
-        margin-left: -45rem;
-        // transform: scale(0);
-        // animation: cardLoadAnimation 1s ease-out forwards;
-    }
-}
-
-div.card-container > * {
-    z-index: 1;
 }

@@ -8,12 +8,12 @@ class="menu-container-animation">
         
         <div #scroll class="buttons-wrapper">
             <slate-button
-            [value]="buttonText"
-            (clicked)="emitActionForMap()">
+            [value]="findPathButtonLabel"
+            (clicked)="findOrClearPath()">
             </slate-button>
             <slate-button
             [value]="'Reset'"
-            (clicked)="emitResetEndpoints()">
+            (clicked)="resetEndpoints()">
             </slate-button>
             <slate-button
             [value]="'Color Scale'">
@@ -38,13 +38,4 @@ class="menu-container-animation">
             </div>
         </div>
     </div>
-</div>
-
-
-<div @parent class="card-container" *ngIf = "showCard">
-
-    <welcome-card @welcomeCard></welcome-card>
-
-    <div class="card-container-helper"
-    @cardOpen></div>
 </div>
