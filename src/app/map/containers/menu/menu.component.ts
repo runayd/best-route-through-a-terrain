@@ -19,6 +19,8 @@ export class MenuComponent implements OnInit {
   scrollRight = true;
   findPath = true;
   findPathButtonLabel: 'Find Route' | 'Clear Route' = 'Find Route';
+  speed: number;
+  speedLabel: string;
 
   subscription$: Subscription;
 
@@ -38,10 +40,12 @@ export class MenuComponent implements OnInit {
 
 
 
-  openCard(): void {
+  openInstructionCard(): void {
     this.store.setState({
       showCard: true,
-      showMenu: false
+      showMenu: false,
+      content: 'instructions',
+      showInstructionDelay: '0.5s'
     });
     this.scrollRight = true;
   }
@@ -74,6 +78,34 @@ export class MenuComponent implements OnInit {
     this.scrollRight = !this.scrollRight;
   }
 
+  updateSpeed(): void {
+    const speed = (this.speed + 1) % 3;
+
+    this.store.setState({
+      speed
+    });
+  }
+  
+
+  setSpeedLabel(speed: number): void {
+    this.speed = speed;
+    
+    switch(this.speed) {
+      case 0: {
+        this.speedLabel = 'Low Speed';
+        break;
+      }
+      case 1: {
+        this.speedLabel = 'Medium Speed';
+        break;
+      }
+      case 2: {
+        this.speedLabel = 'Fast Speed';
+        break;
+      }
+    }
+  }
+
 
 
   
@@ -81,6 +113,7 @@ export class MenuComponent implements OnInit {
     this.intializeSubscription();
     this.subscribeToShowMenu();
     this.subscribeToFindPath();
+    this.subscribeToSpeed();
   }
 
   
@@ -99,6 +132,13 @@ export class MenuComponent implements OnInit {
     const subscription$ = this.store.get('findPath').subscribe( findPath => {
       this.updateFindPathButtonLabel(findPath);
     });
+    this.subscription$.add(subscription$);
+  }
+
+  subscribeToSpeed(): void {
+    const subscription$ = this.store.get('speed').subscribe( speed => {
+      this.setSpeedLabel(speed);
+    })
     this.subscription$.add(subscription$);
   }
 

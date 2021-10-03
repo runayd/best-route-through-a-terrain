@@ -55,9 +55,9 @@ export class MapGridComponent implements OnInit {
   
   animationDelayCount: number = 0;
   shortestPath: Node[];
+  speed: number;
 
   subscription$: Subscription;
-  // findPath: boolean;
 
 
 
@@ -70,7 +70,8 @@ export class MapGridComponent implements OnInit {
 
   ngOnInit(): void {
     this.intializeStartAndEndNodes();
-    this.subscribeToStoreActions();
+    this.initializeSubscription();
+    this.subscribeToStore();
   }
 
   ngAfterViewInit(): void {
@@ -90,10 +91,25 @@ export class MapGridComponent implements OnInit {
     this.map = INITIAL_MAP;
   }
 
+  initializeSubscription(): void {
+    this.subscription$ = new Subscription();
+  }
+
+  subscribeToStore(): void {
+    this.subscribeToStoreActions();
+    this.subscribeToSpeed();
+  }
+
   subscribeToStoreActions(): void {
-    this.subscription$ = this.store.action$.subscribe( action => {
+    const subscription$ = this.store.action$.subscribe( action => {
       this.operateOnActions(action);
     });
+    this.subscription$.add(subscription$);
+  }
+
+  subscribeToSpeed(): void {
+    const subscription$ = this.store.get('speed').subscribe( speed => this.speed = speed );
+    this.subscription$.add(subscription$);
   }
 
   unsubscribeAllSubscription(): void {
@@ -131,15 +147,15 @@ export class MapGridComponent implements OnInit {
   /*------------------------ Endpoints Control Methods --------------------------*/
 
   onMouseOverEvent(mouseoverEvent: PointerEvent): void {
-    const y = Math.floor(mouseoverEvent?.x/(ONE_REM_IN_PX * this.nodeSize));
-    const x = Math.floor(mouseoverEvent?.y/(ONE_REM_IN_PX * this.nodeSize));
+    const y = Math.floor(mouseoverEvent?.offsetX/(ONE_REM_IN_PX * this.nodeSize));
+    const x = Math.floor(mouseoverEvent?.offsetY/(ONE_REM_IN_PX * this.nodeSize));
     
     this.updateEndpointPosition({x, y});
   }
 
   onMouseUpEvent(mouseupEvent: PointerEvent): void {
-    const y = Math.floor(mouseupEvent?.x/(ONE_REM_IN_PX * this.nodeSize));
-    const x = Math.floor(mouseupEvent?.y/(ONE_REM_IN_PX * this.nodeSize));
+    const y = Math.floor(mouseupEvent?.offsetX/(ONE_REM_IN_PX * this.nodeSize));
+    const x = Math.floor(mouseupEvent?.offsetY/(ONE_REM_IN_PX * this.nodeSize));
 
     this.updateEndpointPosition({x, y});
     this.resetMouseDown();
@@ -171,7 +187,7 @@ export class MapGridComponent implements OnInit {
     }
     
     if (this.shortestPath &&
-      this.shortestPath.length) { 
+      this.shortestPath.length) {
         this.shortestPath = [];
         this.updateFindPathState();
       }
@@ -364,8 +380,9 @@ export class MapGridComponent implements OnInit {
 
   animateShortestPath(): void {
     this.animationDelayCount = 0;
+    const speedFactor = 0.075 - (this.speed * 0.025);
     for(const current of this.shortestPath) {
-      let delay: number = 0.05 * ++this.animationDelayCount;
+      let delay: number =  speedFactor * ++this.animationDelayCount;
       const animation: string = `appear 5s linear ${delay}s normal 1 forwards running`;
       this.map[current.pos.x][current.pos.y].animation = animation;
     }

@@ -22,13 +22,13 @@ export class MapContainerComponent implements OnInit {
     const screenHeight = window.innerHeight;
     let verticalFactor = 1;
     for (; screenHeight > MAP_INITIAL_HEIGHT * verticalFactor; verticalFactor += 0.05) {
-      if (verticalFactor == 2) { break; }
+      if (verticalFactor == 3) { break; }
     }
 
     const screenWidth = window.innerWidth;
     let horizontalFactor = 1;
     for (; screenWidth > MAP_INITIAL_WIDTH * horizontalFactor; horizontalFactor += 0.05) {
-      if (horizontalFactor == 2) { break; }
+      if (horizontalFactor == 3) { break; }
     }
 
     const finalFactor = horizontalFactor > verticalFactor ? horizontalFactor : verticalFactor;

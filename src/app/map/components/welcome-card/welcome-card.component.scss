@@ -1,16 +1,7 @@
 @import '../../styling/_map-text-styling.scss';
+@import '../../styling/_map-mixins.scss';
 
 
-
-
-@keyframes cardLoadAnimationHelper {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 
 @keyframes welcomeTextColor {
     to {
@@ -21,22 +12,7 @@
 
 
 .welcome-card-container {
-    position: relative;
-    z-index: 1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-
-    width: 50rem;
-    height: 30rem;
-    border-radius: 2rem;
-
-    background-color: $background-secondary;
-    opacity: 0;
-
-    animation: cardLoadAnimationHelper 0.5s ease 0.5s forwards;
+    @include card-content();
 
     .welcome-action  {
         display: flex;

@@ -1,5 +1,5 @@
 
-<div class="welcome-card-container">
+<div [@welcomeCard]= "leaveAnimation" class="welcome-card-container">
     <div class="welcome-action been-here-before"
     (click)="closeCard()">
         <div class="arrow-wrapper">
@@ -20,7 +20,9 @@
     </div>
 
     <div class="welcome-action how-to-use-this"
-    (click)="closeCard()">
+    (click)="showInstructions()"
+    (mouseover)="updateLeaveAnimationStateToSlideLeft()"
+    (mouseleave)="updateLeaveAnimationStateToSlideRight()">
         <div class="text">
             {{ 'How To Use This ?' }}
         </div>

@@ -1,0 +1,17 @@
+@import './_map-text-styling.scss';
+
+@mixin card-content() {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+
+    width: 50rem;
+    height: 30rem;
+    border-radius: 2rem;
+
+    background-color: $background-secondary;
+}

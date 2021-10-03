@@ -16,11 +16,12 @@ class="menu-container-animation">
             (clicked)="resetEndpoints()">
             </slate-button>
             <slate-button
-            [value]="'Color Scale'">
+            [value]="speedLabel"
+            (clicked)="updateSpeed()">
             </slate-button>
             <slate-button
             [value]="'How To Use This ?'"
-            (clicked)="openCard()">
+            (clicked)="openInstructionCard()">
             </slate-button>
             <slate-button
             [value]="'How I Made This ?'">

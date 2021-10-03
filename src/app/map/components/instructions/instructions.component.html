@@ -1,18 +1,76 @@
-<div class="instruction-container background-color">
-    <div class="instruction-header">
-        <div class="instruction-header-text text-primary-large-bold">
-            {{ 'Instructions' }}
+<div class="instruction-container"
+[@instructionContainer] = "{value: '*', params: {showInstructionDelay: (showInstructionDelay$ | async)}}">
+    <div class="instruction-wrapper">
+        <div [@insOnTop]="insState"
+        class="instruction-on-the-top">
+           
+        </div>
+
+        <div #scrollIns class="ins-scroll-wrap">
+            <div class="menu-button-instruction">
+                <div [@insBelow]="{ value: insState }" class="instruction">
+
+                </div>
+                <div [@insBelow]="{ value: insState, params: {delay: '0.2s'}}" class="instruction">
+                </div>
+                <div [@insBelow]="{ value: insState, params: {delay: '0.4s'}}" class="instruction">
+                    
+                </div>
+                <div [@insBelow]="{ value: insState }" class="instruction">
+                    
+                </div>
+                <div [@insBelow]="{ value: insState }" class="instruction">
+                    
+                </div>
+                <div [@insBelow]="{ value: insState }" class="instruction highlight">
+                    
+                </div>
+            </div>
         </div>
     </div>
-    <div class="instruction-content text-secondary-regular">
-        <div class="instruction">
-            {{ '1. you can drag the endpoints to desired position' }}
+
+    <div @appear class="dummy-menu" *ngIf="insState == 'secondInstructions'">
+        <div class="drag-handle-wrapper">
+            <drag></drag>
         </div>
-        <div class="instruction">
-            {{ '2. After that, click on animate path to find the best route through the terrain' }}
+        
+        <div #scrollMenu class="buttons-wrapper">
+            <slate-button
+            [value]="'Find Path'">
+            </slate-button>
+            <slate-button
+            [value]="'Reset'">
+            </slate-button>
+            <slate-button
+            [value]="'Medium Speed'">
+            </slate-button>
+            <slate-button
+            [value]="'How To Use This ?'">
+            </slate-button>
+            <slate-button
+            [value]="'How I Made This ?'">
+            </slate-button>
+            <slate-button
+            [value]="'About Me'">
+            </slate-button>
         </div>
-        <div class="instruction">
-            {{ '3. You can click on reset position to reset the position of endpoints to original position' }}
+    
+        <div class="scroll-button-wrapper">
+            <div class="scroll-to-right-or-left"
+            [ngClass] = " scrollRight ? 'scroll-right' : 'scroll-left'"
+            (click)="scrollRightOrLeft()">
+                <arrow></arrow>
+            </div>
+        </div>
+    </div>
+
+    <div class="instruction-action" *ngIf="showInstructionAction"
+    (click)="showNextOrCloseInstruction()">
+        <div class="text">
+            {{ insState == 'firstInstructions' ? 'Next' : 'Got It!' }}
+        </div>
+        <div class="arrow-wrapper">
+            <arrow></arrow>
         </div>
     </div>
 </div>

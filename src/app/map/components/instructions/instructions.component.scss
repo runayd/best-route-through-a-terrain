@@ -1,27 +1,205 @@
-@use '../../styling/_map-text-styling.scss';
+@import '../../styling/_map-text-styling.scss';
+@import '../../styling/_map-mixins.scss';
 
 .instruction-container {
-    display: flex;
-    flex-direction: column;
-    border-radius: 2rem;
-    padding: 1rem;
-    width: 50rem;
+    @include card-content();
+    height: 100%;
+    background-color: $background-primary;
+    // opacity: 1;
+    // transform: translate(0);
 
-    .instruction-header {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .instruction-content {
+    .instruction-wrapper {
         display: flex;
         flex-direction: column;
-        padding: 2rem;
+        justify-content: center;
 
-        .instruction {
-            padding: 0.25rem;
+        .instruction-on-the-top {
+            position: absolute;
+            top:0;
+
+            margin: 0.5rem;
+            border-radius: 2rem;
+            
+
+            background-color: $background-secondary;
+        }
+
+        .ins-scroll-wrap {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            scroll-behavior: smooth;
+            width: 33rem;
+
+            .menu-button-instruction {
+                display: flex;
+                flex-direction: row;
+    
+                .instruction {
+                    width: 10rem;
+                    height: 25rem;
+    
+                    flex-shrink: 0;
+                    
+                    margin: 9.5rem 0.5rem 0.5rem 0.5rem;
+                    border-radius: 2rem;
+    
+                    background-color: $background-secondary;
+                }
+
+                .highlight {
+                    background-color: $background-tertiary;
+                }
+            }
+        }
+    }
+
+    .dummy-menu {
+        display: flex;
+
+        flex-direction: row;
+        align-items: center;
+        position: absolute;
+        padding: 0.5rem;
+
+        bottom: 2.5rem;
+        left: 5.5rem;
+
+        height: 2.5rem;
+        border-radius: 1.75rem;
+        background-color: $background-primary;
+
+        box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
+        
+        .drag-handle-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            z-index: 11;
+            opacity: 0.8;
+            width: 2.5rem;
+    
+            drag {
+                transform: scale(0.45);
+            }
+        }
+    
+        button {
+            cursor: pointer;
+        }
+    
+        .buttons-wrapper {
+            display: flex;
+            flex-direction: row;
+            width: 33rem;
+            overflow: hidden;    
+            scroll-behavior: smooth;
+
+            slate-button {
+                ::ng-deep {
+                    .common {
+                        margin: 0rem 1rem 0rem 1rem;
+                    }
+
+                    .active {
+                        cursor: default;
+                    }
+                }
+            }
+        }
+    
+        .scroll-button-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+    
+            width: 2.5rem;
+            margin-left: 0.5rem;
+    
+            .scroll-to-right-or-left {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+    
+                background-color: $background-primary;
+                box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
+                cursor: pointer;
+    
+                transition: transform 0.5s ease;
+
+                arrow {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    ::ng-deep {
+                        svg {
+                            transform: scale(0.85);
+                        }
+                    }
+                }
+            }
+    
+            .scroll-right {
+                transform: rotate(0deg);
+            }
+    
+            .scroll-left {
+                transform: rotate(180deg);
+            }
+        
+        }
+    }
+
+    .instruction-action  {
+        display: flex;
+        flex-direction: row;
+
+        position: absolute;
+        top: 50%;
+        right: -3.75rem;
+        
+        text-align: left;
+
+        cursor: pointer;
+
+        .arrow-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 2rem;
+
+            &::after {
+                content: '';
+                
+                position: absolute;
+                z-index: -1;
+
+                width: 1.25rem;
+                height: 1.25rem;
+                border-radius: 50%;
+
+                transform: translateY(-0.1rem);
+                background: radial-gradient(rgba(0, 0, 0, 0.1), white 90%);
+            }
+        }
+
+        .text {
+            width: 3rem;
+
+            font: normal 600 0.9rem Poppins;
+            line-height: 1.1rem;
+            color: $text-primary;
+
+            cursor: pointer;
+
+            text-shadow: 0rem 0.1rem 0.5rem rgba(0, 0, 0, 0.25);
         }
     }
 }

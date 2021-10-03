@@ -1,7 +1,8 @@
 
-<div @parent class="card-container" *ngIf = "showCard | async">
-    <welcome-card @welcomeCard></welcome-card>
+<div @parent class="card-container" *ngIf = "showCard$ | async">
 
-    <div class="card-container-helper"
-    @cardOpen></div>
+    <welcome-card @parent class="welcome-card" *ngIf= "(content$ | async) == 'welcome'"></welcome-card>
+    <instructions @parent class="instructions" *ngIf= "(content$ | async) == 'instructions'"></instructions>
+
+    <div @cardOpen class="card-container-helper"></div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { cardOpen, parent, welcomeCard } from '../../animations';
+import { parent } from '../../animations';
+import { cardOpen } from './card-open.animation';
 import { Store } from '../../store';
 
 @Component({
@@ -10,14 +10,13 @@ import { Store } from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     cardOpen('1s'),
-    parent,
-    welcomeCard
+    parent
   ]
 })
 export class CardComponent implements OnInit {
 
-  showCard = this.store.get('showCard');
-
+  showCard$ = this.store.get('showCard');
+  content$ = this.store.get('content');
 
   constructor(private store: Store) { }
 
