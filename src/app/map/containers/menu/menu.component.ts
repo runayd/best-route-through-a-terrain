@@ -50,6 +50,15 @@ export class MenuComponent implements OnInit {
     this.scrollRight = true;
   }
 
+  openAboutMeCard(): void {
+    this.store.setState({
+      showCard: true,
+      showMenu: false,
+      content: 'about-me'
+    });
+    this.scrollRight = true;
+  }
+
   findOrClearPath(): void {
     const action: Action = this.findPath ? Action.findPath : Action.clearPath;
     this.store.sendAction(action);

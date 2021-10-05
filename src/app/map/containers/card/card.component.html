@@ -3,6 +3,7 @@
 
     <welcome-card @parent class="welcome-card" *ngIf= "(content$ | async) == 'welcome'"></welcome-card>
     <instructions @parent class="instructions" *ngIf= "(content$ | async) == 'instructions'"></instructions>
+    <about-me @parent class="about-me" *ngIf= "(content$ | async) == 'about-me'"></about-me>
 
     <div @cardOpen class="card-container-helper"></div>
 </div>

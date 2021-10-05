@@ -1,0 +1,144 @@
+@import '../../styling/_map-text-styling.scss';
+@import '../../styling/_map-mixins.scss';
+
+.about-me-container {
+    @include card-content();
+    opacity: 1;
+
+    .back-to-map {
+        display: flex;
+        flex-direction: row;
+
+        position: absolute;
+        top: 50%;
+        right: -6rem;
+        opacity: 1;
+
+        font: normal 600 0.8rem Poppins;
+
+        cursor: pointer;
+
+        .arrow-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 1.5rem;
+
+            &::after {
+                content: '';
+                
+                position: absolute;
+                z-index: -1;
+
+                width: 1.25rem;
+                height: 1.25rem;
+                border-radius: 50%;
+
+                transform: translateY(-0.1rem);
+                background: radial-gradient(rgba(0, 0, 0, 0.1), white 90%);
+            }
+        }
+
+        .text {
+            line-height: 1.1rem;
+            transform: translateY(-0.131rem);
+            width: 6rem;
+            color: $text-primary;
+            cursor: pointer;
+            text-shadow: 0rem 0.1rem 0.5rem rgb(0 0 0 / 25%);
+        }
+
+        ::ng-deep {
+            svg {
+                transform: scale(0.8);
+            }
+        }
+    }
+
+    .about-me-wrapper {
+        width: 30rem;
+
+        .name {
+            font: normal 600 2.25rem Poppins;
+            color: $text-primary;
+            opacity: 1;
+        }
+
+        .job-title {
+            font: normal 600 0.9rem Poppins;
+            color: $text-secondary;
+            transform: translate(0.15rem, -0.25rem);
+            opacity: 1;
+        }
+
+        .about-me {
+            margin: 3rem 0rem 0rem 0.1rem;
+            font: normal 400 0.8rem Poppins;
+            line-height: 1.25rem;
+            color: $text-secondary;
+            width: 25rem;
+            opacity: 1;
+        }
+
+        a {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+
+    .image-and-link-icons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 13rem;
+        height: 20rem;
+        border-radius: 2rem;
+        background-color: $background-tertiary;
+
+        opacity: 1;
+
+        .image {
+            width: 10rem;
+            height: 10rem;
+            border-radius: 50%;
+            background-color: $background-quaternary;
+            
+            .my-profile-pic {
+                width: 10rem;
+                height: 10rem;
+                transform: scale(1);
+                border-radius: 50%;
+                opacity: 1;
+            }
+        }
+
+        .link-icons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            margin-top: 3rem;
+            height: 2.56rem;
+            width: 7rem;
+
+            .icon-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.56rem;
+                height: 2.56rem;
+
+                .linkedin-icon {
+                    transform: scale(0.08);
+                }
+
+                .github-icon {
+                    transform: scale(0.3413);
+                }
+            }
+        }
+    }
+}

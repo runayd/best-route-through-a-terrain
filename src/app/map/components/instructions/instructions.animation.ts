@@ -45,7 +45,7 @@ export const instructionContainer = trigger('instructionContainer', [
     })),
     transition('void => *', [
       group([
-        query('@*', animateChild()),
+        query('@*', animateChild(), { optional: true }),
         animate(`0.5s {{ showInstructionDelay }} ease`, style({
           opacity: 1,
           transform: 'translateX(0)'

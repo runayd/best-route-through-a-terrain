@@ -1,1 +1,53 @@
-<p>about-me works!</p>
+
+<div @aboutmeContainer class="about-me-container">
+
+    <div class="back-to-map"
+    (click)="closeAboutMe()"
+    [@appear]="{ value: 'dummy-state', params: {duration: '3s', delay: '0.5s'}}">
+        <div class="text">
+            {{ 'Continue Finding Route' }}
+        </div>
+        <div class="arrow-wrapper">
+            <arrow></arrow>
+        </div>
+
+    </div>
+
+    <div class="about-me-wrapper">
+        <div class="name"
+        [@appear]="{ value: 'dummy-state', params: {duration: '0.3s', delay: '0.5s'}}">
+            Runay Dhaygude
+        </div>
+        <div class="job-title"
+        [@appear]="{ value: 'dummy-state', params: {duration: '0.3s', delay: '0.5s'}}">
+            Frontend + Backend Developer
+        </div>
+        <div class="about-me"
+        [@appear]="{ value: 'dummy-state', params: {duration: '0.6s', delay: '0.5s'}}">
+            I am a software engineer who likes to dive into unknown and unravel any puzzling obstacle that comes across. 
+            I am from Pune, India currently working for Radix Health; primarily using Angular 7/9, Java and PostgreSQL.
+            <br><br>
+            Apart from minutely aligning HTML elements, I love movies, <a href="https://www.instagram.com/runay_dhaygude_art/" target="_blank">drawing</a>
+            and giving things that captivate me a whirl.
+        </div>
+    </div>
+
+    <div class="image-and-link-icons"
+    [@appear]="{ value: 'dummy-state', params: {duration: '1s', delay: '0.5s'}}">
+        <div class="image">
+            <img [@appear]="{ value: 'dummy-state', params: {duration: '1.5s', delay: '0.5s'}}" class="my-profile-pic" src="/assets/icons-and-image/me.jpg" />
+        </div>
+        
+        <div class="link-icons">
+            <a class="icon-wrapper"
+            href="https://www.linkedin.com/in/runay-dhaygude/" target="_blank">
+                <img class="linkedin-icon" src="/assets/icons-and-image/linkedin.png" />
+            </a>
+
+            <a class="icon-wrapper"
+            href="https://github.com/runaydhaygude/best-route-through-a-terrain" target="_blank">
+                <img class="github-icon" src="/assets/icons-and-image/github-icon.png" />
+            </a>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ export const appear = trigger('appear', [
         opacity: 0
     })),
     transition('void <=> *', [
-        animate('1s ease')
-    ])
+        animate('{{ duration }} {{ delay }} ease')
+    ],
+    { params: {duration: '1s', delay: '0s'}})
   ]);
