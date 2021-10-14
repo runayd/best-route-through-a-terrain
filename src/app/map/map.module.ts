@@ -17,6 +17,7 @@ import {
   DragComponent,
   FreeDraggingDirective,
   FreeDraggingHandleDirective } from '.';
+import { HowWasThisMadeComponent } from './components/how-was-this-made/how-was-this-made.component';
   
 
 
@@ -34,7 +35,8 @@ import {
     ArrowComponent,
     DragComponent,
     WelcomeCardComponent,
-    MenuComponent
+    MenuComponent,
+    HowWasThisMadeComponent
   ],
   imports: [
     FormsModule,

@@ -2,14 +2,15 @@
 @import '../../../styling/_map-text-styling.scss';
 
 .button-container {
+    --dynamicWidth: '8rem';
+
     display: flex;
    
-
     .common {
         border-radius: 0.5rem;
         font: normal normal 0.9rem Poppins;
         padding: 0.5rem;
-        width: 8rem;
+        width: var(--dynamicWidth);
         margin: 0rem 0.5rem 0rem 0.5rem;
         text-align: center;
         color: $text-primary;

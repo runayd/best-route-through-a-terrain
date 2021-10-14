@@ -3,7 +3,7 @@ export interface ApplicationState {
     showMenu: boolean;
     showCard: boolean;
     findPath: boolean;
-    content: 'welcome' | 'instructions' | 'about-me';
+    content: 'welcome' | 'instructions' | 'about-me' | 'how-was-this-made';
     speed: number;
     showInstructionDelay: string;
 }

@@ -1,0 +1,33 @@
+@import '../../../styling/_map-text-styling.scss';
+
+.arrow {
+    --shadow: 'none';
+    
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+
+    &::before, &::after {
+        content: '';
+
+        position: absolute;
+        width: 1rem;
+        height: 0.332rem;
+
+        background-color: $text-primary;
+
+        box-shadow: var(--shadow);
+    }
+
+    &:before {
+        top: 0;
+        transform: translateY(0.083rem) rotate(45deg);
+        border-radius: 0.332rem 0.083rem 0rem 0.332rem;
+    }
+
+    &::after {
+        bottom: 0;
+        transform: translateY(-0.083rem) rotate(-45deg);
+        border-radius: 0.332rem 0rem 0.083rem 0.332rem;
+    }
+}

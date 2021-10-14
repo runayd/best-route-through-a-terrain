@@ -1,0 +1,149 @@
+@import '../../styling/_map-text-styling.scss';
+@import '../../styling/_map-mixins.scss';
+
+.how-was-this-made-container {
+    @include custom-scroll();
+    opacity: 1;
+
+    .back-to-map {
+        display: flex;
+        flex-direction: row;
+
+        position: absolute;
+        top: 50%;
+        left: 6rem;
+        z-index: 2;
+        opacity: 1;
+
+        font: normal 600 0.8rem Poppins;
+        text-align: right;
+
+        cursor: pointer;
+
+        .arrow-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 1.5rem;
+        }
+
+        .text {
+            line-height: 1.1rem;
+            transform: translateY(-0.131rem);
+            width: 6rem;
+            color: $text-primary;
+            cursor: pointer;
+            text-shadow: 0rem 0.1rem 0.5rem rgb(0 0 0 / 25%);
+        }
+
+        arrow {
+            transform: scale(0.6) rotate(180deg);
+        }
+    }
+
+
+    .index {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 2rem;
+
+        opacity: 1;
+
+        .index-button-wrapper {
+            display: flex;
+            flex-direction: row;
+
+            margin: 0rem 1rem 0rem 1rem;
+
+            border-radius: 0.5rem;
+            width: 43rem;
+
+            overflow: hidden;
+            scroll-behavior: smooth;
+        }
+    }
+
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+
+        height: 28rem;
+
+        overflow-y: scroll;        
+
+        opacity: 1;
+
+        .content {
+            @include card-content();
+    
+            height: fit-content;
+            width: 37rem;
+    
+            display: flex;
+            flex-direction: column;
+    
+            margin: 1rem 0.5rem 0rem 0rem;
+            padding: 4rem 6rem;
+    
+            text-align: left;
+
+            &:first-child {
+                margin-top: 0rem;
+            }
+    
+            .title {
+                width: inherit;
+                margin-bottom: 1rem;
+
+                font: normal 400 1.5rem Poppins;
+                color: $text-secondary;
+            }
+    
+            .details {
+                width: inherit;
+                margin-top: 1rem;
+
+                font: normal 400 0.9rem Poppins;
+                color: $text-tertiary;
+            }
+        }
+    }
+
+    .scroll-button-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 2.5rem;
+
+        .scroll-to-right-or-left {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+
+            background-color: $background-primary;
+            box-shadow: 0rem 0rem 0.5rem 0.1rem rgb(0 0 0 / 25%);
+            cursor: pointer;
+
+            transition: transform 0.5s ease;
+
+            arrow {
+                transform: scale(0.6);
+            }
+        }
+
+        .scroll-right {
+            transform: rotate(0deg);
+        }
+
+        .scroll-left {
+            transform: rotate(180deg);
+        }
+    
+    }
+}

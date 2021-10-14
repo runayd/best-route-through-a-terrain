@@ -106,24 +106,16 @@
                 transition: transform 0.5s ease;
 
                 arrow {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    ::ng-deep {
-                        svg {
-                            transform: scale(0.85);
-                        }
-                    }
+                    transform: scale(0.6);
                 }
             }
-    
+
             .scroll-right {
                 transform: rotate(0deg);
             }
     
             .scroll-left {
-                transform: rotate(180deg);
+                transform: rotate(-180deg);
             }
         
         }

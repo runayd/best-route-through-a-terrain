@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class SlateButtonComponent implements OnInit {
 
   @Input() value = '';
+  @Input() dynamicWidth = false;
   @Input() disabled = false;
   @Output() clicked = new EventEmitter();
 

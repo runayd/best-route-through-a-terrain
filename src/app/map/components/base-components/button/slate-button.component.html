@@ -1,5 +1,6 @@
 
 <div class="button-container"
+[style.--dynamicWidth] = "dynamicWidth ? 'fit-content' : '8rem'"
 (click) = "buttonClicked()">
     <div [ngClass]="disabled ? 'common disabled' : 'common active'">
         <div class="button-value">

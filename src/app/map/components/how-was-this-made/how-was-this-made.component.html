@@ -1,0 +1,51 @@
+
+<div @buildingInfoContainer class="how-was-this-made-container">
+
+    <div class="back-to-map"
+    (click)="closeHowImadeThis()"
+    [@appear]="{ value: 'dummy-state', params: {duration: '0.6s', delay: '0.5s'}}">
+        <div class="arrow-wrapper">
+            <arrow [showShadow]="true"></arrow>
+        </div>
+        <div class="text">
+            {{ 'Continue Finding Route' }}
+        </div>
+    </div>
+
+    <div class="index"
+    [@appear]="{ value: 'dummy-state', params: {duration: '0.3s', delay: '0.5s'}}">
+        <div class="scroll-button-wrapper">
+            <div class="scroll-to-right-or-left  scroll-left"
+            (click)="scrollIndexLeft()">
+                <arrow></arrow>
+            </div>
+        </div>
+
+        <div #scroll class="index-button-wrapper">
+            <slate-button *ngFor="let title of rowOfContent; let i = index"
+            [dynamicWidth]="true"
+            [value]="title"
+            (clicked)="scrollToTitle(i)">
+            </slate-button>
+        </div>
+
+        <div class="scroll-button-wrapper">
+            <div class="scroll-to-right-or-left scroll-right"
+            (click)="scrollIndexRight()">
+                <arrow></arrow>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-wrapper"
+    [@appear]="{ value: 'dummy-state', params: {duration: '1s', delay: '0.5s'}}">
+        <div #contentScroll class="content" *ngFor = "let section of howImadeThis">
+            <div class="title">
+                {{ section.title }}
+            </div>
+            <div class="details" *ngFor = "let paragraph of section.details">
+                {{ paragraph }}
+            </div>
+        </div>
+    </div>
+</div>

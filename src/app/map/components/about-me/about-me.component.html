@@ -8,7 +8,7 @@
             {{ 'Continue Finding Route' }}
         </div>
         <div class="arrow-wrapper">
-            <arrow></arrow>
+            <arrow [showShadow]="true"></arrow>
         </div>
 
     </div>
@@ -35,7 +35,8 @@
     <div class="image-and-link-icons"
     [@appear]="{ value: 'dummy-state', params: {duration: '1s', delay: '0.5s'}}">
         <div class="image">
-            <img [@appear]="{ value: 'dummy-state', params: {duration: '1.5s', delay: '0.5s'}}" class="my-profile-pic" src="/best-route-through-a-terrain/assets/icons-and-image/me.jpg" />
+            <img [@appear]="{ value: 'dummy-state', params: {duration: '1.5s', delay: '0.5s'}}"
+            class="my-profile-pic" src="/best-route-through-a-terrain/assets/icons-and-image/me.jpg" />
         </div>
         
         <div class="link-icons">

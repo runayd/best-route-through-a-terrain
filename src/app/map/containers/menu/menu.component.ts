@@ -39,6 +39,14 @@ export class MenuComponent implements OnInit {
 
 
 
+  openHowWasThisMadeCard(): void {
+    this.store.setState({
+      showCard: true,
+      showMenu: false,
+      content: 'how-was-this-made'
+    });
+    this.scrollRight = true;
+  }
 
   openInstructionCard(): void {
     this.store.setState({
