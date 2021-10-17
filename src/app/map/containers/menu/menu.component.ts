@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { wiggleAnimation } from '../../animations';
 import { Action, Store } from '../../store';
 
 @Component({
@@ -17,6 +18,8 @@ export class MenuComponent implements OnInit {
 
   showMenu = false;
   scrollRight = true;
+  scrollRightAnimation: string;
+  scrollForTheFirstTime = true;
   findPath = true;
   findPathButtonLabel: 'Find Route' | 'Clear Route' = 'Find Route';
   speed: number;
@@ -71,6 +74,8 @@ export class MenuComponent implements OnInit {
     const action: Action = this.findPath ? Action.findPath : Action.clearPath;
     this.store.sendAction(action);
 
+    this.setScrollRightAnimation();
+
     this.store.setState({
       findPath:  !this.findPath,
     });
@@ -93,6 +98,10 @@ export class MenuComponent implements OnInit {
     const value = this.scrollRight ? 480 : -480;
     this.scroll.nativeElement.scrollLeft += value;
     this.scrollRight = !this.scrollRight;
+
+    if (this.scrollRightAnimation !== 'none') {
+      this.scrollRightAnimation = 'none';
+    }
   }
 
   updateSpeed(): void {
@@ -101,6 +110,13 @@ export class MenuComponent implements OnInit {
     this.store.setState({
       speed
     });
+  }
+
+  setScrollRightAnimation(): void {
+    if (this.findPath && this.scrollForTheFirstTime) {
+      this.scrollRightAnimation = wiggleAnimation;
+      this.scrollForTheFirstTime = false;
+    }
   }
   
 

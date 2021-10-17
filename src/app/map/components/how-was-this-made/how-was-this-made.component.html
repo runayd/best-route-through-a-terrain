@@ -15,7 +15,8 @@
     <div class="index"
     [@appear]="{ value: 'dummy-state', params: {duration: '0.3s', delay: '0.5s'}}">
         <div class="scroll-button-wrapper">
-            <div class="scroll-to-right-or-left  scroll-left"
+            <div @appear class="scroll-to-right-or-left  scroll-left"
+            *ngIf="!atLeftEnd"
             (click)="scrollIndexLeft()">
                 <arrow></arrow>
             </div>
@@ -30,7 +31,8 @@
         </div>
 
         <div class="scroll-button-wrapper">
-            <div class="scroll-to-right-or-left scroll-right"
+            <div @appear class="scroll-to-right-or-left scroll-right"
+            *ngIf="!atRightEnd"
             (click)="scrollIndexRight()">
                 <arrow></arrow>
             </div>

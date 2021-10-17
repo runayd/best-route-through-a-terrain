@@ -1,24 +1,5 @@
 @import '../../styling/_map-text-styling.scss';
-
-
-@keyframes slateOpen {
-    0% {
-        opacity: 0;
-        transform: translateX(-34.25rem);
-    }
-    23% {
-        opacity: 1;
-        transform: translateX(-34.25rem);
-    }
-    25% {
-        opacity: 1;
-        transform: translateX(-34.25rem);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0rem);
-    }
-}
+@import '../../styling/map-css-animations';
 
 
 .menu-container-animation  {
@@ -83,12 +64,16 @@
         }
     
         .scroll-button-wrapper {
+            --animation: 'none';
+            
             display: flex;
             align-items: center;
             justify-content: center;
     
             width: 2.5rem;
             margin-left: 0.5rem;
+            
+            animation: var(--animation);
     
             .scroll-to-right-or-left {
                 display: flex;

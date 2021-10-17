@@ -33,7 +33,8 @@ class="menu-container-animation">
             </slate-button>
         </div>
     
-        <div class="scroll-button-wrapper">
+        <div class="scroll-button-wrapper"
+        [style.--animation] = "scrollRightAnimation">
             <div class="scroll-to-right-or-left"
             [ngClass] = " scrollRight ? 'scroll-right' : 'scroll-left'"
             (click)="scrollRightOrLeft()">

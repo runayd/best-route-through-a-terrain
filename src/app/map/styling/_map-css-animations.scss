@@ -1,0 +1,85 @@
+
+@keyframes wiggle {
+    82%, 98% {
+        transform: translate3d(-0.05rem, 0, 0) rotate3d(0, 0, 1, 0deg);
+    }
+    
+    84%, 96% {
+        transform: translate3d(0.1rem, 0, 0) rotate3d(0, 0, 1, 4deg);
+    }
+
+    86%, 90%, 94% {
+        transform: translate3d(-0.2rem, 0, 0) rotate3d(0, 0, 1, -8deg);
+    }
+
+    88%, 92% {
+        transform: translate3d(0.2rem, 0, 0) rotate3d(0, 0, 1, 8deg);
+    }
+}
+
+@keyframes elevate {
+    0% {
+        transform: scale(1.5) rotate(90deg);
+    }
+    100% {
+        transform: scale(0.7) rotate(180deg);
+    }
+}
+
+@keyframes appear {
+    0% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+    5% {
+        opacity: 1;
+        transform: scale(0.7);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(0.7);
+    }
+}
+
+@keyframes makeAppear {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slateOpen {
+    0% {
+        opacity: 0;
+        transform: translateX(-34.25rem);
+    }
+    23% {
+        opacity: 1;
+        transform: translateX(-34.25rem);
+    }
+    25% {
+        opacity: 1;
+        transform: translateX(-34.25rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0rem);
+    }
+}
+
+@keyframes welcomeTextColor {
+    to {
+        background-position-x: 100%;
+    }
+}
+
+@keyframes ripple {
+    from {
+        opacity: 1;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale(10);
+    }
+}

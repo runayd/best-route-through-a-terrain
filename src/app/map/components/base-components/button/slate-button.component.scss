@@ -1,5 +1,6 @@
 
 @import '../../../styling/_map-text-styling.scss';
+@import '../../../styling/map-css-animations';
 
 .button-container {
     --dynamicWidth: '8rem';
@@ -7,6 +8,9 @@
     display: flex;
    
     .common {
+        position: relative;
+        overflow: hidden;
+
         border-radius: 0.5rem;
         font: normal normal 0.9rem Poppins;
         padding: 0.5rem;
@@ -15,24 +19,30 @@
         text-align: center;
         color: $text-primary;
         background-color: $background-secondary;
-
-        &::after {
-            content: '';
-            top: 0; left: 0;
-            background-color: $background-secondary;
-            border-radius: 0.25rem;
-            transform: scale(1);
-            transition: 0.25s transform ease-in-out;
-        }
-
-        &r:hover::after {
-            transform: scale(1.05);
-        }
     }
 
     .active {
         opacity: 1;
         cursor: pointer;
+
+        background-color: $background-secondary;
+        transition: background 0.6s ease;
+        background-position: center;
+        background-image: radial-gradient(circle,
+                             transparent 1%,
+                             $background-tertiary 1%);
+        background-size: 12000%;
+
+        &:hover {
+            background-color: $background-tertiary;
+        }
+
+        &:active {
+            background-color: $background-secondary-helper;
+            opacity: 0.8;
+            transition: background 0s;
+            background-size: 100%;
+        }
     }
     
     .disabled {

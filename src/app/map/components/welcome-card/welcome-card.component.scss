@@ -1,14 +1,6 @@
 @import '../../styling/_map-text-styling.scss';
 @import '../../styling/_map-mixins.scss';
-
-
-
-@keyframes welcomeTextColor {
-    to {
-        background-position-x: 100%;
-    }
-}
-
+@import '../../styling/map-css-animations';
 
 
 .welcome-card-container {
@@ -49,8 +41,26 @@
         
         text-align: right;
 
+        
+
         arrow {
-            transform: scale(0.6) rotate(180deg);
+            transition: transform 0.5s ease;
+            transform: translateX(0.8rem) scale(0.6) rotate(180deg);
+        }
+
+        .text {
+            transition: transform 0.5s ease;
+            transform: translateX(0rem);
+        }
+
+        &:hover {
+            arrow {
+                transform: translateX(0rem) scale(0.6) rotate(180deg);
+            }
+
+            .text {
+                transform: translateX(-0.2rem);
+            }
         }
     }
 
@@ -60,7 +70,23 @@
         text-align: left;
 
         arrow {
-            transform: scale(0.6);
+            transition: transform 0.5s ease;
+            transform: translateX(-0.3rem) scale(0.6);
+        }
+
+        .text {
+            transition: transform 0.5s ease;
+            transform: translateX(0rem);
+        }
+
+        &:hover {
+            arrow {
+                transform: translateX(0.4rem) scale(0.6);
+            }
+
+            .text {
+                transform: translateX(0.2rem);
+            }
         }
     }
 

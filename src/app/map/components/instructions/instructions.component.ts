@@ -1,7 +1,7 @@
 import { AnimationEvent } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { appear } from '../../animations';
+import { appear, appearWithJustInDelay, wiggleAnimation } from '../../animations';
 import { Store } from '../../store';
 import { insOnTop, insBelow, instructionContainer } from './instructions.animation';
 
@@ -14,7 +14,8 @@ import { insOnTop, insBelow, instructionContainer } from './instructions.animati
     instructionContainer,
     insOnTop,
     insBelow,
-    appear
+    appear,
+    appearWithJustInDelay
   ]
 })
 export class InstructionsComponent implements OnInit {
@@ -32,6 +33,7 @@ export class InstructionsComponent implements OnInit {
   scrollIns: ElementRef;
 
   scrollRight = true;
+  scrollRightAnimation: string;
   insState = 'firstInstructions';
   showInstructionAction = true;
   showInstructionDelay$ = this.store.get('showInstructionDelay');
@@ -40,10 +42,16 @@ export class InstructionsComponent implements OnInit {
 
   constructor(private store: Store) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setScrollRightAnimation();
+  }
   
 
   scrollRightOrLeft(): void {
+    if (this.scrollRightAnimation !== 'none') {
+      this.scrollRightAnimation = 'none';
+    }
+
     const scrollValue = this.scrollRight ? 528 : -528;
     this.scrollMenu.nativeElement.scrollLeft += scrollValue;
     this.scrollIns.nativeElement.scrollLeft += scrollValue;
@@ -62,6 +70,10 @@ export class InstructionsComponent implements OnInit {
         showMenu: true
       });
     }
+  }
+
+  setScrollRightAnimation(): void {
+    this.scrollRightAnimation = wiggleAnimation;
   }
 
 }

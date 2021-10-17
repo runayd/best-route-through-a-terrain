@@ -24,10 +24,11 @@
             justify-content: center;
 
             width: 1.5rem;
+        }
 
-            arrow {
-                transform: scale(0.6);
-            }
+        arrow {
+            transition: transform 0.5s ease;
+            transform: translateX(0.1rem) scale(0.6);
         }
 
         .text {
@@ -37,6 +38,20 @@
             color: $text-primary;
             cursor: pointer;
             text-shadow: 0rem 0.1rem 0.5rem rgb(0 0 0 / 25%);
+
+            transition: transform 0.5s ease;
+            transform: translateX(0rem);
+        }
+
+        &:hover {
+            arrow {
+                transform: translateX(0.7rem) scale(0.6);
+            }
+
+            .text {
+                transition: transform 0.5s ease;
+                transform: translateX(0.2rem);
+            }
         }
     }
 
@@ -54,6 +69,7 @@
             color: $text-secondary;
             transform: translate(0.15rem, -0.25rem);
             opacity: 1;
+            height: 1.32rem;
         }
 
         .about-me {
@@ -68,6 +84,7 @@
         a {
             cursor: pointer;
             text-decoration: underline;
+            color: $text-secondary;
         }
     }
 
@@ -109,18 +126,29 @@
             width: 7rem;
 
             .icon-wrapper {
-                display: flex;
-                align-items: center;
-                justify-content: center;
                 width: 2.56rem;
                 height: 2.56rem;
 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
                 .linkedin-icon {
+                    transition: transform 0.5s ease;
                     transform: scale(0.08);
+
+                    &:hover {
+                        transform: scale(0.09);
+                    }
                 }
 
                 .github-icon {
+                    transition: transform 0.5s ease;
                     transform: scale(0.3413);
+
+                    &:hover {
+                        transform: scale(0.384);
+                    }
                 }
             }
         }

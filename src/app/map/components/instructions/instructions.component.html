@@ -58,13 +58,19 @@
         <div class="scroll-button-wrapper">
             <div class="scroll-to-right-or-left"
             [ngClass] = " scrollRight ? 'scroll-right' : 'scroll-left'"
+            [style.--animation] = "scrollRightAnimation"
             (click)="scrollRightOrLeft()">
                 <arrow></arrow>
             </div>
         </div>
     </div>
 
-    <div class="instruction-action" *ngIf="showInstructionAction"
+    <div class="instruction-action"
+    *ngIf="showInstructionAction"
+    [ngClass] = "insState == 'firstInstructions' ? 'next' : 'gotit'"
+    [@appearWithJustInDelay]="{ value: '*',
+    params: { duration: '0.5s',
+    delay: insState == 'firstInstructions' ? '0.5s' : '0s' } }"
     (click)="showNextOrCloseInstruction()">
         <div class="text">
             {{ insState == 'firstInstructions' ? 'Next' : 'Got It!' }}

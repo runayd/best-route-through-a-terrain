@@ -1,38 +1,4 @@
-
-// todo - create separate file for animation keyframes
-@keyframes elevate {
-    0% {
-        transform: scale(1.5) rotate(90deg);
-    }
-    100% {
-        transform: scale(0.7) rotate(180deg);
-    }
-}
-
-@keyframes appear {
-    0% {
-        opacity: 1;
-        transform: scale(1.5);
-    }
-    5% {
-        opacity: 1;
-        transform: scale(0.7);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(0.7);
-    }
-}
-
-@keyframes makeAppear {
-    to {
-        opacity: 1;
-    }
-}
-
-
-
-
+@import '../../styling/map-css-animations';
 
 .container {
     --nodeSize: 0.5;

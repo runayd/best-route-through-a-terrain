@@ -18,10 +18,12 @@
         [@appear]="{ value: 'dummy-state', params: {duration: '0.3s', delay: '0.5s'}}">
             Runay Dhaygude
         </div>
+
         <div class="job-title"
         [@appear]="{ value: 'dummy-state', params: {duration: '0.3s', delay: '0.5s'}}">
-            Frontend + Backend Developer
+            {{ 'F' + (jobTitle$ | async) }}
         </div>
+
         <div class="about-me"
         [@appear]="{ value: 'dummy-state', params: {duration: '0.6s', delay: '0.5s'}}">
             I am a software engineer who likes to dive into unknown and unravel any puzzling obstacle that comes across. 

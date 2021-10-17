@@ -27,6 +27,9 @@ export class HowWasThisMadeComponent implements OnInit {
   howImadeThis: any = [];
   rowOfContent: any = [];
 
+  atLeftEnd = true;
+  atRightEnd = false;
+
   constructor(private store: Store) { }
 
   ngOnInit(): void {
@@ -78,12 +81,22 @@ export class HowWasThisMadeComponent implements OnInit {
     });
   }
 
-  scrollIndexLeft(): void {
+  scrollIndexLeft(): void {    
     this.scrollIndex.nativeElement.scrollLeft -= 100;
+    this.atRightEnd = false;
+
+    if (this.scrollIndex.nativeElement.scrollLeft <= 10) {
+      this.atLeftEnd = true;
+    }
   }
 
   scrollIndexRight(): void {
     this.scrollIndex.nativeElement.scrollLeft += 100;
+    this.atLeftEnd = false;
+    
+    if (this.scrollIndex.nativeElement.scrollLeft >= 100) {
+      this.atRightEnd = true;
+    }
   }
 
   scrollToTitle(index: number): void {

@@ -1,8 +1,10 @@
 
 <div class="button-container"
-[style.--dynamicWidth] = "dynamicWidth ? 'fit-content' : '8rem'"
-(click) = "buttonClicked()">
-    <div [ngClass]="disabled ? 'common disabled' : 'common active'">
+[style.--dynamicWidth] = "dynamicWidth ? 'fit-content' : '8rem'">
+
+    <div [ngClass]="disabled ? 'common disabled' : 'common active'"
+    (click) = "buttonClicked()">
+
         <div class="button-value">
             {{ value }}
         </div>

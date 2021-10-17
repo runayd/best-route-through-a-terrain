@@ -14,6 +14,7 @@ import {
 } from '../../constants';
 import { MAP_INITIAL_HEIGHT, MAP_INITIAL_WIDTH } from '../../constants';
 import { Action, Store } from '../../store';
+import { pathAnimation } from '../../animations';
 
 
 @Component({
@@ -108,7 +109,7 @@ export class MapGridComponent implements OnInit {
   }
 
   subscribeToSpeed(): void {
-    const subscription$ = this.store.get('speed').subscribe( speed => this.speed = speed );
+    const subscription$ = this.store.get('speed').subscribe( (speed: number) => this.speed = speed);
     this.subscription$.add(subscription$);
   }
 
@@ -221,7 +222,6 @@ export class MapGridComponent implements OnInit {
   findPath(): void {
     this.findDestinationUsingDijkstrasAlgorithm();
     this.reconstructAndAnimateShortestPath();
-    
   }
   
   resetEndpointsToDefaultPositions() {
@@ -379,12 +379,15 @@ export class MapGridComponent implements OnInit {
   }
 
   animateShortestPath(): void {
+    if (!this.shortestPath?.length) return;
+
     this.animationDelayCount = 0;
     const speedFactor = 0.075 - (this.speed * 0.025);
     for(const current of this.shortestPath) {
       let delay: number =  speedFactor * ++this.animationDelayCount;
-      const animation: string = `appear 5s linear ${delay}s normal 1 forwards running`;
-      this.map[current.pos.x][current.pos.y].animation = animation;
+      const animation: string = pathAnimation(delay);
+      const { x, y }: Position = current?.pos;
+      this.map[x][y].animation = animation;
     }
   }
 

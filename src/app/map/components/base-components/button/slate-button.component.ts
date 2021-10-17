@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'slate-button',
@@ -12,10 +13,9 @@ export class SlateButtonComponent implements OnInit {
   @Input() disabled = false;
   @Output() clicked = new EventEmitter();
 
-  constructor() { }
+  constructor(@Inject(DOCUMENT) private document: Document) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   buttonClicked(): void {
     if (!this.disabled) {
