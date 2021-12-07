@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } fro
 import { appear, parent } from '../../animations';
 import { Store } from '../../store';
 import { buildingInfoContainer } from './how-was-this-made.animation';
+import { HOW_I_MADE_THIS, ROW_OF_CONTENT } from './how-was-this-made.constant';
 
 @Component({
   selector: 'how-was-this-made',
@@ -30,48 +31,15 @@ export class HowWasThisMadeComponent implements OnInit {
   atLeftEnd = true;
   atRightEnd = false;
 
-  constructor(private store: Store) { }
-
-  ngOnInit(): void {
-    this.setHowImadeThis();
-    this.setRowOfContent();
+  constructor(private store: Store) {
+    this.initalizeVariables();
   }
 
-  setHowImadeThis(): void {
-    this.howImadeThis = [
-      {
-        title: 'Runay',
-        details: [
-          'Some free text explaining the tile and some other details. and some more detasils. Some free text explaining the tile and some other details. and some more detasils. Some free text explaining the tile and some other details. and some more detasils.',
-          'Some free text explaining the tile and some other details. and some more detasils.'
-        ]
-      },
-      {
-        title: 'Ramdas',
-        details: [
-          'Some free text explaining the tile and some other details. and some more detasils. Some free text explaining the tile and some other details. and some more detasils. Some free text explaining the tile and some other details. and some more detasils.',
-          'Some free text explaining the tile and some other details. and some more detasils.'
-        ]
-      },
-      {
-        title: 'Dhaygude',
-        details: [
-          'Some free text explaining the tile and some other details. and some more detasils. Some free text explaining the tile and some other details. and some more detasils. Some free text explaining the tile and some other details. and some more detasils.',
-          'Some free text explaining the tile and some other details. and some more detasils.'
-        ]
-      }
-    ]
-  }
+  ngOnInit(): void {}
 
-  setRowOfContent(): void {
-    this.rowOfContent = [
-      'Runay',
-      'Ramdas',
-      'Dhaygude',
-      'IntroductionIntroduction',
-      'IntroductionIntroduction',
-      'IntroductionIntroduction'
-    ]
+  initalizeVariables() {
+    this.howImadeThis = HOW_I_MADE_THIS;
+    this.rowOfContent = ROW_OF_CONTENT;
   }
 
   closeHowImadeThis(): void {
@@ -82,7 +50,7 @@ export class HowWasThisMadeComponent implements OnInit {
   }
 
   scrollIndexLeft(): void {    
-    this.scrollIndex.nativeElement.scrollLeft -= 100;
+    this.scrollIndex.nativeElement.scrollLeft -= 200;
     this.atRightEnd = false;
 
     if (this.scrollIndex.nativeElement.scrollLeft <= 10) {
@@ -91,10 +59,10 @@ export class HowWasThisMadeComponent implements OnInit {
   }
 
   scrollIndexRight(): void {
-    this.scrollIndex.nativeElement.scrollLeft += 100;
+    this.scrollIndex.nativeElement.scrollLeft += 200;
     this.atLeftEnd = false;
-    
-    if (this.scrollIndex.nativeElement.scrollLeft >= 100) {
+
+    if (this.scrollIndex.nativeElement.scrollLeft >= 1800) {
       this.atRightEnd = true;
     }
   }

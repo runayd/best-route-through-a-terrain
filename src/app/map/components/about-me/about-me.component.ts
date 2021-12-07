@@ -16,7 +16,7 @@ import { aboutmeContainer } from './about-me.animation';
 })
 export class AboutMeComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  jobTitleAliases = ['rontend + Backend ', 'ull Stack Engineer '];
+  jobTitleAliases = ['rontend + Backend En', 'ull Stack Engineer '];
   i = 0;
   j = 0;
   currentAlias: any[] = [];

@@ -43,7 +43,7 @@
     [@appear]="{ value: 'dummy-state', params: {duration: '1s', delay: '0.5s'}}">
         <div #contentScroll class="content" *ngFor = "let section of howImadeThis">
             <div class="title">
-                {{ section.title }}
+                {{ rowOfContent[section.titleIndex] }}
             </div>
             <div class="details" *ngFor = "let paragraph of section.details">
                 {{ paragraph }}

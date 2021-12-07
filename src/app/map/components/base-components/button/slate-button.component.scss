@@ -13,10 +13,14 @@
 
         border-radius: 0.5rem;
         font: normal normal 0.9rem Poppins;
-        padding: 0.5rem;
-        width: var(--dynamicWidth);
+
         margin: 0rem 0.5rem 0rem 0.5rem;
+        padding: 0.5rem;
+
+        width: var(--dynamicWidth);
+        white-space: nowrap;
         text-align: center;
+        
         color: $text-primary;
         background-color: $background-secondary;
     }
