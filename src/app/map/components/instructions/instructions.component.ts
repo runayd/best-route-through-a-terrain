@@ -1,9 +1,9 @@
-import { AnimationEvent } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { appear, appearWithJustInDelay, wiggleAnimation } from '../../animations';
+import { appear, appearWithJustInDelay, wiggleAnimation, parent } from '../../animations';
+import { ALTITUDE_COLOR } from '../../constants';
 import { Store } from '../../store';
-import { insOnTop, insBelow, instructionContainer } from './instructions.animation';
+import { insOnTop, insBelow, instructionContainer, colorScaleAnimation } from './instructions.animation';
 
 @Component({
   selector: 'instructions',
@@ -15,7 +15,9 @@ import { insOnTop, insBelow, instructionContainer } from './instructions.animati
     insOnTop,
     insBelow,
     appear,
-    appearWithJustInDelay
+    appearWithJustInDelay,
+    colorScaleAnimation,
+    parent
   ]
 })
 export class InstructionsComponent implements OnInit {
@@ -40,10 +42,15 @@ export class InstructionsComponent implements OnInit {
 
   subscription: Subscription;
 
+  colorScale: string[];
+
+
+
   constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.setScrollRightAnimation();
+    this.initializeColorScale();
   }
   
 
@@ -74,6 +81,10 @@ export class InstructionsComponent implements OnInit {
 
   setScrollRightAnimation(): void {
     this.scrollRightAnimation = wiggleAnimation;
+  }
+
+  initializeColorScale(): void {
+    this.colorScale = ALTITUDE_COLOR;
   }
 
 }

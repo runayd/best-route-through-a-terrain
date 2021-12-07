@@ -18,8 +18,14 @@ export const insOnTop = trigger('insOnTop', [
         height: '8rem',
         transform: 'translate(0rem, 0rem)'
     })),
-    transition( 'void => firstInstructions, firstInstructions => secondInstructions', [
+    transition( 'void => firstInstructions', [
+      animate('1s ease')
+    ]),
+    transition('firstInstructions => secondInstructions' , [
+      group([
+        query('@*', animateChild(), { optional: true }),
         animate('1s ease')
+      ])
     ])
 ]);
 
@@ -59,6 +65,22 @@ export const instructionContainer = trigger('instructionContainer', [
         animate(`0.5s ease`, style({
           opacity: 0
         }))
+      ])
+    ])
+  ]);
+
+  export const colorScaleAnimation = trigger('colorScale', [
+    transition('void => *', [
+      query('.color-card', style({opacity: 0}), { optional: true}),
+      query('.color-card', [
+        stagger(80, [
+          animate('0.5s ease', style({ opacity: 1 }))
+        ])
+      ])
+    ]),
+    transition('* => void', [
+      query('.color-card', [
+        animate('0.5s ease', style({ opacity: 0 }))
       ])
     ])
   ]);

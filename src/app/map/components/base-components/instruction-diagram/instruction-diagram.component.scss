@@ -1,0 +1,17 @@
+
+@import '../../../styling/map-css-animations';
+
+.construction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    height: 4rem;
+    width: 6rem;
+
+    svg {
+        transform: scale(2);
+        animation: infiniteRotate3d 3s ease infinite;
+    }
+}

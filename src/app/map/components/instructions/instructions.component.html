@@ -3,31 +3,91 @@
     <div class="instruction-wrapper">
         <div [@insOnTop]="insState"
         class="instruction-on-the-top">
-           
+
+            <div class="text">
+                <div class="before-next-text"
+                [@appearWithJustInDelay]="{ value: '*', params: { duration: '0.25s'}}"
+                *ngIf="insState === 'firstInstructions'">
+                    {{ 'Some huge text and long as well. Some huge text and long as well. Some huge text and long as well. v Some huge text and long as well. Some huge text and long as well. Some huge text and long as well. Some huge text and long as well.' }}
+                </div>
+                
+                <div class="after-next-text"
+                [@appearWithJustInDelay]="{ value: '*', params: { duration: '0.5s'}}"
+                *ngIf="insState === 'secondInstructions'">
+                    {{ 'You will be provided with below menu' }}
+                </div>
+            </div>
+
+           <div [@appear]="{value: '*', params:{duration: '0.5s'}}"
+           class="before-next"
+           *ngIf="insState === 'firstInstructions'">
+            <div @colorScale class="color-scale-diagram">
+                <div class="color-card"
+                *ngFor="let color of colorScale"
+                [style.background-color]="color"></div>
+            </div>
+           </div>
+
         </div>
+
+
 
         <div #scrollIns class="ins-scroll-wrap">
             <div class="menu-button-instruction">
                 <div [@insBelow]="{ value: insState }" class="instruction">
-
+                    <div class="instruction-text">
+                        {{ 'With blue marker as the start-point, find the shortest path to the red end-point' }} 
+                    </div>
+                    <div class="instruction-diagram">
+                        <find-path-diagram></find-path-diagram>
+                    </div>
                 </div>
                 <div [@insBelow]="{ value: insState, params: {delay: '0.2s'}}" class="instruction">
+                    <div class="instruction-text">
+                        {{ 'After you drag the start-point or/and end-point over map, you can reset them to original positions' }} 
+                    </div>
+                    <div class="instruction-diagram">
+                        <reset-diagram></reset-diagram>
+                    </div>
                 </div>
                 <div [@insBelow]="{ value: insState, params: {delay: '0.4s'}}" class="instruction">
-                    
+                    <div class="instruction-text">
+                        {{ 'you can choose from three different speed to find the shortest path' }} 
+                    </div>
+                    <div class="instruction-diagram">
+                        <change-speed-diagram></change-speed-diagram>
+                    </div>
                 </div>
                 <div [@insBelow]="{ value: insState }" class="instruction">
-                    
+                    <div class="instruction-text">
+                        {{ 'If you want a recap of how to use this application later' }} 
+                    </div>
+                    <div class="instruction-diagram">
+                        <instruction-diagram></instruction-diagram>
+                    </div>
                 </div>
                 <div [@insBelow]="{ value: insState }" class="instruction">
-                    
+                    <div class="instruction-text">
+                        {{ 'A lot of things went into building this application. you can find some brief read around them here' }} 
+                    </div>
+                    <div class="instruction-diagram">
+                        <construction-diagram></construction-diagram>
+                    </div>
                 </div>
                 <div [@insBelow]="{ value: insState }" class="instruction highlight">
-                    
+                    <div class="instruction-text">
+                        {{ 'And just in case you want to know a little bit about me' }} 
+                    </div>
+                    <div class="instruction-diagram">
+                        <about-me-diagram></about-me-diagram>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
 
     <div @appear class="dummy-menu" *ngIf="insState == 'secondInstructions'">
         <div class="drag-handle-wrapper">
@@ -64,6 +124,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <div class="instruction-action"
     *ngIf="showInstructionAction"

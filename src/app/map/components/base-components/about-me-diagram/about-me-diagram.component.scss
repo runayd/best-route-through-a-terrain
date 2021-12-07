@@ -1,0 +1,17 @@
+
+@import '../../../styling/map-css-animations';
+
+.about-me-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    height: 4rem;
+    width: 6rem;
+
+    svg {
+        transform: scale(2.8) translateY(0.15rem);
+        animation: infiniteFillChange 3s ease infinite alternate-reverse;
+    }
+}

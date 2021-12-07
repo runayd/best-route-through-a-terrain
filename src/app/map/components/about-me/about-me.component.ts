@@ -86,7 +86,8 @@ export class AboutMeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const speedUp = Math.random() * (80 - 50) + 50;
     const normalSpeed = Math.random() * (200 - 150) + 150;
-    const time = this.isEnd ? 2000 : this.isDeleting ? speedUp : normalSpeed;
+    const endTime = this.i !== 0 ? 2000 : 50;
+    const time = this.isEnd ? endTime : this.isDeleting ? speedUp : normalSpeed;
 
     this.timer = setTimeout(this.typing, time);
   }

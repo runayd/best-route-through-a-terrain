@@ -18,6 +18,12 @@ import {
   FreeDraggingDirective,
   FreeDraggingHandleDirective } from '.';
 import { HowWasThisMadeComponent } from './components/how-was-this-made/how-was-this-made.component';
+import { FindPathDiagramComponent } from './components/base-components/find-path-diagram/find-path-diagram.component';
+import { ResetDiagramComponent } from './components/base-components/reset-diagram/reset-diagram.component';
+import { ChangeSpeedDiagramComponent } from './components/base-components/change-speed-diagram/change-speed-diagram.component';
+import { InstructionDiagramComponent } from './components/base-components/instruction-diagram/instruction-diagram.component';
+import { ConstructionDiagramComponent } from './components/base-components/construction-diagram/construction-diagram.component';
+import { AboutMeDiagramComponent } from './components/base-components/about-me-diagram/about-me-diagram.component';
   
 
 
@@ -36,7 +42,13 @@ import { HowWasThisMadeComponent } from './components/how-was-this-made/how-was-
     DragComponent,
     WelcomeCardComponent,
     MenuComponent,
-    HowWasThisMadeComponent
+    HowWasThisMadeComponent,
+    FindPathDiagramComponent,
+    ResetDiagramComponent,
+    ChangeSpeedDiagramComponent,
+    InstructionDiagramComponent,
+    ConstructionDiagramComponent,
+    AboutMeDiagramComponent
   ],
   imports: [
     FormsModule,

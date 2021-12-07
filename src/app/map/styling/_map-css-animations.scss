@@ -83,3 +83,42 @@
         transform: scale(10);
     }
 }
+
+@keyframes infiniteRotate {
+    0% {
+        transform: scale(1.85) rotate(0deg);
+    }
+    100% {
+        transform: scale(1.85) rotate(360deg);
+    }
+}
+
+@keyframes infiniteRotate3d {
+    0% {
+        transform: scale(1.75) rotateY(0deg) rotate(0deg);
+    }
+    100% {
+        transform: scale(1.75) rotateY(720deg) rotate(720deg);
+    }
+}
+
+@keyframes infiniteFillChange {
+    0% {
+        fill: blue;
+    }
+    20% {
+        fill: #0090ff;
+    }
+    40% {
+        fill: #00c0ff;
+    }
+    60% {
+        fill: #60ff00;
+    }
+    80% {
+        fill: #ffb000;
+    }
+    100% {
+        fill: #ff3f3f;
+    }
+}

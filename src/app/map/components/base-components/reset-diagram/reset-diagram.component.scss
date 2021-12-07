@@ -1,0 +1,51 @@
+
+@keyframes start {
+    0% {
+        transform: translate(0rem, 0rem);
+    }
+    10% {
+        transform: translate(0rem, 0rem);
+    }
+    50% {
+        transform: translate(1.5rem, -1.5rem);
+    }
+    100% {
+        transform: translate(1.5rem, -1.5rem);
+    }
+}
+
+@keyframes end {
+    0% {
+        transform: translate(0rem, 0rem);
+    }
+    50% {
+        transform: translate(0rem, 0rem);
+    }
+    90% {
+        transform: translate(0rem, 2.5rem);
+    }
+    100% {
+        transform: translate(0rem, 2.5rem);
+    }
+}
+
+.container {
+    position: relative;
+    height: 4rem;
+    width: 6rem;
+
+    .start {
+        position: absolute;
+        left: 1rem;
+        bottom: 0.5rem;
+
+        animation: start 2s ease 0.5s infinite;
+    }
+    .end {
+        position: absolute;
+        right: 1rem;
+        top: 0rem;
+
+        animation: end 2s ease 0.5s infinite;
+    }
+}

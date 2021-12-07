@@ -14,15 +14,65 @@
         justify-content: center;
 
         .instruction-on-the-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
             position: absolute;
             top:0;
 
             margin: 0.5rem;
             border-radius: 2rem;
             
-
             background-color: $background-secondary;
+
+
+            .text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                width: 30rem;
+
+                font: normal normal 1rem Poppins;
+
+                .after-next-text {
+                    position: absolute;
+                    top: 3.25rem;
+                }
+            }
+
+            .before-next {
+                display: flex;
+                flex-direction: column;
+
+                .color-scale-diagram {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+
+                    margin-top: 2rem;
+
+                    width: 28rem;
+
+                    .color-card {
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 0.5rem;
+
+                        box-shadow: -0.5rem 0 0.375rem -0.375rem rgba(0, 0, 0, 0.5);
+
+                        border: 0.5rem solid $background-tertiary;
+
+                        animation-fill-mode: forwards;
+                    }
+                }
+            }
         }
+
+
 
         .ins-scroll-wrap {
             display: flex;
@@ -36,6 +86,11 @@
                 flex-direction: row;
     
                 .instruction {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: flex-start;
+
                     width: 10rem;
                     height: 25rem;
     
@@ -45,6 +100,33 @@
                     border-radius: 2rem;
     
                     background-color: $background-secondary;
+
+                    font: normal normal 0.8rem Poppins;
+
+                    .instruction-text {
+                        height: 10rem;
+                        width: 6rem;
+
+                        margin: 2rem;
+
+                        text-align: center;
+                    }
+
+                    .instruction-diagram {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        
+                        position: relative;
+                        height: 4rem;
+                        width: 6rem;
+                    }
+
+                    .me-text {
+                            
+                        text-align: center;
+                        font-size: 2.2rem;
+                    }
                 }
 
                 .highlight {
@@ -53,6 +135,13 @@
             }
         }
     }
+
+
+
+
+
+
+
 
     .dummy-menu {
         display: flex;
@@ -151,6 +240,12 @@
         
         }
     }
+
+
+
+
+
+
 
     .instruction-action  {
         display: flex;
